@@ -253,19 +253,22 @@ export default function BookingPage() {
     setAuthError("");
     setAuthLoading(true);
 
+
     const isLogin = authMode === "login";
+
     const endpoint = isLogin
-      ? "http://localhost:5000/api/auth/login"
-      : "http://localhost:5000/api/auth/register";
+      ? `${process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000"}/api/auth/login`
+      : `${process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000"}/api/auth/register`;
+
 
     const payload = isLogin
       ? { email: authEmail.trim(), password: authPassword }
       : {
-          full_name: authName.trim(),
-          email: authEmail.trim(),
-          password: authPassword,
-          role: "rider",
-        };
+        full_name: authName.trim(),
+        email: authEmail.trim(),
+        password: authPassword,
+        role: "rider",
+      };
 
     try {
       const res = await fetch(endpoint, {
@@ -618,15 +621,13 @@ export default function BookingPage() {
 
       {/* Location Permission Prompt Banner */}
       <div
-        className={`${styles.locationPromptBanner} ${
-          locationPermission === "granted" ? styles.locationPromptBannerGranted : ""
-        }`}
+        className={`${styles.locationPromptBanner} ${locationPermission === "granted" ? styles.locationPromptBannerGranted : ""
+          }`}
       >
         <div className={styles.locationPromptLeft}>
           <div
-            className={`${styles.locationPromptIcon} ${
-              locationPermission === "granted" ? styles.locationPromptIconSuccess : ""
-            }`}
+            className={`${styles.locationPromptIcon} ${locationPermission === "granted" ? styles.locationPromptIconSuccess : ""
+              }`}
           >
             {locationPermission === "granted" ? "✓" : "📍"}
           </div>
@@ -635,8 +636,8 @@ export default function BookingPage() {
               {locationPermission === "granted"
                 ? "Your Pickup Location is Active"
                 : locationPermission === "prompting"
-                ? "Detecting device GPS location..."
-                : "Allow Location Access for Optimum Cab Dispatch"}
+                  ? "Detecting device GPS location..."
+                  : "Allow Location Access for Optimum Cab Dispatch"}
             </strong>
             <p>
               {locationPermission === "granted"
@@ -776,9 +777,8 @@ export default function BookingPage() {
                       key={v.id}
                       type="button"
                       onClick={() => setSelectedRideType(v.id)}
-                      className={`${styles.vehicleCard} ${
-                        selectedRideType === v.id ? styles.vehicleSelected : ""
-                      }`}
+                      className={`${styles.vehicleCard} ${selectedRideType === v.id ? styles.vehicleSelected : ""
+                        }`}
                     >
                       {v.image ? (
                         <img

@@ -16,7 +16,8 @@ export default function Home() {
   });
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/rides/public/reviews")
+    fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000"}/api/rides/public/reviews`)
+
       .then((res) => res.json())
       .then((data) => {
         if (data?.success) {
