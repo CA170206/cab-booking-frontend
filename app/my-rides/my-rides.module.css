@@ -1,0 +1,372 @@
+.page {
+  background: var(--bg-page, #0c0d0e);
+  min-height: 100vh;
+  color: var(--text-main, #ffffff);
+  display: flex;
+  flex-direction: column;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.main {
+  flex: 1;
+  max-width: 1080px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 40px 24px 80px;
+}
+
+.topBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 28px;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.filters {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--bg-card, #14161b);
+  border: 1px solid var(--border-card, #282c35);
+  padding: 4px;
+  border-radius: 12px;
+}
+
+.filterBtn {
+  background: transparent;
+  border: none;
+  color: var(--text-muted, #9ca3af);
+  font-size: 13px;
+  font-weight: 700;
+  padding: 8px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.filterBtnActive {
+  background: #f4c401;
+  color: #0c0d0e;
+}
+
+.bookBtn {
+  background: var(--bg-card, #16181d);
+  border: 1px solid var(--border-card, #282c35);
+  color: var(--text-main, #ffffff);
+  font-size: 13px;
+  font-weight: 750;
+  padding: 9px 18px;
+  border-radius: 999px;
+  text-decoration: none;
+  transition: all 0.15s ease;
+}
+
+.bookBtn:hover {
+  border-color: #f4c401;
+  color: #f4c401;
+}
+
+.ridesList {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.rideCard {
+  background: var(--bg-card, #14161b);
+  border: 1.5px solid var(--border-card, #282c35);
+  border-radius: 18px;
+  padding: 24px;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 24px;
+  align-items: center;
+  transition: border-color 0.15s ease;
+  box-shadow: 0 4px 16px var(--card-shadow, rgba(0, 0, 0, 0.2));
+}
+
+.rideCard:hover {
+  border-color: #f4c401;
+}
+
+.routeTimeline {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.pointRow {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.pickupDot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #10b981;
+  margin-top: 4px;
+  flex-shrink: 0;
+}
+
+.dropoffDot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #ef4444;
+  margin-top: 4px;
+  flex-shrink: 0;
+}
+
+.addressText strong {
+  display: block;
+  font-size: 10px;
+  font-weight: 750;
+  color: var(--text-muted, #9ca3af);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 2px;
+}
+
+.addressText span {
+  font-size: 14px;
+  color: var(--text-main, #ffffff);
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.rideMetaRow {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 11.5px;
+  color: var(--text-dim, #6b7280);
+  margin-top: 4px;
+}
+
+.rightCol {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 10px;
+}
+
+.fareVal {
+  font-size: 22px;
+  font-weight: 850;
+  color: #f4c401;
+}
+
+.payBtn {
+  background: #f4c401;
+  color: #0c0d0e;
+  font-size: 12.5px;
+  font-weight: 800;
+  padding: 8px 18px;
+  border-radius: 999px;
+  text-decoration: none;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+
+.payBtn:hover {
+  background: #dfb200;
+  transform: translateY(-1px);
+}
+
+@media (max-width: 768px) {
+  .main {
+    padding: 24px 14px 60px;
+  }
+  .topBar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+  .filters {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+  }
+  .filterBtn {
+    flex: 1;
+    padding: 8px 10px;
+    font-size: 12px;
+    text-align: center;
+  }
+  .bookBtn {
+    width: 100%;
+    text-align: center;
+  }
+  .rideCard {
+    grid-template-columns: 1fr;
+    padding: 18px 16px;
+  }
+  .rightCol {
+    align-items: center;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    border-top: 1px solid var(--border-subtle, #20232a);
+    padding-top: 14px;
+  }
+}
+
+/* Active Highlight Banner for My Rides */
+.activeHeroCard {
+  background: linear-gradient(135deg, rgba(244, 196, 1, 0.12), rgba(16, 185, 129, 0.08));
+  border: 2px solid #f4c401;
+  border-radius: 20px;
+  padding: 24px 28px;
+  margin-bottom: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  cursor: pointer;
+  box-shadow: 0 0 30px rgba(244, 196, 1, 0.22);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  animation: pulseActiveBorder 3s infinite alternate;
+}
+
+@keyframes pulseActiveBorder {
+  0% {
+    box-shadow: 0 0 16px rgba(244, 196, 1, 0.15);
+  }
+  100% {
+    box-shadow: 0 0 32px rgba(244, 196, 1, 0.35);
+  }
+}
+
+.activeHeroCard:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 40px rgba(244, 196, 1, 0.4);
+}
+
+.activeHeroLeft {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.activeHeroIcon {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: #f4c401;
+  color: #0c0d0e;
+  font-size: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 16px rgba(244, 196, 1, 0.4);
+  flex-shrink: 0;
+}
+
+.activeHeroContent h3 {
+  margin: 0 0 4px;
+  font-size: 17px;
+  font-weight: 850;
+  color: var(--text-main, #ffffff);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.activeHeroBadge {
+  background: #10b981;
+  color: #000;
+  font-size: 11px;
+  font-weight: 850;
+  padding: 2px 8px;
+  border-radius: 999px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.activeHeroContent p {
+  margin: 0;
+  font-size: 13.5px;
+  color: var(--text-muted, #9ca3af);
+  line-height: 1.4;
+}
+
+.activeHeroRight {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-shrink: 0;
+}
+
+.activeTrackBtn {
+  background: #f4c401;
+  color: #0c0d0e;
+  font-size: 13px;
+  font-weight: 850;
+  padding: 10px 22px;
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(244, 196, 1, 0.3);
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+
+.activeTrackBtn:hover {
+  background: #dfb200;
+  transform: translateY(-1px);
+}
+
+.clickableRideCard {
+  cursor: pointer;
+}
+
+.clickableRideCard:hover {
+  border-color: #f4c401;
+  transform: translateY(-1px);
+}
+
+@media (max-width: 768px) {
+  .activeHeroCard {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 18px 16px;
+    gap: 16px;
+  }
+
+  .activeHeroRight {
+    width: 100%;
+    justify-content: space-between;
+    border-top: 1px dashed rgba(244, 196, 1, 0.3);
+    padding-top: 12px;
+  }
+
+  .activeTrackBtn {
+    flex: 1;
+    text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .main {
+    padding: 16px 10px 50px;
+  }
+
+  .activeHeroCard {
+    padding: 14px 12px;
+  }
+
+  .activeHeroIcon {
+    width: 42px;
+    height: 42px;
+    font-size: 20px;
+  }
+
+  .rideCard {
+    padding: 14px 12px;
+  }
+}
+

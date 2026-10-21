@@ -1,0 +1,206 @@
+.page {
+  background: var(--bg-page, #0c0d0e);
+  min-height: 100vh;
+  color: var(--text-main, #ffffff);
+  display: flex;
+  flex-direction: column;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.main {
+  flex: 1;
+  max-width: 1240px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 48px 24px 80px;
+}
+
+.section {
+  margin-bottom: 64px;
+}
+
+.sectionHeader {
+  text-align: center;
+  max-width: 680px;
+  margin: 0 auto 36px;
+}
+
+.sectionHeader h2 {
+  font-size: 28px;
+  font-weight: 850;
+  color: var(--text-main, #ffffff);
+  margin: 0 0 10px;
+  letter-spacing: -0.5px;
+}
+
+.sectionHeader p {
+  color: var(--text-muted, #9ca3af);
+  font-size: 14px;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.missionGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px;
+}
+
+.missionCard {
+  background: var(--bg-card, #14161b);
+  border: 1.5px solid var(--border-card, #282c35);
+  border-radius: 18px;
+  padding: 32px 28px;
+  box-shadow: 0 4px 16px var(--card-shadow, rgba(0, 0, 0, 0.4));
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.missionCard:hover {
+  transform: translateY(-2px);
+  border-color: #f4c401;
+}
+
+.cardIcon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background: var(--yellow-light, rgba(244, 196, 1, 0.15));
+  color: #f4c401;
+  display: grid;
+  place-items: center;
+  font-size: 22px;
+  margin-bottom: 18px;
+}
+
+.missionCard h3 {
+  font-size: 19px;
+  font-weight: 800;
+  margin: 0 0 10px;
+  color: var(--text-main, #ffffff);
+}
+
+.missionCard p {
+  font-size: 13.5px;
+  color: var(--text-muted, #9ca3af);
+  line-height: 1.65;
+  margin: 0;
+}
+
+.pillarsGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.pillarCard {
+  background: var(--bg-card, #16181d);
+  border: 1px solid var(--border-card, #282c35);
+  border-radius: 16px;
+  padding: 28px 24px;
+  text-align: center;
+  box-shadow: 0 4px 12px var(--card-shadow, rgba(0, 0, 0, 0.2));
+}
+
+.pillarIcon {
+  font-size: 32px;
+  margin-bottom: 14px;
+  display: inline-block;
+}
+
+.pillarCard h4 {
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--text-main, #ffffff);
+  margin: 0 0 8px;
+}
+
+.pillarCard p {
+  font-size: 13px;
+  color: var(--text-muted, #9ca3af);
+  line-height: 1.6;
+  margin: 0;
+}
+
+.ctaBanner {
+  background: var(--bg-card, #14161b);
+  border: 1.5px solid var(--border-card, #282c35);
+  border-radius: 20px;
+  padding: 48px 36px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 30px;
+  box-shadow: 0 8px 24px var(--card-shadow, rgba(0, 0, 0, 0.3));
+}
+
+.ctaCopy h3 {
+  font-size: 26px;
+  font-weight: 850;
+  color: var(--text-main, #ffffff);
+  margin: 0 0 8px;
+}
+
+.ctaCopy p {
+  color: var(--text-muted, #9ca3af);
+  font-size: 14px;
+  margin: 0;
+}
+
+.ctaBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #f4c401;
+  color: #0c0d0e;
+  font-size: 14px;
+  font-weight: 850;
+  padding: 13px 28px;
+  border-radius: 999px;
+  text-decoration: none;
+  white-space: nowrap;
+  box-shadow: 0 4px 16px rgba(244, 196, 1, 0.3);
+  transition: all 0.15s ease;
+}
+
+.ctaBtn:hover {
+  background: #dfb200;
+  transform: translateY(-2px);
+}
+
+@media (max-width: 900px) {
+  .main {
+    padding: 32px 16px 60px;
+  }
+  .missionGrid,
+  .pillarsGrid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  .ctaBanner {
+    flex-direction: column;
+    text-align: center;
+    padding: 32px 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .main {
+    padding: 20px 12px 50px;
+  }
+  .sectionHeader h2 {
+    font-size: 22px;
+  }
+  .missionCard {
+    padding: 22px 18px;
+  }
+  .pillarCard {
+    padding: 20px 16px;
+  }
+  .ctaBanner {
+    padding: 24px 16px;
+  }
+  .ctaBtn {
+    width: 100%;
+    justify-content: center;
+  }
+}

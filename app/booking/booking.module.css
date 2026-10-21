@@ -1,0 +1,1782 @@
+/* DriveGo Booking Page — Clean, Subtle & Professional CSS */
+.app {
+  --yellow: #f4c401;
+  --yellow-hover: #dfb200;
+  --black: #0c0d0e;
+  --charcoal: #1e293b;
+  --ink: #0f172a;
+  --muted: #64748b;
+  --line: #e2e8f0;
+  --surface: #ffffff;
+  --subtle-bg: #f8fafc;
+
+  min-height: 100vh;
+  padding: 0 4.5% 40px;
+  background: var(--subtle-bg);
+  color: var(--ink);
+  font-family: inherit;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.app,
+.app *,
+.app *::before,
+.app *::after {
+  box-sizing: border-box;
+}
+
+/* Navbar */
+.navbar {
+  max-width: 1440px;
+  height: 74px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  border-bottom: 1px solid var(--line);
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.brandIcon {
+  width: 36px;
+  height: 36px;
+  display: grid;
+  place-items: center;
+  color: var(--yellow);
+  background: #000000;
+  border-radius: 10px;
+}
+
+.brandText {
+  display: flex;
+  flex-direction: column;
+}
+
+.brandName {
+  font-size: 20px;
+  font-weight: 850;
+  color: #0f172a;
+  line-height: 1.1;
+  letter-spacing: -0.5px;
+}
+
+.brandSub {
+  font-size: 10px;
+  color: #64748b;
+  font-weight: 600;
+}
+
+.navRight {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.userBadge {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 12px;
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: 999px;
+}
+
+.userStatusDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #16a34a;
+}
+
+.userInfo {
+  display: flex;
+  flex-direction: column;
+}
+
+.userInfo strong {
+  font-size: 11.5px;
+  color: #0f172a;
+  line-height: 1.2;
+}
+
+.userInfo span {
+  font-size: 10px;
+  color: var(--muted);
+  max-width: 130px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ridesNavBtn,
+.logoutBtn {
+  padding: 4px 8px;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  background: #f8fafc;
+  color: #334155;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.ridesNavBtn:hover {
+  background: #fffdf5;
+  border-color: var(--yellow);
+}
+
+.logoutBtn:hover {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+.authActions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.quickDemoBtn {
+  padding: 7px 13px;
+  background: var(--yellow);
+  border: none;
+  border-radius: 8px;
+  color: #000000;
+  font-size: 11.5px;
+  font-weight: 750;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.quickDemoBtn:hover:not(:disabled) {
+  background: var(--yellow-hover);
+}
+
+.signInBtn {
+  padding: 7px 13px;
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  color: #0f172a;
+  font-size: 11.5px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.signInBtn:hover {
+  border-color: #0f172a;
+}
+
+.backLink {
+  color: #0f172a;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 6px 10px;
+  border-radius: 8px;
+}
+
+.backLink:hover {
+  color: #eab308;
+}
+
+/* Hero Header */
+.hero {
+  max-width: 1440px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 30px;
+  padding: 30px 0 26px;
+}
+
+.heroCopy {
+  max-width: 680px;
+}
+
+.eyebrow {
+  display: block;
+  margin-bottom: 8px;
+  color: #b45309;
+  font-size: 10.5px;
+  font-weight: 800;
+  letter-spacing: 1.2px;
+}
+
+.hero h1 {
+  margin: 0;
+  color: #0f172a;
+  font-size: clamp(30px, 3.8vw, 48px);
+  font-weight: 850;
+  letter-spacing: -1.2px;
+  line-height: 1.12;
+}
+
+.hero h1 > span {
+  color: #ca8a04;
+}
+
+.heroCopy > p {
+  max-width: 530px;
+  margin: 10px 0 0;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.heroBadge {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 18px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: #ffffff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.heroBadgeIcon {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  background: #fef9c3;
+  color: #854d0e;
+  font-size: 20px;
+}
+
+.heroBadge strong {
+  display: block;
+  color: #0f172a;
+  font-size: 12px;
+  font-weight: 750;
+}
+
+.heroBadge span {
+  color: var(--muted);
+  font-size: 11px;
+}
+
+/* Two Column Layout */
+.bookingLayout {
+  max-width: 1440px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(360px, 0.95fr);
+  align-items: start;
+  gap: 22px;
+}
+
+.mapPanel,
+.bookingPanel {
+  min-width: 0;
+  padding: 24px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: var(--surface);
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.03);
+}
+
+.panelHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.panelKicker {
+  display: block;
+  font-size: 10px;
+  font-weight: 800;
+  color: #64748b;
+  letter-spacing: 1px;
+  margin-bottom: 4px;
+}
+
+.panelHeader h2 {
+  margin: 0;
+  color: #0f172a;
+  font-size: 19px;
+  font-weight: 800;
+  letter-spacing: -0.4px;
+}
+
+.panelHeader p {
+  margin: 4px 0 0;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.mapBadge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 11px;
+  border: 1px solid #e2e8f0;
+  border-radius: 999px;
+  background: #f8fafc;
+  color: #334155;
+  font-size: 10.5px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.mapBadge span {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #16a34a;
+}
+
+.mapHint {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-top: 14px;
+  padding: 11px 13px;
+  border-radius: 10px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+}
+
+.hintIcon {
+  font-size: 15px;
+  line-height: 1;
+}
+
+.mapHint p {
+  margin: 0;
+  color: #475569;
+  font-size: 11.5px;
+  line-height: 1.55;
+}
+
+.mapHint strong {
+  color: #0f172a;
+}
+
+/* Form Section */
+.form {
+  display: grid;
+  gap: 16px;
+}
+
+.routeContainer {
+  display: flex;
+  flex-direction: column;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 12px 14px;
+}
+
+.routeItem {
+  display: flex;
+  gap: 12px;
+  min-width: 0;
+}
+
+.markerColumn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 14px;
+  padding-top: 8px;
+}
+
+.originMarker {
+  width: 12px;
+  height: 12px;
+  border: 3.5px solid #f4c401;
+  border-radius: 50%;
+  background: #000;
+  flex-shrink: 0;
+}
+
+.destinationMarker {
+  width: 12px;
+  height: 12px;
+  border: 3.5px solid #0f172a;
+  border-radius: 3px;
+  background: #f4c401;
+  flex-shrink: 0;
+}
+
+.verticalConnector {
+  width: 2px;
+  flex: 1;
+  min-height: 38px;
+  margin: 4px 0;
+  background-image: linear-gradient(to bottom, #94a3b8 33%, rgba(255, 255, 255, 0) 0%);
+  background-position: left;
+  background-size: 2px 8px;
+  background-repeat: repeat-y;
+}
+
+.fieldContent {
+  flex: 1;
+  min-width: 0;
+  padding-bottom: 8px;
+}
+
+.fieldLabel {
+  display: block;
+  margin-bottom: 5px;
+  color: #475569;
+  font-size: 9.5px;
+  font-weight: 750;
+  letter-spacing: 0.6px;
+}
+
+.inputField {
+  display: block;
+  width: 100%;
+  height: 42px;
+  padding: 0 12px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  outline: none;
+  background: #ffffff;
+  color: #0f172a;
+  font-family: inherit;
+  font-size: 12.5px;
+  transition: all 0.15s ease;
+}
+
+.inputField:focus {
+  border-color: var(--yellow);
+  box-shadow: 0 0 0 3px rgba(244, 196, 1, 0.18);
+}
+
+.fieldHint {
+  display: block;
+  margin-top: 4px;
+  color: #64748b;
+  font-size: 10px;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+
+/* Vehicle Selection */
+.vehicleSection {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 14px;
+}
+
+.sectionHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.summaryTitle {
+  color: #475569;
+  font-size: 9.5px;
+  font-weight: 800;
+  letter-spacing: 0.8px;
+}
+
+.etaText {
+  font-size: 11px;
+  color: #0f172a;
+  font-weight: 700;
+}
+
+.vehicleGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.vehicleCard {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 10px;
+  background: #ffffff;
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.vehicleCard:hover {
+  border-color: #cbd5e1;
+  background: #fcfcfd;
+}
+
+.vehicleSelected {
+  border-color: var(--yellow);
+  background: #fffdf5;
+  box-shadow: 0 0 0 2px rgba(244, 196, 1, 0.25);
+}
+
+.vehicleIcon {
+  font-size: 20px;
+}
+
+.vehicleThumb {
+  width: 48px;
+  height: 34px;
+  object-fit: cover;
+  border-radius: 6px;
+  flex-shrink: 0;
+  border: 1px solid #e2e8f0;
+  background: #f1f5f9;
+}
+
+.vehicleInfo {
+  flex: 1;
+  min-width: 0;
+}
+
+.vehicleTopRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+}
+
+.vehicleTopRow strong {
+  font-size: 11.5px;
+  color: #0f172a;
+}
+
+.vehiclePrice {
+  font-size: 12.5px;
+  font-weight: 850;
+  color: #0f172a;
+}
+
+.vehicleDesc {
+  display: block;
+  font-size: 9.5px;
+  color: #64748b;
+  margin-top: 2px;
+}
+
+/* Trip Estimate Summary */
+.tripSummary {
+  padding: 16px;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  background: #ffffff;
+}
+
+.summaryTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.summaryIcon {
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+  background: #fef9c3;
+  color: #854d0e;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.summaryRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 8px 0;
+  color: #475569;
+  font-size: 11.5px;
+}
+
+.summaryRow strong {
+  color: #0f172a;
+  font-weight: 750;
+}
+
+.fareDivider {
+  height: 1px;
+  margin: 12px 0;
+  border-top: 1px dashed #cbd5e1;
+}
+
+.fareRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.fareLabel {
+  display: block;
+  color: #0f172a;
+  font-size: 12px;
+  font-weight: 750;
+}
+
+.fareCaption {
+  display: block;
+  color: #64748b;
+  font-size: 10px;
+}
+
+.fareValue {
+  color: #0f172a;
+  font-size: 26px;
+  font-weight: 850;
+  letter-spacing: -0.5px;
+}
+
+/* Auth Notice Box */
+.authNotice {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  background: #fffdf5;
+  border: 1px solid #fef08a;
+  border-radius: 10px;
+}
+
+.noticeIcon {
+  font-size: 16px;
+}
+
+.noticeCopy {
+  flex: 1;
+}
+
+.noticeCopy strong {
+  display: block;
+  font-size: 11.5px;
+  color: #854d0e;
+}
+
+.noticeCopy p {
+  margin: 1px 0 0;
+  font-size: 10px;
+  color: #a16207;
+}
+
+.noticeDemoBtn {
+  padding: 6px 12px;
+  background: #0f172a;
+  border: 0;
+  border-radius: 6px;
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: 750;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.noticeDemoBtn:hover {
+  background: #1e293b;
+}
+
+/* Dev Token */
+.devTokenDetails {
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.devTokenSummary {
+  cursor: pointer;
+  user-select: none;
+  font-weight: 600;
+}
+
+.devTokenBody {
+  margin-top: 6px;
+}
+
+.tokenInput {
+  width: 100%;
+  height: 36px;
+  padding: 0 10px;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  font-size: 11px;
+}
+
+.tokenHint {
+  display: block;
+  margin-top: 3px;
+  font-size: 9.5px;
+  color: #94a3b8;
+}
+
+/* Primary Submit Button */
+.submitButton {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  width: 100%;
+  min-height: 50px;
+  padding: 0 20px;
+  border: 0;
+  border-radius: 10px;
+  background: var(--yellow);
+  color: #000000;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 850;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(244, 196, 1, 0.35);
+  transition: all 0.15s ease;
+}
+
+.submitButton:hover:not(:disabled) {
+  background: var(--yellow-hover);
+  transform: translateY(-1px);
+}
+
+.submitButton:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+.submitArrow {
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 6px;
+  background: rgba(0, 0, 0, 0.08);
+  font-size: 15px;
+}
+
+.terms {
+  margin: -6px 0 0;
+  color: #94a3b8;
+  font-size: 10.5px;
+  text-align: center;
+}
+
+/* Banners */
+.successMessage,
+.errorMessage {
+  display: grid;
+  gap: 3px;
+  padding: 11px 13px;
+  border-radius: 8px;
+  font-size: 12px;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+.successMessage {
+  border: 1px solid #bbf7d0;
+  background: #f0fdf4;
+  color: #166534;
+}
+
+.errorMessage {
+  border: 1px solid #fecaca;
+  background: #fef2f2;
+  color: #991b1b;
+}
+
+/* Confirmation Box */
+.confirmation {
+  margin-top: 16px;
+  padding: 18px;
+  border: 1.5px solid #cbd5e1;
+  border-radius: 12px;
+  background: #ffffff;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+}
+
+.confirmationHeader {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.confirmationRadar {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #16a34a;
+  box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.2);
+}
+
+.confirmationHeader strong {
+  font-size: 13.5px;
+  color: #0f172a;
+  display: block;
+}
+
+.statusPill {
+  display: inline-block;
+  margin-top: 2px;
+  padding: 2px 7px;
+  border-radius: 4px;
+  background: #fef9c3;
+  color: #854d0e;
+  font-size: 9.5px;
+  font-weight: 800;
+}
+
+.confirmationDetails {
+  display: grid;
+  gap: 6px;
+  padding: 10px 12px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  margin-bottom: 12px;
+}
+
+.confirmRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 11.5px;
+  color: #475569;
+}
+
+.confirmRow strong {
+  color: #0f172a;
+}
+
+.fareHighlight {
+  color: #0f172a;
+  font-size: 13.5px;
+}
+
+.rideId {
+  font-family: Consolas, monospace;
+  font-size: 10px;
+  background: #e2e8f0;
+  padding: 2px 5px;
+  border-radius: 4px;
+  max-width: 180px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.confirmationActions {
+  display: flex;
+  gap: 8px;
+}
+
+.viewRidesBtn,
+.bookAnotherBtn {
+  flex: 1;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 11.5px;
+  font-weight: 750;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.viewRidesBtn {
+  background: #0f172a;
+  color: #fff;
+  border: 0;
+}
+
+.bookAnotherBtn {
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  color: #0f172a;
+}
+
+/* Modals */
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  background: rgba(15, 23, 42, 0.5);
+  backdrop-filter: blur(3px);
+  display: grid;
+  place-items: center;
+  padding: 16px;
+}
+
+.modalCard,
+.drawerCard {
+  width: 100%;
+  max-width: 440px;
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.2);
+  padding: 24px;
+  border: 1px solid #cbd5e1;
+}
+
+.drawerCard {
+  max-width: 520px;
+}
+
+.modalHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.modalHeader h3 {
+  margin: 0;
+  font-size: 17px;
+  font-weight: 800;
+  color: #0f172a;
+}
+
+.modalCloseBtn {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 1px solid #cbd5e1;
+  background: #f8fafc;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  color: #475569;
+}
+
+.modalForm {
+  display: grid;
+  gap: 13px;
+}
+
+.modalField {
+  display: grid;
+  gap: 5px;
+}
+
+.modalField span {
+  font-size: 11px;
+  font-weight: 750;
+  color: #334155;
+}
+
+.modalField input {
+  height: 40px;
+  padding: 0 12px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  font-size: 13px;
+  outline: none;
+}
+
+.modalField input:focus {
+  border-color: var(--yellow);
+}
+
+.modalError {
+  padding: 8px 12px;
+  border-radius: 6px;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  color: #991b1b;
+  font-size: 11.5px;
+}
+
+.modalButtons {
+  display: grid;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.modalSubmitBtn {
+  height: 42px;
+  border: 0;
+  border-radius: 8px;
+  background: var(--yellow);
+  color: #000000;
+  font-weight: 800;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.modalDemoBtn {
+  height: 38px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  background: #f8fafc;
+  color: #0f172a;
+  font-weight: 750;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.modalToggle {
+  text-align: center;
+  font-size: 11.5px;
+  color: #64748b;
+}
+
+.modalToggle button {
+  background: none;
+  border: 0;
+  color: #0f172a;
+  font-weight: 750;
+  text-decoration: underline;
+  cursor: pointer;
+  padding: 0 4px;
+}
+
+/* Past Rides */
+.drawerBody {
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.drawerEmpty {
+  text-align: center;
+  padding: 30px 10px;
+  color: #64748b;
+}
+
+.ridesList {
+  display: grid;
+  gap: 10px;
+}
+
+.rideCardItem {
+  padding: 12px 14px;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  background: #f8fafc;
+}
+
+.rideCardTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+
+.rideCardStatus {
+  font-size: 9.5px;
+  font-weight: 800;
+  background: #fef9c3;
+  color: #854d0e;
+  padding: 2px 7px;
+  border-radius: 4px;
+}
+
+.rideCardFare {
+  font-size: 13.5px;
+  font-weight: 800;
+  color: #0f172a;
+}
+
+.rideCardRoute p {
+  margin: 3px 0;
+  font-size: 11.5px;
+  color: #334155;
+}
+
+.rideCardDate {
+  display: block;
+  font-size: 9.5px;
+  color: #94a3b8;
+  margin-top: 6px;
+}
+
+/* Eye-Catching Active Ride Banner on Main Page */
+.activeRideBanner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 22px;
+  padding: 16px 22px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, rgba(244, 196, 1, 0.14), rgba(16, 185, 129, 0.12));
+  border: 2px solid #f4c401;
+  box-shadow: 0 8px 30px rgba(244, 196, 1, 0.18), 0 0 20px rgba(16, 185, 129, 0.15);
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  animation: bannerGlow 3s infinite alternate ease-in-out;
+}
+
+@keyframes bannerGlow {
+  0% {
+    box-shadow: 0 8px 24px rgba(244, 196, 1, 0.15), 0 0 15px rgba(16, 185, 129, 0.1);
+  }
+  100% {
+    box-shadow: 0 12px 36px rgba(244, 196, 1, 0.28), 0 0 25px rgba(16, 185, 129, 0.25);
+  }
+}
+
+.activeRideBanner:hover {
+  transform: translateY(-2px);
+  border-color: #f59e0b;
+}
+
+.activeBannerLeft {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex: 1;
+  min-width: 0;
+}
+
+.activePulseRing {
+  position: relative;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: #f4c401;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: 0 4px 14px rgba(244, 196, 1, 0.35);
+}
+
+.activePulseRing::after {
+  content: "";
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  border: 2px solid #f4c401;
+  animation: bannerRingPulse 2s infinite ease-out;
+}
+
+@keyframes bannerRingPulse {
+  0% {
+    transform: scale(0.9);
+    opacity: 0.9;
+  }
+  100% {
+    transform: scale(1.4);
+    opacity: 0;
+  }
+}
+
+.activeCarEmoji {
+  font-size: 20px;
+}
+
+.activeBannerInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.activeBannerTag {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  font-weight: 850;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  color: #10b981;
+}
+
+.bannerOtpPill {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px;
+  border-radius: 6px;
+  background: #0f172a;
+  color: #10b981;
+  border: 1px solid #10b981;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+}
+
+.activeBannerRoute {
+  margin: 0;
+  font-size: 12.5px;
+  font-weight: 650;
+  color: var(--text-primary, #0f172a);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.bannerArrow {
+  color: #f4c401;
+  font-weight: 800;
+}
+
+.activeBannerRight {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-shrink: 0;
+}
+
+.activeBannerFare {
+  font-size: 18px;
+  font-weight: 900;
+  color: #f4c401;
+  text-align: right;
+  line-height: 1.2;
+}
+
+.activeBannerFare small {
+  display: block;
+  font-size: 10px;
+  font-weight: 650;
+  color: var(--text-secondary, #64748b);
+}
+
+.trackLiveBtn {
+  padding: 10px 18px;
+  border-radius: 10px;
+  background: #f4c401;
+  color: #0c0d0e;
+  font-size: 12.5px;
+  font-weight: 850;
+  border: none;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+  box-shadow: 0 4px 14px rgba(244, 196, 1, 0.3);
+}
+
+.trackLiveBtn:hover {
+  background: #eab308;
+  transform: translateY(-1px);
+}
+
+/* Active Ride in Drawer */
+.activeRidesDrawerSection {
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.drawerSectionHeader {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.drawerSectionHeader h4 {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 850;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  color: #10b981;
+}
+
+.liveDrawerDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #10b981;
+  box-shadow: 0 0 8px #10b981;
+}
+
+.activeRideDrawerCard {
+  padding: 14px 16px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, rgba(244, 196, 1, 0.12), rgba(16, 185, 129, 0.08));
+  border: 1.5px solid #f4c401;
+  box-shadow: 0 4px 16px rgba(244, 196, 1, 0.15);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.activeRideDrawerCard:hover {
+  border-color: #f59e0b;
+  transform: translateY(-1px);
+}
+
+.activeDrawerTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.activeDrawerFare {
+  font-size: 16px;
+  font-weight: 850;
+  color: #f4c401;
+}
+
+.activeDrawerBottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 10px;
+  padding-top: 8px;
+  border-top: 1px dashed rgba(244, 196, 1, 0.3);
+  font-size: 11.5px;
+}
+
+.otpPill {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 8px;
+  border-radius: 6px;
+  background: #0f172a;
+  color: #10b981;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+}
+
+.trackLiveAction {
+  color: #f4c401;
+  font-weight: 800;
+  font-size: 12px;
+}
+
+.pastRidesDrawerSection {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.pastSectionTitle {
+  margin: 0 0 8px;
+  font-size: 11.5px;
+  font-weight: 800;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.noPastText {
+  font-size: 12px;
+  color: #94a3b8;
+  margin: 8px 0;
+}
+
+.pastCardFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 6px;
+  font-size: 10.5px;
+}
+
+.viewBillText {
+  color: #f4c401;
+  font-weight: 750;
+}
+
+/* Map Loading */
+.mapLoading {
+  display: grid;
+  place-items: center;
+  gap: 12px;
+  min-height: 420px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: #f8fafc;
+  color: #64748b;
+  font-size: 13px;
+}
+
+.spinner {
+  width: 26px;
+  height: 26px;
+  border: 3px solid #e2e8f0;
+  border-top-color: var(--yellow);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Footer */
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 14px;
+  max-width: 1440px;
+  margin: 36px auto 0;
+  padding-top: 20px;
+  border-top: 1px solid var(--line);
+  color: #64748b;
+  font-size: 11.5px;
+}
+
+.footerBrand {
+  color: #0f172a;
+  font-size: 17px;
+  font-weight: 850;
+  text-decoration: none;
+  letter-spacing: -0.5px;
+}
+
+@media (max-width: 1080px) {
+  .bookingLayout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .hero {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+@media (max-width: 640px) {
+  .app {
+    padding: 0 12px 24px;
+  }
+
+  .navbar {
+    height: 64px;
+  }
+
+  .hero {
+    padding: 20px 0 16px;
+    gap: 16px;
+  }
+
+  .hero h1 {
+    font-size: clamp(24px, 6.5vw, 34px);
+    letter-spacing: -0.8px;
+  }
+
+  .heroBadge {
+    width: 100%;
+  }
+
+  .locationPromptBanner {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 14px 16px;
+    gap: 12px;
+  }
+
+  .locationPromptRight {
+    width: 100%;
+  }
+
+  .allowLocationBtn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .activeRideBanner {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 14px;
+    padding: 14px 16px;
+  }
+
+  .activeBannerLeft {
+    width: 100%;
+  }
+
+  .activeBannerRoute {
+    white-space: normal;
+    word-break: break-word;
+    font-size: 12px;
+  }
+
+  .activeBannerRight {
+    width: 100%;
+    justify-content: space-between;
+    border-top: 1px dashed rgba(244, 196, 1, 0.3);
+    padding-top: 10px;
+  }
+
+  .vehicleGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .mapPanel,
+  .bookingPanel {
+    padding: 16px 14px;
+    border-radius: 14px;
+  }
+
+  .confirmationActions {
+    flex-direction: column;
+  }
+
+  .footer {
+    justify-content: center;
+    text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .app {
+    padding: 0 10px 20px;
+  }
+
+  .mapPanel,
+  .bookingPanel {
+    padding: 14px 10px;
+  }
+
+  .fareRow {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+
+  .fareValue {
+    font-size: 22px;
+  }
+
+  .submitButton {
+    min-height: 46px;
+    font-size: 13px;
+    padding: 0 14px;
+  }
+
+  .vehicleCard {
+    padding: 8px 10px;
+  }
+
+  .vehicleThumb {
+    width: 42px;
+    height: 30px;
+  }
+}
+
+/* Dark Mode Overrides for Booking Page */
+:global([data-theme="dark"]) .app {
+  --ink: #ffffff;
+  --muted: #9ca3af;
+  --line: #282c35;
+  --surface: #14161b;
+  --subtle-bg: #0c0d0e;
+  background: #0c0d0e;
+  color: #ffffff;
+}
+
+:global([data-theme="dark"]) .navbar {
+  border-bottom-color: #282c35;
+}
+
+:global([data-theme="dark"]) .brandText .brandName,
+:global([data-theme="dark"]) .heroCopy h1,
+:global([data-theme="dark"]) .panelHeader h2,
+:global([data-theme="dark"]) .modalHeader h3,
+:global([data-theme="dark"]) .summaryTitle,
+:global([data-theme="dark"]) .fareValue,
+:global([data-theme="dark"]) .fareLabel,
+:global([data-theme="dark"]) .mapHeader strong,
+:global([data-theme="dark"]) .fieldLabel,
+:global([data-theme="dark"]) .summaryRow strong,
+:global([data-theme="dark"]) .confirmRow strong,
+:global([data-theme="dark"]) .confirmationHeader strong,
+:global([data-theme="dark"]) .footerBrand {
+  color: #ffffff;
+}
+
+:global([data-theme="dark"]) .mapPanel,
+:global([data-theme="dark"]) .bookingPanel,
+:global([data-theme="dark"]) .modalCard,
+:global([data-theme="dark"]) .drawerCard,
+:global([data-theme="dark"]) .tripSummary,
+:global([data-theme="dark"]) .confirmation {
+  background: #14161b;
+  border-color: #282c35;
+  color: #ffffff;
+}
+
+:global([data-theme="dark"]) .vehicleCard {
+  background: #16181d;
+  border-color: #282c35;
+  color: #ffffff;
+}
+
+:global([data-theme="dark"]) .vehicleCard:hover {
+  background: #1c1f26;
+  border-color: #3b4252;
+}
+
+:global([data-theme="dark"]) .vehicleTopRow strong,
+:global([data-theme="dark"]) .vehiclePrice {
+  color: #ffffff;
+}
+
+:global([data-theme="dark"]) .vehicleSelected {
+  background: rgba(244, 196, 1, 0.1);
+  border-color: #f4c401;
+}
+
+:global([data-theme="dark"]) .inputField,
+:global([data-theme="dark"]) .tokenInput,
+:global([data-theme="dark"]) .authInput {
+  background: #0c0d0e;
+  border-color: #282c35;
+  color: #ffffff;
+}
+
+:global([data-theme="dark"]) .confirmationDetails,
+:global([data-theme="dark"]) .mapHint,
+:global([data-theme="dark"]) .rideItemCard,
+:global([data-theme="dark"]) .userBadge {
+  background: #111317;
+  border-color: #282c35;
+  color: #ffffff;
+}
+
+:global([data-theme="dark"]) .mapHint strong,
+:global([data-theme="dark"]) .mapHint p {
+  color: #cbd5e1;
+}
+
+:global([data-theme="dark"]) .bookAnotherBtn {
+  background: #16181d;
+  border-color: #282c35;
+  color: #ffffff;
+}
+
+/* Location Permission Banner (Rider) */
+.locationPromptBanner {
+  max-width: 1440px;
+  margin: 0 auto 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 14px 20px;
+  background: #ffffff;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 14px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+  transition: all 0.2s ease;
+}
+
+.locationPromptBannerGranted {
+  border-color: rgba(16, 185, 129, 0.4);
+  background: rgba(16, 185, 129, 0.06);
+}
+
+.locationPromptLeft {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.locationPromptIcon {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: rgba(244, 196, 1, 0.2);
+  color: #854d0e;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.locationPromptIconSuccess {
+  background: rgba(16, 185, 129, 0.2);
+  color: #10b981;
+}
+
+.locationPromptText strong {
+  display: block;
+  font-size: 13.5px;
+  color: #0f172a;
+  font-weight: 800;
+  margin-bottom: 2px;
+}
+
+.locationPromptText p {
+  margin: 0;
+  font-size: 12px;
+  color: #64748b;
+  line-height: 1.4;
+}
+
+.locationPromptRight {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.allowLocationBtn {
+  background: #0f172a;
+  color: #ffffff;
+  border: none;
+  font-size: 12px;
+  font-weight: 750;
+  padding: 9px 18px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+}
+
+.allowLocationBtn:hover {
+  background: #1e293b;
+  transform: translateY(-1px);
+}
+
+.allowLocationBtnActive {
+  background: #10b981;
+  color: #ffffff;
+  cursor: default;
+}
+
+:global([data-theme="dark"]) .locationPromptBanner {
+  background: #14161b;
+  border-color: #282c35;
+}
+
+:global([data-theme="dark"]) .locationPromptText strong {
+  color: #ffffff;
+}
+
+:global([data-theme="dark"]) .locationPromptText p {
+  color: #94a3b8;
+}
+
+:global([data-theme="dark"]) .allowLocationBtn {
+  background: #f4c401;
+  color: #0c0d0e;
+}
+
+:global([data-theme="dark"]) .allowLocationBtn:hover {
+  background: #dfb200;
+}
+

@@ -1,0 +1,331 @@
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background: var(--nav-bg, rgba(12, 13, 14, 0.95));
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border-subtle, #20232a);
+  width: 100%;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.navInner {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 0 24px;
+  height: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  color: var(--text-main, #ffffff);
+}
+
+.brandIcon {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: #f4c401;
+  color: #0c0d0e;
+  display: grid;
+  place-items: center;
+  box-shadow: 0 4px 12px rgba(244, 196, 1, 0.25);
+  flex-shrink: 0;
+}
+
+.brandText {
+  display: flex;
+  flex-direction: column;
+}
+
+.brandName {
+  font-size: 18px;
+  font-weight: 850;
+  letter-spacing: -0.4px;
+  line-height: 1.1;
+  color: var(--text-main, #ffffff);
+}
+
+.brandSub {
+  font-size: 10.5px;
+  font-weight: 600;
+  color: #f4c401;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+}
+
+.navLinks {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.navLink {
+  color: var(--text-muted, #9ca3af);
+  text-decoration: none;
+  font-size: 13.5px;
+  font-weight: 600;
+  padding: 8px 14px;
+  border-radius: 8px;
+  transition: all 0.15s ease;
+}
+
+.navLink:hover {
+  color: var(--text-main, #ffffff);
+  background: var(--yellow-light, rgba(244, 196, 1, 0.1));
+}
+
+.navLinkActive {
+  color: #f4c401 !important;
+  background: var(--yellow-light, rgba(244, 196, 1, 0.1));
+}
+
+.navRight {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.bookBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #f4c401;
+  color: #0c0d0e;
+  font-size: 13px;
+  font-weight: 800;
+  padding: 10px 20px;
+  border-radius: 999px;
+  text-decoration: none;
+  transition: all 0.15s ease;
+  box-shadow: 0 4px 14px rgba(244, 196, 1, 0.3);
+  border: none;
+}
+
+.bookBtn:hover {
+  background: #dfb200;
+  transform: translateY(-1px);
+}
+
+.outlineBtn {
+  display: inline-flex;
+  align-items: center;
+  background: transparent;
+  color: var(--text-main, #ffffff);
+  font-size: 13px;
+  font-weight: 650;
+  padding: 9px 16px;
+  border-radius: 999px;
+  border: 1.5px solid var(--border-card, #282c35);
+  text-decoration: none;
+  transition: all 0.15s ease;
+}
+
+.outlineBtn:hover {
+  border-color: #f4c401;
+  color: #f4c401;
+  background: var(--yellow-light, rgba(244, 196, 1, 0.05));
+}
+
+.userBadge {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--bg-card, #16181d);
+  border: 1px solid var(--border-card, #282c35);
+  padding: 6px 14px;
+  border-radius: 999px;
+}
+
+.userRoleDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #10b981;
+}
+
+.userName {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--text-main, #ffffff);
+  text-decoration: none;
+}
+
+.roleTag {
+  font-size: 9.5px;
+  padding: 2px 6px;
+  border-radius: 4px;
+  background: var(--yellow-light, rgba(244, 196, 1, 0.15));
+  color: #f4c401;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.logoutBtn {
+  background: none;
+  border: none;
+  color: #ef4444;
+  font-size: 12.5px;
+  font-weight: 700;
+  padding: 6px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.logoutBtn:hover {
+  background: rgba(239, 68, 68, 0.1);
+}
+
+/* Mobile Toggle */
+.mobileToggle {
+  display: none;
+  background: var(--bg-card, #14161b);
+  border: 1px solid var(--border-card, #282c35);
+  color: var(--text-main, #ffffff);
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  font-size: 20px;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s ease;
+  flex-shrink: 0;
+}
+
+.mobileToggle:hover {
+  border-color: #f4c401;
+  color: #f4c401;
+}
+
+@media (max-width: 900px) {
+  .navLinks {
+    display: none;
+  }
+
+  .mobileToggle {
+    display: flex;
+  }
+}
+
+@media (max-width: 640px) {
+  .navInner {
+    height: 64px;
+    padding: 0 14px;
+    gap: 10px;
+  }
+
+  .brandIcon {
+    width: 34px;
+    height: 34px;
+    border-radius: 8px;
+  }
+
+  .brandName {
+    font-size: 16px;
+  }
+
+  .brandSub {
+    display: none;
+  }
+
+  .navRight {
+    gap: 8px;
+  }
+
+  .outlineBtn {
+    display: none;
+  }
+
+  .bookBtn {
+    padding: 8px 14px;
+    font-size: 12px;
+  }
+
+  .userBadge {
+    padding: 5px 10px;
+    gap: 6px;
+  }
+
+  .userBadge .roleTag,
+  .userBadge .logoutBtn {
+    display: none;
+  }
+
+  .mobileMenu {
+    top: 64px;
+    padding: 16px 14px;
+  }
+}
+
+@media (max-width: 400px) {
+  .bookBtn {
+    display: none;
+  }
+
+  .userName {
+    max-width: 80px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+
+.mobileMenu {
+  position: absolute;
+  top: 72px;
+  left: 0;
+  right: 0;
+  max-height: calc(100vh - 64px);
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  background: var(--bg-surface, #111317);
+  border-bottom: 1px solid var(--border-card, #282c35);
+  padding: 20px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  box-shadow: 0 12px 36px var(--card-shadow, rgba(0, 0, 0, 0.65));
+  animation: menuSlideDown 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes menuSlideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.mobileMenu a,
+.mobileMenu button {
+  padding: 12px 14px;
+  color: var(--text-main, #e5e7eb);
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 650;
+  border-radius: 10px;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  transition: all 0.15s ease;
+  min-height: 44px;
+}
+
+.mobileMenu a:hover,
+.mobileMenu a:active {
+  background: var(--bg-card-hover, #1c1f26);
+  color: #f4c401;
+}

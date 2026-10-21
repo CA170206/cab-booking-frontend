@@ -1,0 +1,1706 @@
+.page {
+  background: var(--bg-page, #0c0d0e);
+  min-height: 100vh;
+  color: var(--text-main, #ffffff);
+  display: flex;
+  flex-direction: column;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.main {
+  flex: 1;
+  max-width: 1240px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 40px 24px 80px;
+}
+
+/* Driver Hero Banner */
+.driverHero {
+  background: var(--bg-card, #14161b);
+  border: 1.5px solid var(--border-card, #282c35);
+  border-radius: 20px;
+  padding: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 36px;
+  box-shadow: 0 8px 24px var(--card-shadow, rgba(0, 0, 0, 0.4));
+}
+
+.driverInfo h1 {
+  font-size: 26px;
+  font-weight: 850;
+  margin: 0 0 6px;
+  color: var(--text-main, #ffffff);
+}
+
+.driverInfo p {
+  color: var(--text-muted, #9ca3af);
+  font-size: 13.5px;
+  margin: 0 0 14px;
+}
+
+.statusPillOnline {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 12px;
+  border-radius: 999px;
+  background: rgba(16, 185, 129, 0.15);
+  border: 1px solid rgba(16, 185, 129, 0.35);
+  color: #34d399;
+  font-size: 11.5px;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.onlineDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #34d399;
+  box-shadow: 0 0 8px #34d399;
+}
+
+.refreshBtn {
+  background: var(--bg-card-alt, #1c1f26);
+  border: 1.5px solid var(--border-card, #282c35);
+  color: var(--text-main, #ffffff);
+  font-size: 13px;
+  font-weight: 750;
+  padding: 10px 20px;
+  border-radius: 999px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.15s ease;
+}
+
+.refreshBtn:hover {
+  border-color: #f4c401;
+  color: #f4c401;
+}
+
+/* Driver GPS Location Permission Banner */
+.gpsPromptBanner {
+  background: var(--bg-card, #14161b);
+  border: 1.5px solid var(--border-card, #282c35);
+  border-radius: 18px;
+  padding: 20px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 24px;
+  box-shadow: 0 4px 16px var(--card-shadow, rgba(0, 0, 0, 0.25));
+  transition: all 0.2s ease;
+}
+
+.gpsPromptBannerActive {
+  border-color: rgba(16, 185, 129, 0.4);
+  background: rgba(16, 185, 129, 0.05);
+}
+
+.gpsPromptLeft {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  min-width: 0;
+}
+
+.gpsPromptIcon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: rgba(244, 196, 1, 0.18);
+  color: #f4c401;
+  font-size: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.gpsPromptIconActive {
+  background: rgba(16, 185, 129, 0.2);
+  color: #10b981;
+}
+
+.gpsPromptText strong {
+  display: block;
+  font-size: 15px;
+  color: var(--text-main, #ffffff);
+  font-weight: 850;
+  margin-bottom: 3px;
+}
+
+.gpsPromptText p {
+  margin: 0;
+  font-size: 12.5px;
+  color: var(--text-muted, #9ca3af);
+  line-height: 1.45;
+}
+
+.gpsCoordBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: monospace;
+  font-size: 11px;
+  color: #f4c401;
+  background: rgba(244, 196, 1, 0.1);
+  padding: 2px 8px;
+  border-radius: 4px;
+  margin-top: 4px;
+}
+
+.gpsPromptRight {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+  flex-wrap: wrap;
+}
+
+.allowGpsBtn {
+  background: #f4c401;
+  color: #0c0d0e;
+  border: none;
+  font-size: 13px;
+  font-weight: 850;
+  padding: 10px 20px;
+  border-radius: 999px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.15s ease;
+}
+
+.allowGpsBtn:hover:not(:disabled) {
+  background: #dfb200;
+  transform: translateY(-1px);
+}
+
+.allowGpsBtn:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+.gpsLockedPill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border-radius: 999px;
+  background: rgba(16, 185, 129, 0.18);
+  border: 1px solid rgba(16, 185, 129, 0.4);
+  color: #34d399;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+/* Active Trip Console */
+.activeTripSection {
+  margin-bottom: 44px;
+}
+
+.activeTripCard {
+  background: var(--bg-card, #16181d);
+  border: 2px solid #f4c401;
+  border-radius: 20px;
+  padding: 32px;
+  box-shadow: 0 8px 32px rgba(244, 196, 1, 0.15);
+}
+
+.activeHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.activeBadge {
+  background: #f4c401;
+  color: #0c0d0e;
+  font-size: 11.5px;
+  font-weight: 850;
+  padding: 4px 12px;
+  border-radius: 6px;
+  text-transform: uppercase;
+}
+
+.progressionGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.routeBox {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  background: var(--bg-input, #111317);
+  padding: 20px;
+  border-radius: 12px;
+  border: 1px solid var(--border-card, #242831);
+}
+
+.routeBoxItem strong {
+  display: block;
+  font-size: 11px;
+  color: var(--text-muted, #9ca3af);
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+
+.routeBoxItem span {
+  font-size: 14.5px;
+  font-weight: 600;
+  color: var(--text-main, #ffffff);
+}
+
+/* Status Progression Action Buttons */
+.stepActions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
+
+.stepBtn {
+  background: var(--bg-card-alt, #1f232b);
+  border: 1px solid var(--border-card, #323742);
+  color: var(--text-main, #ffffff);
+  font-size: 13px;
+  font-weight: 750;
+  padding: 11px 20px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.stepBtnNext {
+  background: #f4c401;
+  color: #0c0d0e;
+  border-color: #f4c401;
+  font-weight: 850;
+}
+
+.stepBtnNext:hover:not(:disabled) {
+  background: #dfb200;
+  transform: translateY(-1px);
+}
+
+.stepBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Available Rides Section */
+.sectionTitle {
+  font-size: 20px;
+  font-weight: 850;
+  color: var(--text-main, #ffffff);
+  margin: 0 0 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.ridesGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.availableCard {
+  background: var(--bg-card, #14161b);
+  border: 1.5px solid var(--border-card, #282c35);
+  border-radius: 18px;
+  padding: 24px;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 20px;
+  align-items: center;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 16px var(--card-shadow, rgba(0, 0, 0, 0.2));
+}
+
+.availableCard:hover {
+  border-color: #f4c401;
+}
+
+.routeCol {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.pointRow {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.pickupDot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #10b981;
+  margin-top: 5px;
+  flex-shrink: 0;
+}
+
+.dropDot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #ef4444;
+  margin-top: 5px;
+  flex-shrink: 0;
+}
+
+.locText strong {
+  display: block;
+  font-size: 10.5px;
+  color: var(--text-muted, #9ca3af);
+  text-transform: uppercase;
+}
+
+.locText span {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-main, #ffffff);
+}
+
+.actionCol {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 12px;
+}
+
+.fareLarge {
+  font-size: 22px;
+  font-weight: 850;
+  color: #f4c401;
+}
+
+.acceptBtn {
+  background: #f4c401;
+  color: #0c0d0e;
+  border: none;
+  font-size: 13.5px;
+  font-weight: 850;
+  padding: 10px 22px;
+  border-radius: 999px;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(244, 196, 1, 0.3);
+  transition: all 0.15s ease;
+}
+
+.acceptBtn:hover:not(:disabled) {
+  background: #dfb200;
+  transform: translateY(-1px);
+}
+
+.acceptBtn:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+@media (max-width: 800px) {
+  .driverHero {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .availableCard {
+    grid-template-columns: 1fr;
+  }
+  .actionCol {
+    align-items: flex-start;
+    flex-direction: row;
+    justify-content: space-between;
+    border-top: 1px solid var(--border-subtle, #20232a);
+    padding-top: 16px;
+    width: 100%;
+  }
+  .routeBox {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* OTP Verification Modal in Driver Console */
+.otpModalOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+
+.otpModalCard {
+  width: 100%;
+  max-width: 440px;
+  background: var(--bg-card, #14161b);
+  border: 1.5px solid var(--border-card, #282c35);
+  border-radius: 20px;
+  padding: 26px 28px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+  color: var(--text-main, #ffffff);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.otpModalHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.otpModalHeader h3 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 850;
+  color: #f4c401;
+}
+
+.otpCloseBtn {
+  border: 1px solid var(--border-card, #282c35);
+  background: transparent;
+  color: var(--text-muted, #9ca3af);
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.otpPrompt {
+  margin: 0;
+  font-size: 13px;
+  color: var(--text-muted, #9ca3af);
+  line-height: 1.5;
+}
+
+.otpInputField {
+  width: 100%;
+  padding: 14px 18px;
+  border-radius: 12px;
+  border: 2px solid #f4c401;
+  background: var(--bg-page, #0c0d0e);
+  color: #f4c401;
+  font-size: 28px;
+  font-weight: 900;
+  letter-spacing: 12px;
+  text-align: center;
+  outline: none;
+}
+
+.otpInputField::placeholder {
+  font-size: 18px;
+  letter-spacing: 4px;
+  color: #4b5563;
+}
+
+.otpErrorMsg {
+  padding: 8px 12px;
+  border-radius: 8px;
+  background: rgba(239, 68, 68, 0.15);
+  border: 1px solid #ef4444;
+  color: #ef4444;
+  font-size: 12px;
+  font-weight: 750;
+}
+
+.verifyStartBtn {
+  padding: 12px 20px;
+  border-radius: 10px;
+  background: #10b981;
+  color: #000000;
+  font-size: 14px;
+  font-weight: 850;
+  border: none;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.verifyStartBtn:hover:not(:disabled) {
+  background: #059669;
+}
+
+.verifyStartBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.driverPaymentCollectionNotice {
+  margin-top: 14px;
+  padding: 12px 16px;
+  border-radius: 10px;
+  background: rgba(244, 196, 1, 0.1);
+  border: 1px dashed #f4c401;
+  font-size: 12.5px;
+  color: #f4c401;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* ============================================================
+   CANCELLED RIDE ALERT CARD & NEW REQUESTS RADAR SCANNER
+   ============================================================ */
+.cancelledAlertCard {
+  background: linear-gradient(135deg, rgba(239, 68, 68, 0.12) 0%, rgba(185, 28, 28, 0.06) 100%);
+  border: 1.5px solid rgba(239, 68, 68, 0.45);
+  border-radius: 18px;
+  padding: 24px;
+  margin-bottom: 28px;
+  box-shadow: 0 10px 30px rgba(239, 68, 68, 0.15);
+  animation: cancelledSlideIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+@keyframes cancelledSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.cancelledAlertHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.cancelledBadgeRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.cancelledAlertBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  border-radius: 999px;
+  background: rgba(239, 68, 68, 0.2);
+  border: 1px solid rgba(239, 68, 68, 0.5);
+  color: #f87171;
+  font-size: 12px;
+  font-weight: 850;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.cancelledPulseDot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #ef4444;
+  box-shadow: 0 0 10px #ef4444;
+  animation: pulseDot 1.2s infinite ease-in-out;
+}
+
+@keyframes pulseDot {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.4);
+    opacity: 0.6;
+  }
+}
+
+.cancelledTimestamp {
+  font-size: 11.5px;
+  color: var(--text-muted, #9ca3af);
+  font-weight: 600;
+}
+
+.cancelledDismissBtn {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: var(--text-muted, #9ca3af);
+  padding: 6px 14px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.cancelledDismissBtn:hover {
+  border-color: #ef4444;
+  color: #ef4444;
+  background: rgba(239, 68, 68, 0.1);
+}
+
+.cancelledAlertBody {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.cancelledAlertIcon {
+  font-size: 32px;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.cancelledAlertContent {
+  flex: 1;
+}
+
+.cancelledAlertContent h4 {
+  margin: 0 0 6px;
+  font-size: 17px;
+  font-weight: 850;
+  color: var(--text-main, #ffffff);
+}
+
+.cancelledAlertText {
+  margin: 0 0 10px;
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: var(--text-muted, #d1d5db);
+}
+
+.cancelledRouteTag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 8px 14px;
+  border-radius: 10px;
+  font-size: 12px;
+  color: var(--text-main, #f3f4f6);
+  flex-wrap: wrap;
+}
+
+.cancelledRouteTag strong {
+  color: #f4c401;
+}
+
+.cancelledAlertFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  flex-wrap: wrap;
+  padding-top: 14px;
+  border-top: 1px solid rgba(239, 68, 68, 0.2);
+}
+
+.scanningRadarBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 12.5px;
+  font-weight: 700;
+  color: #34d399;
+}
+
+.radarWave {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #10b981;
+  box-shadow: 0 0 10px #10b981;
+  animation: radarPing 1.5s infinite cubic-bezier(0, 0, 0.2, 1);
+}
+
+@keyframes radarPing {
+  75%, 100% {
+    transform: scale(2.2);
+    opacity: 0;
+  }
+}
+
+.checkNewRequestsBtn {
+  background: #f4c401;
+  color: #000000;
+  border: none;
+  border-radius: 10px;
+  padding: 10px 18px;
+  font-size: 13px;
+  font-weight: 850;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.15s ease;
+  box-shadow: 0 4px 12px rgba(244, 196, 1, 0.3);
+}
+
+.checkNewRequestsBtn:hover {
+  background: #e5b700;
+  transform: translateY(-1px);
+}
+
+/* Light Mode Overrides for Cancelled Card */
+:global([data-theme="light"]) .cancelledAlertCard {
+  background: #fff1f2;
+  border-color: #fca5a5;
+  box-shadow: 0 8px 24px rgba(239, 68, 68, 0.1);
+}
+
+:global([data-theme="light"]) .cancelledAlertBadge {
+  background: #ffe4e6;
+  border-color: #f87171;
+  color: #b91c1c;
+}
+
+:global([data-theme="light"]) .cancelledAlertContent h4 {
+  color: #881337;
+}
+
+:global([data-theme="light"]) .cancelledAlertText {
+  color: #4c0519;
+}
+
+:global([data-theme="light"]) .cancelledRouteTag {
+  background: #ffffff;
+  border-color: #fecdd3;
+  color: #0f172a;
+}
+
+:global([data-theme="light"]) .cancelledRouteTag strong {
+  color: #b45309;
+}
+
+:global([data-theme="light"]) .cancelledAlertFooter {
+  border-top-color: #fecdd3;
+}
+
+:global([data-theme="light"]) .cancelledDismissBtn {
+  border-color: #cbd5e1;
+  color: #475569;
+}
+
+:global([data-theme="light"]) .cancelledDismissBtn:hover {
+  background: #fee2e2;
+  color: #dc2626;
+  border-color: #dc2626;
+}
+
+:global([data-theme="light"]) .scanningRadarBadge {
+  color: #047857;
+}
+
+/* ============================================================
+   DRIVER CANCEL RIDE BUTTON & MODAL
+   ============================================================ */
+.driverCancelRideBtn {
+  background: rgba(239, 68, 68, 0.12);
+  border: 1.5px solid rgba(239, 68, 68, 0.35);
+  color: #f87171;
+  font-size: 13px;
+  font-weight: 750;
+  padding: 10px 18px;
+  border-radius: 999px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.15s ease;
+}
+
+.driverCancelRideBtn:hover:not(:disabled) {
+  background: rgba(239, 68, 68, 0.25);
+  border-color: #ef4444;
+  color: #ffffff;
+}
+
+.driverCancelRideBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.cancelModalOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+  animation: fadeIn 0.2s ease;
+}
+
+.cancelModalCard {
+  background: var(--bg-card, #14161b);
+  border: 1.5px solid var(--border-card, #282c35);
+  border-radius: 20px;
+  max-width: 480px;
+  width: 100%;
+  padding: 28px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+  animation: slideUp 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.cancelModalHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.cancelModalHeader h3 {
+  margin: 0;
+  font-size: 19px;
+  font-weight: 850;
+  color: var(--text-main, #ffffff);
+}
+
+.cancelCloseBtn {
+  background: transparent;
+  border: none;
+  color: var(--text-muted, #9ca3af);
+  font-size: 20px;
+  cursor: pointer;
+  padding: 4px;
+}
+
+.cancelCloseBtn:hover {
+  color: var(--text-main, #ffffff);
+}
+
+.cancelPrompt {
+  font-size: 13.5px;
+  color: var(--text-muted, #9ca3af);
+  line-height: 1.5;
+  margin: 0;
+}
+
+.reasonsList {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.reasonOption {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1.5px solid var(--border-card, #282c35);
+  background: var(--bg-card-alt, #1c1f26);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  font-size: 13.5px;
+  color: var(--text-main, #e5e7eb);
+  font-weight: 600;
+}
+
+.reasonOption:hover {
+  border-color: rgba(239, 68, 68, 0.5);
+  background: rgba(239, 68, 68, 0.06);
+}
+
+.reasonOptionActive {
+  border-color: #ef4444;
+  background: rgba(239, 68, 68, 0.12);
+  color: #ffffff;
+}
+
+.reasonRadio {
+  accent-color: #ef4444;
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+
+.customReasonInput {
+  background: var(--bg-input, #0f1013);
+  border: 1.5px solid var(--border-card, #282c35);
+  border-radius: 10px;
+  padding: 10px 14px;
+  color: var(--text-main, #ffffff);
+  font-size: 13px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.customReasonInput:focus {
+  outline: none;
+  border-color: #ef4444;
+}
+
+.cancelModalActions {
+  display: flex;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.keepRideBtn {
+  flex: 1;
+  background: var(--bg-card-alt, #1c1f26);
+  border: 1.5px solid var(--border-card, #282c35);
+  color: var(--text-main, #ffffff);
+  font-size: 13.5px;
+  font-weight: 700;
+  padding: 12px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.keepRideBtn:hover {
+  border-color: #9ca3af;
+}
+
+.confirmCancelBtn {
+  flex: 1.5;
+  background: #ef4444;
+  border: none;
+  color: #ffffff;
+  font-size: 13.5px;
+  font-weight: 850;
+  padding: 12px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.confirmCancelBtn:hover:not(:disabled) {
+  background: #dc2626;
+}
+
+.confirmCancelBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Light mode overrides for Driver Cancel */
+:global([data-theme="light"]) .driverCancelRideBtn {
+  background: #fee2e2;
+  border-color: #fca5a5;
+  color: #b91c1c;
+}
+
+:global([data-theme="light"]) .driverCancelRideBtn:hover:not(:disabled) {
+  background: #fecdd3;
+  border-color: #ef4444;
+  color: #991b1b;
+}
+
+:global([data-theme="light"]) .cancelModalCard {
+  background: #ffffff;
+  border-color: #e2e8f0;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+}
+
+:global([data-theme="light"]) .cancelModalHeader h3 {
+  color: #0f172a;
+}
+
+:global([data-theme="light"]) .cancelPrompt {
+  color: #475569;
+}
+
+:global([data-theme="light"]) .reasonOption {
+  background: #f8fafc;
+  border-color: #e2e8f0;
+  color: #1e293b;
+}
+
+:global([data-theme="light"]) .reasonOptionActive {
+  background: #fef2f2;
+  border-color: #ef4444;
+  color: #991b1b;
+}
+
+:global([data-theme="light"]) .customReasonInput {
+  background: #ffffff;
+  border-color: #cbd5e1;
+  color: #0f172a;
+}
+
+:global([data-theme="light"]) .keepRideBtn {
+  background: #f1f5f9;
+  border-color: #cbd5e1;
+  color: #0f172a;
+}
+
+/* ============================================================
+   DESTINATION REACHED — PAYMENT SETTLEMENT & UPI QR VIEW
+   ============================================================ */
+.destinationReachedCard {
+  background: linear-gradient(180deg, rgba(16, 185, 129, 0.1) 0%, var(--bg-card, #14161b) 100%);
+  border: 2px solid #10b981;
+  border-radius: 20px;
+  padding: 28px;
+  margin-bottom: 32px;
+  box-shadow: 0 16px 40px rgba(16, 185, 129, 0.18);
+  animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.destinationHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  padding-bottom: 16px;
+  border-bottom: 1px solid rgba(16, 185, 129, 0.25);
+}
+
+.destinationBadgeRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.destinationBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #10b981;
+  color: #000000;
+  font-size: 13px;
+  font-weight: 850;
+  padding: 6px 14px;
+  border-radius: 999px;
+  letter-spacing: 0.3px;
+}
+
+.destinationVoiceCue {
+  font-size: 13px;
+  color: #34d399;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.destinationFareLarge {
+  font-size: 26px;
+  font-weight: 900;
+  color: #f4c401;
+}
+
+.announcementBanner {
+  background: rgba(16, 185, 129, 0.12);
+  border: 1px dashed #10b981;
+  border-radius: 12px;
+  padding: 12px 18px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 13.5px;
+  color: #e5e7eb;
+}
+
+.settlementGrid {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 24px;
+}
+
+@media (max-width: 860px) {
+  .settlementGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.settlementLeftCol {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.settlementRouteCard {
+  background: var(--bg-card-alt, #1c1f26);
+  border: 1.5px solid var(--border-card, #282c35);
+  border-radius: 14px;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.settlementRouteItem {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.settlementRouteItem strong {
+  font-size: 11px;
+  color: var(--text-muted, #9ca3af);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.settlementRouteItem span {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text-main, #ffffff);
+}
+
+.passengerContactRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding-top: 10px;
+  border-top: 1px solid var(--border-card, #282c35);
+}
+
+.passengerContactInfo {
+  font-size: 13px;
+  color: var(--text-main, #ffffff);
+}
+
+.passengerContactInfo strong {
+  color: #f4c401;
+}
+
+.paymentActionsBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.paymentActionsTitle {
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--text-muted, #9ca3af);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.cashPayBtn {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: #ffffff;
+  border: none;
+  border-radius: 14px;
+  padding: 16px 20px;
+  font-size: 15px;
+  font-weight: 850;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  box-shadow: 0 4px 16px rgba(16, 185, 129, 0.35);
+  transition: all 0.15s ease;
+}
+
+.cashPayBtn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(16, 185, 129, 0.5);
+  background: linear-gradient(135deg, #059669 0%, #047857 100%);
+}
+
+.cashPayBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.upiPayBtn {
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+  color: #ffffff;
+  border: none;
+  border-radius: 14px;
+  padding: 16px 20px;
+  font-size: 15px;
+  font-weight: 850;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  box-shadow: 0 4px 16px rgba(59, 130, 246, 0.35);
+  transition: all 0.15s ease;
+}
+
+.upiPayBtn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(59, 130, 246, 0.5);
+  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+}
+
+.upiPayBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.resumeNavBtn {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: var(--text-muted, #9ca3af);
+  font-size: 12.5px;
+  font-weight: 700;
+  padding: 10px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.resumeNavBtn:hover {
+  border-color: #9ca3af;
+  color: var(--text-main, #ffffff);
+}
+
+/* Right Column: Dynamic Driver UPI QR Code */
+.settlementQrCard {
+  background: var(--bg-card-alt, #1c1f26);
+  border: 1.5px solid var(--border-card, #282c35);
+  border-radius: 16px;
+  padding: 22px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 14px;
+}
+
+.qrHeaderTitle {
+  font-size: 16px;
+  font-weight: 850;
+  color: var(--text-main, #ffffff);
+  margin: 0;
+}
+
+.qrHeaderSub {
+  font-size: 12px;
+  color: var(--text-muted, #9ca3af);
+  margin: -6px 0 0;
+}
+
+.qrFrame {
+  background: #ffffff;
+  padding: 14px;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 200px;
+  height: 200px;
+}
+
+.qrImage {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+.driverUpiInfoBox {
+  background: rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 8px 14px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  max-width: 280px;
+  justify-content: space-between;
+  font-size: 12px;
+  color: var(--text-main, #ffffff);
+}
+
+.copyUpiBtn {
+  background: #f4c401;
+  color: #000000;
+  border: none;
+  font-size: 11px;
+  font-weight: 800;
+  padding: 4px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.1s ease;
+}
+
+.copyUpiBtn:hover {
+  background: #e5b700;
+}
+
+.soundboxListenerBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  border-radius: 999px;
+  background: rgba(16, 185, 129, 0.15);
+  border: 1px solid rgba(16, 185, 129, 0.4);
+  color: #34d399;
+  font-size: 11.5px;
+  font-weight: 750;
+  margin-top: 4px;
+}
+
+.soundboxWaveDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #10b981;
+  box-shadow: 0 0 8px #10b981;
+  animation: soundboxPulse 1.6s infinite ease-in-out;
+}
+
+@keyframes soundboxPulse {
+  0%, 100% {
+    transform: scale(0.85);
+    opacity: 0.8;
+  }
+  50% {
+    transform: scale(1.35);
+    opacity: 1;
+  }
+}
+
+.simulateQrBtn {
+  background: rgba(244, 196, 1, 0.12);
+  border: 1.5px dashed #f4c401;
+  color: #f4c401;
+  font-size: 12px;
+  font-weight: 800;
+  padding: 8px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  margin-top: 4px;
+  width: 100%;
+  max-width: 280px;
+}
+
+.simulateQrBtn:hover:not(:disabled) {
+  background: rgba(244, 196, 1, 0.22);
+  transform: translateY(-1px);
+}
+
+.simulateQrBtn:disabled {
+  opacity: 0.5;
+  cursor: wait;
+}
+
+:global([data-theme="light"]) .soundboxListenerBadge {
+  background: #dcfce7;
+  border-color: #86efac;
+  color: #15803d;
+}
+
+:global([data-theme="light"]) .simulateQrBtn {
+  background: #fef9c3;
+  border-color: #eab308;
+  color: #854d0e;
+}
+
+/* ============================================================
+   SETTLED RECEIPT CARD (CONFIRMATION BEFORE NEXT REQUESTS)
+   ============================================================ */
+.settledReceiptCard {
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.15) 0%, rgba(5, 150, 105, 0.08) 100%);
+  border: 2px solid #10b981;
+  border-radius: 20px;
+  padding: 32px;
+  margin-bottom: 32px;
+  box-shadow: 0 16px 40px rgba(16, 185, 129, 0.2);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+  animation: slideUp 0.3s ease;
+}
+
+.receiptCheckCircle {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: #10b981;
+  color: #000000;
+  font-size: 32px;
+  font-weight: 900;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 24px rgba(16, 185, 129, 0.6);
+}
+
+.settledReceiptCard h3 {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 850;
+  color: var(--text-main, #ffffff);
+}
+
+.settledReceiptCard p {
+  margin: 0;
+  font-size: 14px;
+  color: var(--text-muted, #9ca3af);
+  max-width: 480px;
+  line-height: 1.5;
+}
+
+.receiptAmountTag {
+  background: rgba(244, 196, 1, 0.15);
+  border: 1.5px solid #f4c401;
+  color: #f4c401;
+  font-size: 22px;
+  font-weight: 900;
+  padding: 8px 24px;
+  border-radius: 999px;
+  display: inline-block;
+}
+
+.finishScanBtn {
+  background: #10b981;
+  color: #000000;
+  border: none;
+  border-radius: 12px;
+  padding: 14px 28px;
+  font-size: 15px;
+  font-weight: 850;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  box-shadow: 0 4px 16px rgba(16, 185, 129, 0.4);
+}
+
+.finishScanBtn:hover {
+  background: #059669;
+  transform: translateY(-2px);
+}
+
+/* Light mode overrides for Settlement Card */
+:global([data-theme="light"]) .destinationReachedCard {
+  background: #f0fdf4;
+  border-color: #86efac;
+  box-shadow: 0 12px 32px rgba(16, 185, 129, 0.15);
+}
+
+:global([data-theme="light"]) .destinationHeader {
+  border-bottom-color: #bbf7d0;
+}
+
+:global([data-theme="light"]) .announcementBanner {
+  background: #dcfce7;
+  color: #14532d;
+}
+
+:global([data-theme="light"]) .settlementRouteCard {
+  background: #ffffff;
+  border-color: #cbd5e1;
+}
+
+:global([data-theme="light"]) .settlementRouteItem span {
+  color: #0f172a;
+}
+
+:global([data-theme="light"]) .passengerContactRow {
+  border-top-color: #e2e8f0;
+}
+
+:global([data-theme="light"]) .passengerContactInfo {
+  color: #0f172a;
+}
+
+:global([data-theme="light"]) .passengerContactInfo strong {
+  color: #b45309;
+}
+
+:global([data-theme="light"]) .settlementQrCard {
+  background: #ffffff;
+  border-color: #cbd5e1;
+}
+
+:global([data-theme="light"]) .qrHeaderTitle {
+  color: #0f172a;
+}
+
+:global([data-theme="light"]) .qrHeaderSub {
+  color: #475569;
+}
+
+:global([data-theme="light"]) .driverUpiInfoBox {
+  background: #f1f5f9;
+  border-color: #cbd5e1;
+  color: #0f172a;
+}
+
+:global([data-theme="light"]) .resumeNavBtn {
+  border-color: #cbd5e1;
+  color: #475569;
+}
+
+:global([data-theme="light"]) .resumeNavBtn:hover {
+  color: #0f172a;
+}
+
+:global([data-theme="light"]) .settledReceiptCard {
+  background: #f0fdf4;
+  border-color: #86efac;
+}
+
+:global([data-theme="light"]) .settledReceiptCard h3 {
+  color: #065f46;
+}
+
+:global([data-theme="light"]) .settledReceiptCard p {
+  color: #1e293b;
+}
+
+/* ============================================================
+   MOBILE RESPONSIVE SUITE FOR DRIVER CONSOLE (SMARTPHONES)
+   ============================================================ */
+@media (max-width: 768px) {
+  .main {
+    padding: 24px 14px 60px;
+  }
+
+  .driverHero {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 20px 16px;
+    gap: 16px;
+  }
+
+  .refreshBtn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .gpsPromptBanner {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 16px 14px;
+    gap: 14px;
+  }
+
+  .gpsPromptRight {
+    width: 100%;
+  }
+
+  .allowGpsBtn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .activeTripCard {
+    padding: 20px 16px;
+    border-radius: 16px;
+  }
+
+  .routeBox {
+    grid-template-columns: 1fr;
+    gap: 14px;
+    padding: 14px;
+  }
+
+  .destinationReachedCard {
+    padding: 20px 16px;
+  }
+
+  .destinationHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .cancelledAlertCard {
+    padding: 20px 16px;
+  }
+
+  .cancelledAlertHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .settledReceiptCard {
+    padding: 24px 16px;
+  }
+
+  .requestsGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .requestCard {
+    padding: 18px 16px;
+  }
+
+  .statsGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .main {
+    padding: 18px 10px 50px;
+  }
+
+  .driverHero {
+    padding: 16px 12px;
+  }
+
+  .driverInfo h1 {
+    font-size: 22px;
+  }
+
+  .activeTripCard {
+    padding: 16px 12px;
+  }
+
+  .qrFrame {
+    width: 160px;
+    height: 160px;
+    padding: 10px;
+  }
+
+  .cashPayBtn,
+  .upiPayBtn {
+    padding: 14px 16px;
+    font-size: 13.5px;
+  }
+
+  .driverUpiInfoBox {
+    max-width: 100%;
+  }
+}
+
+
+

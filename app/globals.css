@@ -1,26 +1,328 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* CabGo Design System — Universal Dark & Light Mode Theme */
+:root,
+[data-theme="dark"] {
+  color-scheme: dark;
+  --yellow: #f4c401;
+  --yellow-hover: #dfb200;
+  --yellow-light: rgba(244, 196, 1, 0.12);
+  --yellow-border: rgba(244, 196, 1, 0.3);
+
+  --bg-page: #0c0d0e;
+  --bg-surface: #14161b;
+  --bg-card: #16181d;
+  --bg-card-hover: #1c1f26;
+  --bg-card-alt: #111317;
+  --bg-input: #0c0d0e;
+
+  --border-card: #282c35;
+  --border-subtle: #1f2228;
+  --border-hover: #3d4351;
+
+  --text-main: #ffffff;
+  --text-muted: #9ca3af;
+  --text-dim: #6b7280;
+
+  --nav-bg: rgba(12, 13, 14, 0.95);
+  --card-shadow: rgba(0, 0, 0, 0.4);
+  --header-gradient: radial-gradient(circle at 50% 0%, #1e222b 0%, #0c0d0e 70%);
+  --hero-gradient: radial-gradient(circle at 50% 20%, #1a1d24 0%, #0c0d0e 80%);
+
+  --font-sans: var(--font-poppins), 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+[data-theme="light"] {
+  color-scheme: light;
+  --yellow: #f4c401;
+  --yellow-hover: #dfb200;
+  --yellow-light: rgba(244, 196, 1, 0.15);
+  --yellow-border: rgba(244, 196, 1, 0.4);
+
+  --bg-page: #f8fafc;
+  --bg-surface: #ffffff;
+  --bg-card: #ffffff;
+  --bg-card-hover: #f1f5f9;
+  --bg-card-alt: #f8fafc;
+  --bg-input: #ffffff;
+
+  --border-card: #e2e8f0;
+  --border-subtle: #eaecf0;
+  --border-hover: #cbd5e1;
+
+  --text-main: #0f172a;
+  --text-muted: #334155;
+  --text-dim: #475569;
+
+  --nav-bg: rgba(255, 255, 255, 0.95);
+  --card-shadow: rgba(15, 23, 42, 0.08);
+  --header-gradient: radial-gradient(circle at 50% 0%, #fef9c3 0%, #f8fafc 70%);
+  --hero-gradient: radial-gradient(circle at 50% 20%, #fffef0 0%, #f8fafc 80%);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+* {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html {
+  min-height: 100%;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+  background: var(--bg-page);
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  min-height: 100vh;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+  position: relative;
+  margin: 0;
+  background: var(--bg-page);
+  color: var(--text-main);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+/* Touch target optimizations for mobile */
+button,
+a,
+input,
+select,
+textarea {
+  touch-action: manipulation;
+}
+
+/* Universal Typography and Contrast Enforcers */
+[data-theme="light"] h1,
+[data-theme="light"] h2,
+[data-theme="light"] h3,
+[data-theme="light"] h4,
+[data-theme="light"] h5,
+[data-theme="light"] h6 {
+  color: var(--text-main, #0f172a);
+}
+
+[data-theme="dark"] h1,
+[data-theme="dark"] h2,
+[data-theme="dark"] h3,
+[data-theme="dark"] h4,
+[data-theme="dark"] h5,
+[data-theme="dark"] h6 {
+  color: var(--text-main, #ffffff);
+}
+
+[data-theme="light"] input,
+[data-theme="light"] textarea,
+[data-theme="light"] select {
+  color: #0f172a;
+}
+
+[data-theme="dark"] input,
+[data-theme="dark"] textarea,
+[data-theme="dark"] select {
+  color: #ffffff;
+}
+
+button,
+input,
+textarea,
+select {
+  font-family: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+button:disabled {
+  cursor: not-allowed;
+}
+
+a {
+  color: inherit;
+}
+
+img,
+svg {
+  max-width: 100%;
+}
+
+/* Critical Leaflet Fixes */
+.leaflet-container img {
+  max-width: none !important;
+}
+
+.leaflet-tile {
+  max-width: none !important;
+}
+
+.leaflet-div-icon.cabgo-custom-div-icon,
+.cabgo-custom-div-icon {
+  background: transparent !important;
+  border: none !important;
+}
+
+/* Custom Map Marker Pins — Precision Zero-Offset System */
+.cabgo-marker-root {
+  position: relative;
+  width: 80px;
+  height: 78px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  pointer-events: auto;
+  user-select: none;
+  animation: cabgoPinDrop 0.22s cubic-bezier(0.2, 0.9, 0.3, 1.2);
+}
+
+@keyframes cabgoPinDrop {
+  0% {
+    transform: translateY(-12px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Floating pill badge on top */
+.cabgo-pin-badge {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2.5px 8px;
+  border-radius: 999px;
+  font-family: inherit;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  white-space: nowrap;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.28);
+  pointer-events: none;
+  z-index: 2;
+}
+
+.cabgo-badge-pickup {
+  background: #064e3b;
+  color: #ecfdf5;
+  border: 1px solid #10b981;
+}
+
+.cabgo-badge-dropoff {
+  background: #7f1d1d;
+  color: #fef2f2;
+  border: 1px solid #ef4444;
+}
+
+.cabgo-badge-icon {
+  font-size: 8px;
+  line-height: 1;
+}
+
+/* Teardrop Pin stem & SVG — Needle tip ends exactly at Y = 66px */
+.cabgo-pin-stem {
+  position: absolute;
+  top: 22px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 34px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: grab;
+  z-index: 3;
+  transition: transform 0.15s ease;
+}
+
+.cabgo-pin-stem:hover {
+  transform: translateX(-50%) scale(1.08);
+}
+
+.cabgo-pin-stem:active {
+  cursor: grabbing;
+}
+
+.cabgo-pin-svg {
+  display: block;
+  width: 34px;
+  height: 44px;
+  overflow: visible;
+  filter: drop-shadow(0 3px 5px rgba(0, 0, 0, 0.35));
+}
+
+/* Ground Anchor point: exact target at needle tip (X: 40px, Y: 66px) */
+.cabgo-ground-anchor {
+  position: absolute;
+  top: 66px;
+  left: 40px;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.cabgo-anchor-dot {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 6px;
+  height: 6px;
+  margin-top: -3px;
+  margin-left: -3px;
+  border-radius: 50%;
+  background: #0f172a;
+  border: 1.5px solid #ffffff;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.45);
+}
+
+.cabgo-anchor-pulse {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 24px;
+  height: 24px;
+  margin-top: -12px;
+  margin-left: -12px;
+  border-radius: 50%;
+  animation: cabgoPulse 2.2s infinite ease-out;
+}
+
+.cabgo-pulse-pickup {
+  background: rgba(16, 185, 129, 0.35);
+  box-shadow: 0 0 0 1px rgba(16, 185, 129, 0.5);
+}
+
+.cabgo-pulse-dropoff {
+  background: rgba(239, 68, 68, 0.35);
+  box-shadow: 0 0 0 1px rgba(239, 68, 68, 0.5);
+}
+
+@keyframes cabgoPulse {
+  0% {
+    transform: scale(0.4);
+    opacity: 0.9;
+  }
+  100% {
+    transform: scale(1.4);
+    opacity: 0;
+  }
+}
+
+#__next {
+  min-height: 100vh;
 }

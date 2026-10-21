@@ -1,0 +1,504 @@
+.wrapper {
+  width: 100%;
+  min-width: 0;
+  color: #111827;
+  display: flex;
+  flex-direction: column;
+}
+
+.locationCards {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.locationCard {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  min-width: 0;
+  min-height: 74px;
+  padding: 12px 14px;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 12px;
+  background: #ffffff;
+  color: #111827;
+  text-align: left;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.18s ease;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.03);
+}
+
+.locationCard:hover {
+  border-color: #d1d5db;
+  background: #fcfcfd;
+}
+
+.pickupActive {
+  border-color: #f4c401;
+  background: #fffdf5;
+  box-shadow: 0 0 0 3px rgba(244, 196, 1, 0.2);
+}
+
+.dropoffActive {
+  border-color: #111827;
+  background: #f9fafb;
+  box-shadow: 0 0 0 3px rgba(17, 24, 39, 0.08);
+}
+
+.pickupSymbol,
+.dropoffSymbol {
+  display: block;
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+}
+
+.pickupSymbol {
+  border: 3.5px solid #f4c401;
+  border-radius: 50%;
+  background: #111827;
+}
+
+.dropoffSymbol {
+  border: 3.5px solid #111827;
+  border-radius: 3px;
+  background: #f4c401;
+}
+
+.locationContent {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+  min-width: 0;
+}
+
+.locationLabel {
+  color: #6b7280;
+  font-size: 10px;
+  font-weight: 750;
+  letter-spacing: 0.6px;
+}
+
+.locationName {
+  color: #111827;
+  font-size: 12.5px;
+  font-weight: 750;
+  line-height: 1.35;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.locationSubtext {
+  color: #9ca3af;
+  font-size: 10px;
+  font-family: Consolas, monospace;
+}
+
+.selectingTag {
+  flex-shrink: 0;
+  padding: 4px 8px;
+  border-radius: 6px;
+  background: #fef9c3;
+  color: #854d0e;
+  font-size: 9px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.selectingTagDropoff {
+  flex-shrink: 0;
+  padding: 4px 8px;
+  border-radius: 6px;
+  background: #f3f4f6;
+  color: #1f2937;
+  font-size: 9px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Action Banner */
+.mapActionBanner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 12px;
+  padding: 8px 12px;
+  background: #f8fafc;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+}
+
+.layerSwitcher {
+  display: inline-flex;
+  align-items: center;
+  background: #e2e8f0;
+  padding: 3px;
+  border-radius: 8px;
+  gap: 2px;
+}
+
+.layerBtn {
+  padding: 5px 12px;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: #475569;
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.layerBtn:hover {
+  color: #0f172a;
+}
+
+.layerBtnActive {
+  background: #ffffff !important;
+  color: #0f172a !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.quickTools {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.gpsButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  color: #0f172a;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.gpsButton:hover:not(:disabled) {
+  border-color: #f4c401;
+  background: #fffdf5;
+}
+
+.gpsButton:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+/* Map Frame */
+.mapFrame {
+  position: relative;
+  width: 100%;
+  height: 480px;
+  min-height: 420px;
+  min-width: 0;
+  overflow: hidden;
+  isolation: isolate;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 14px;
+  background: #f1f5f9;
+  cursor: crosshair;
+}
+
+.map {
+  width: 100%;
+  height: 100%;
+  background: #f1f5f9;
+  font-family: inherit;
+  cursor: crosshair;
+}
+
+.map :global(.leaflet-container) {
+  cursor: crosshair !important;
+}
+
+.map :global(.leaflet-grab) {
+  cursor: crosshair !important;
+}
+
+.map :global(.leaflet-dragging .leaflet-grab) {
+  cursor: grabbing !important;
+}
+
+.mapOverlay {
+  position: absolute;
+  z-index: 600;
+  top: 12px;
+  right: 12px;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 6px 11px;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.95);
+  color: #334155;
+  font-size: 11px;
+  font-weight: 700;
+  pointer-events: none;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.overlayDot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #16a34a;
+}
+
+.overlayDotSatellite {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #0284c7;
+}
+
+.routeRoutePill {
+  position: absolute;
+  z-index: 600;
+  top: 12px;
+  left: 56px;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: #0f172a;
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: 750;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18);
+}
+
+.routeStatusDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #f4c401;
+}
+
+.dispatchRadarPill {
+  position: absolute;
+  z-index: 600;
+  bottom: 14px;
+  left: 14px;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 6px 14px;
+  border-radius: 999px;
+  background: rgba(15, 23, 42, 0.92);
+  border: 1px solid rgba(244, 196, 1, 0.4);
+  color: #f4c401;
+  font-size: 11px;
+  font-weight: 800;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  pointer-events: none;
+}
+
+.presetsRow {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+  padding: 10px 12px;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+}
+
+.presetsLabel {
+  color: #64748b;
+  font-size: 11px;
+  font-weight: 700;
+  margin-right: 4px;
+}
+
+.presetChip {
+  padding: 4px 10px;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  background: #f8fafc;
+  color: #1e293b;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.presetChip:hover {
+  background: #fffdf5;
+  border-color: #f4c401;
+  color: #000000;
+}
+
+.mapFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding-top: 14px;
+}
+
+.legend {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.legendItem {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  color: #64748b;
+  font-size: 11.5px;
+  font-weight: 600;
+}
+
+.legendItem i {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+}
+
+.legendPickup {
+  border-radius: 50%;
+  background: #16a34a;
+  border: 1.5px solid #ffffff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.legendDestination {
+  border-radius: 50%;
+  background: #dc2626;
+  border: 1.5px solid #ffffff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.legendRouteLine {
+  width: 16px !important;
+  height: 3px !important;
+  border-radius: 2px;
+  background: #16a34a;
+}
+
+.resetButton {
+  padding: 7px 13px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  background: #ffffff;
+  color: #334155;
+  font-family: inherit;
+  font-size: 11.5px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.resetButton:hover {
+  border-color: #94a3b8;
+  background: #f8fafc;
+  color: #0f172a;
+}
+
+@media (max-width: 768px) {
+  .locationCards {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 8px;
+  }
+
+  .mapFrame {
+    height: 320px;
+    min-height: 260px;
+  }
+
+  .mapActionBanner {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+  }
+
+  .layerSwitcher {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .layerBtn {
+    flex: 1;
+    text-align: center;
+  }
+
+  .quickTools {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .presetsRow {
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    padding: 8px 10px;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .presetChip {
+    flex-shrink: 0;
+    white-space: nowrap;
+  }
+}
+
+@media (max-width: 480px) {
+  .routeRoutePill {
+    top: 8px;
+    left: 8px;
+    font-size: 10px;
+    padding: 4px 9px;
+    max-width: calc(100% - 16px);
+  }
+
+  .mapOverlay {
+    top: auto;
+    bottom: 8px;
+    right: 8px;
+    font-size: 9.5px;
+    padding: 3px 8px;
+  }
+
+  .dispatchRadarPill {
+    bottom: 8px;
+    left: 8px;
+    font-size: 9.5px;
+    padding: 3px 8px;
+  }
+
+  .mapFrame {
+    height: 280px;
+    min-height: 240px;
+  }
+
+  .legend {
+    gap: 8px;
+  }
+
+  .legendItem {
+    font-size: 10px;
+  }
+}

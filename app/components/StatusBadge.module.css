@@ -1,0 +1,88 @@
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 750;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+}
+
+.dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+}
+
+/* Status variants */
+.requested {
+  background: rgba(244, 196, 1, 0.15);
+  color: #f4c401;
+  border: 1px solid rgba(244, 196, 1, 0.35);
+}
+.requested .dot {
+  background: #f4c401;
+}
+
+.accepted {
+  background: rgba(59, 130, 246, 0.15);
+  color: #60a5fa;
+  border: 1px solid rgba(59, 130, 246, 0.35);
+}
+.accepted .dot {
+  background: #60a5fa;
+}
+
+.arriving {
+  background: rgba(168, 85, 247, 0.15);
+  color: #c084fc;
+  border: 1px solid rgba(168, 85, 247, 0.35);
+}
+.arriving .dot {
+  background: #c084fc;
+}
+
+.in_progress {
+  background: rgba(14, 165, 233, 0.15);
+  color: #38bdf8;
+  border: 1px solid rgba(14, 165, 233, 0.35);
+}
+.in_progress .dot {
+  background: #38bdf8;
+}
+
+.completed,
+.paid {
+  background: rgba(16, 185, 129, 0.15);
+  color: #34d399;
+  border: 1px solid rgba(16, 185, 129, 0.35);
+}
+.completed .dot,
+.paid .dot {
+  background: #34d399;
+}
+
+.cancelled,
+.failed {
+  background: rgba(239, 68, 68, 0.15);
+  color: #f87171;
+  border: 1px solid rgba(239, 68, 68, 0.35);
+}
+.cancelled .dot,
+.failed .dot {
+  background: #f87171;
+}
+
+.created,
+.pending {
+  background: rgba(234, 179, 8, 0.15);
+  color: #facc15;
+  border: 1px solid rgba(234, 179, 8, 0.35);
+}
+.created .dot,
+.pending .dot {
+  background: #facc15;
+}

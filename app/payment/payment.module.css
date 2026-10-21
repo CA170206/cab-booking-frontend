@@ -1,0 +1,785 @@
+.page {
+  background: var(--bg-page, #0c0d0e);
+  min-height: 100vh;
+  color: var(--text-main, #ffffff);
+  display: flex;
+  flex-direction: column;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.main {
+  flex: 1;
+  max-width: 1060px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 36px 20px 80px;
+}
+
+.paymentGrid {
+  display: grid;
+  grid-template-columns: 1fr 1.35fr;
+  gap: 28px;
+  align-items: start;
+}
+
+/* Ride Summary Card */
+.summaryCard {
+  background: var(--bg-card, #14161b);
+  border: 1.5px solid var(--border-card, #282c35);
+  border-radius: 20px;
+  padding: 28px;
+  box-shadow: 0 4px 16px var(--card-shadow, rgba(0, 0, 0, 0.4));
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.cardTitle {
+  font-size: 17px;
+  font-weight: 850;
+  color: var(--text-main, #ffffff);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.driverInfoStrip {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  background: var(--bg-input, #0f1115);
+  border: 1px solid var(--border-card, #22262f);
+  border-radius: 12px;
+}
+
+.driverAvatarMini {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #f4c401;
+  color: #0c0d0e;
+  font-size: 17px;
+  font-weight: 850;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.driverTextMini strong {
+  display: block;
+  font-size: 13px;
+  color: var(--text-main, #ffffff);
+}
+
+.driverTextMini span {
+  font-size: 11px;
+  color: var(--text-muted, #9ca3af);
+}
+
+.routeTimeline {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding-bottom: 16px;
+  border-bottom: 1px dashed var(--border-card, #282c35);
+}
+
+.pointRow {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.pickupDot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #10b981;
+  margin-top: 5px;
+  flex-shrink: 0;
+}
+
+.dropoffDot {
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  background: #ef4444;
+  margin-top: 5px;
+  flex-shrink: 0;
+}
+
+.addressText strong {
+  display: block;
+  font-size: 10px;
+  color: var(--text-muted, #9ca3af);
+  text-transform: uppercase;
+  margin-bottom: 2px;
+}
+
+.addressText span {
+  font-size: 13px;
+  color: var(--text-main, #ffffff);
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+/* Itemized Breakdown */
+.breakdown {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font-size: 12.5px;
+  color: var(--text-muted, #9ca3af);
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border-card, #242831);
+}
+
+.breakdownRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.totalRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 15px;
+  font-weight: 850;
+  color: var(--text-main, #ffffff);
+}
+
+.totalAmount {
+  font-size: 26px;
+  font-weight: 900;
+  color: #f4c401;
+}
+
+/* Checkout Gateway Card */
+.checkoutCard {
+  background: var(--bg-card, #14161b);
+  border: 1.5px solid var(--border-card, #282c35);
+  border-radius: 20px;
+  padding: 30px;
+  box-shadow: 0 4px 16px var(--card-shadow, rgba(0, 0, 0, 0.4));
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Payment Method Header Tabs */
+.methodTabsRow {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+
+.methodTabBtn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 12px 8px;
+  background: var(--bg-input, #0f1115);
+  border: 1.5px solid var(--border-card, #282c35);
+  border-radius: 12px;
+  color: var(--text-muted, #9ca3af);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.methodTabBtn:hover {
+  border-color: #cbd5e1;
+  color: var(--text-main, #ffffff);
+}
+
+.methodTabBtnActive {
+  background: rgba(244, 196, 1, 0.1) !important;
+  border-color: #f4c401 !important;
+  color: #f4c401 !important;
+}
+
+.methodTabIcon {
+  font-size: 20px;
+}
+
+.methodTabLabel {
+  font-size: 11.5px;
+  font-weight: 800;
+  text-align: center;
+  white-space: nowrap;
+}
+
+/* Gateway Form Container */
+.gatewayFormBox {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+/* 1. Card Gateway Styles */
+.cardPreview {
+  width: 100%;
+  height: 180px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #1e222d 0%, #0f1218 100%);
+  border: 1px solid rgba(244, 196, 1, 0.3);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  padding: 20px 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  color: #ffffff;
+  position: relative;
+  overflow: hidden;
+}
+
+.cardPreviewTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.cardChip {
+  width: 38px;
+  height: 28px;
+  border-radius: 5px;
+  background: linear-gradient(135deg, #f4c401, #b45309);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+}
+
+.cardBrandIcon {
+  font-size: 16px;
+  font-weight: 850;
+  letter-spacing: 1px;
+  color: #f4c401;
+}
+
+.cardPreviewNumber {
+  font-family: monospace;
+  font-size: 18px;
+  letter-spacing: 2.5px;
+  color: #f1f5f9;
+  font-weight: 700;
+}
+
+.cardPreviewBottom {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+}
+
+.cardPreviewLabel {
+  display: block;
+  font-size: 8px;
+  color: #94a3b8;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  margin-bottom: 2px;
+}
+
+.cardPreviewVal {
+  font-size: 12px;
+  font-weight: 700;
+  color: #ffffff;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.inputGroup label {
+  font-size: 11px;
+  font-weight: 800;
+  color: var(--text-muted, #9ca3af);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.gatewayInput {
+  width: 100%;
+  padding: 11px 14px;
+  border-radius: 10px;
+  background: var(--bg-input, #0c0d0e);
+  border: 1.5px solid var(--border-card, #282c35);
+  color: var(--text-main, #ffffff);
+  font-size: 13.5px;
+  outline: none;
+  transition: all 0.15s ease;
+}
+
+.gatewayInput:focus {
+  border-color: #f4c401;
+  box-shadow: 0 0 0 3px rgba(244, 196, 1, 0.15);
+}
+
+.rowTwoCol {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+/* 2. UPI Gateway Styles */
+.upiSubNav {
+  display: flex;
+  gap: 10px;
+}
+
+.upiSubBtn {
+  flex: 1;
+  padding: 8px 14px;
+  border-radius: 8px;
+  background: var(--bg-input, #0f1115);
+  border: 1px solid var(--border-card, #242831);
+  color: var(--text-muted, #9ca3af);
+  font-size: 12px;
+  font-weight: 750;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.upiSubBtnActive {
+  background: rgba(244, 196, 1, 0.12);
+  border-color: #f4c401;
+  color: #f4c401;
+}
+
+.upiQrCard {
+  background: var(--bg-input, #0f1115);
+  border: 1px solid var(--border-card, #242831);
+  border-radius: 14px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 14px;
+}
+
+.qrImageFrame {
+  background: #ffffff;
+  padding: 10px;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+}
+
+.qrImage {
+  display: block;
+  width: 170px;
+  height: 170px;
+}
+
+.upiHandlePill {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.06);
+  padding: 6px 14px;
+  border-radius: 999px;
+  font-size: 12px;
+  color: #e2e8f0;
+}
+
+.copyBtn {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #f4c401;
+  font-size: 11px;
+  padding: 2px 7px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.openUpiBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 18px;
+  border-radius: 999px;
+  background: #f4c401;
+  color: #0c0d0e;
+  font-size: 12px;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.utrPromptBox {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  text-align: left;
+}
+
+/* 3. Net Banking Selector */
+.bankGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.bankOption {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 12px 8px;
+  border-radius: 10px;
+  background: var(--bg-input, #0f1115);
+  border: 1.5px solid var(--border-card, #242831);
+  color: var(--text-main, #ffffff);
+  font-size: 11.5px;
+  font-weight: 750;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.bankOption:hover {
+  border-color: #cbd5e1;
+}
+
+.bankOptionActive {
+  background: rgba(244, 196, 1, 0.12) !important;
+  border-color: #f4c401 !important;
+  color: #f4c401 !important;
+}
+
+.bankIcon {
+  font-size: 20px;
+}
+
+/* 4. Cash Option */
+.cashCard {
+  background: var(--bg-input, #0f1115);
+  border: 1px dashed var(--border-card, #282c35);
+  border-radius: 14px;
+  padding: 24px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.cashIcon {
+  font-size: 36px;
+}
+
+.cashCard h4 {
+  margin: 0;
+  font-size: 16px;
+  color: #f4c401;
+}
+
+.cashCard p {
+  margin: 0;
+  font-size: 13px;
+  color: var(--text-muted, #9ca3af);
+  line-height: 1.5;
+  max-width: 380px;
+}
+
+/* Pay Trigger Button */
+.payNowBtn {
+  width: 100%;
+  background: #f4c401;
+  color: #0c0d0e;
+  border: none;
+  font-size: 15px;
+  font-weight: 850;
+  padding: 14px;
+  border-radius: 12px;
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(244, 196, 1, 0.35);
+  transition: all 0.15s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.payNowBtn:hover:not(:disabled) {
+  background: #dfb200;
+  transform: translateY(-1px);
+}
+
+.payNowBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.secureNotice {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 11.5px;
+  color: var(--text-dim, #6b7280);
+}
+
+/* Bank 3D-Secure 2.0 OTP Modal */
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+
+.otpCard {
+  width: 100%;
+  max-width: 440px;
+  background: #0f1218;
+  border: 1.5px solid rgba(244, 196, 1, 0.3);
+  border-radius: 20px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7);
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  color: #ffffff;
+}
+
+.bankHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding-bottom: 14px;
+}
+
+.bankHeader strong {
+  font-size: 15px;
+  color: #f4c401;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.modalCloseBtn {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #94a3b8;
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  cursor: pointer;
+}
+
+.otpPromptText {
+  font-size: 13px;
+  color: #94a3b8;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.otpDigitInput {
+  width: 100%;
+  padding: 12px;
+  border-radius: 10px;
+  background: #000000;
+  border: 2px solid #f4c401;
+  color: #f4c401;
+  font-size: 24px;
+  font-weight: 850;
+  letter-spacing: 8px;
+  text-align: center;
+  outline: none;
+}
+
+.demoOtpBadge {
+  background: rgba(244, 196, 1, 0.12);
+  border: 1px dashed #f4c401;
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 12px;
+  color: #f4c401;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+}
+
+.authOtpBtn {
+  background: #10b981;
+  color: #0c0d0e;
+  border: none;
+  font-size: 14px;
+  font-weight: 850;
+  padding: 12px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.authOtpBtn:hover:not(:disabled) {
+  background: #059669;
+}
+
+/* Success Confirmation State */
+.receiptCard {
+  background: var(--bg-card, #14161b);
+  border: 2px solid #10b981;
+  border-radius: 20px;
+  padding: 40px;
+  text-align: center;
+  max-width: 580px;
+  margin: 20px auto;
+  box-shadow: 0 12px 36px rgba(16, 185, 129, 0.15);
+}
+
+.receiptIcon {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: rgba(16, 185, 129, 0.15);
+  color: #10b981;
+  display: grid;
+  place-items: center;
+  font-size: 32px;
+  margin: 0 auto 18px;
+}
+
+.receiptTitle {
+  font-size: 24px;
+  font-weight: 850;
+  color: var(--text-main, #ffffff);
+  margin: 0 0 8px;
+}
+
+.receiptSubtitle {
+  font-size: 13.5px;
+  color: var(--text-muted, #9ca3af);
+  margin: 0 0 24px;
+}
+
+.receiptDetails {
+  background: var(--bg-input, #0c0d0e);
+  border: 1px solid var(--border-card, #242831);
+  border-radius: 12px;
+  padding: 20px;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font-size: 13px;
+  margin-bottom: 28px;
+}
+
+.receiptRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.receiptRow strong {
+  color: var(--text-main, #ffffff);
+}
+
+.receiptActions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.actionBtn {
+  background: #f4c401;
+  color: #0c0d0e;
+  font-size: 13px;
+  font-weight: 850;
+  padding: 11px 22px;
+  border-radius: 999px;
+  text-decoration: none;
+  transition: all 0.15s ease;
+}
+
+.actionBtn:hover {
+  background: #dfb200;
+}
+
+.outlineActionBtn {
+  background: transparent;
+  border: 1px solid var(--border-card, #323742);
+  color: var(--text-main, #ffffff);
+  font-size: 13px;
+  font-weight: 750;
+  padding: 10px 20px;
+  border-radius: 999px;
+  text-decoration: none;
+  transition: all 0.15s ease;
+}
+
+.outlineActionBtn:hover {
+  border-color: #f4c401;
+  color: #f4c401;
+}
+
+@media (max-width: 800px) {
+  .main {
+    padding: 24px 14px 60px;
+  }
+  .paymentGrid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  .summaryCard,
+  .checkoutCard {
+    padding: 22px 18px;
+    border-radius: 18px;
+  }
+  .methodTabsRow {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .bankGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .main {
+    padding: 16px 10px 50px;
+  }
+  .summaryCard,
+  .checkoutCard {
+    padding: 16px 12px;
+  }
+  .rowTwoCol {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+  .cardPreview {
+    height: auto;
+    aspect-ratio: 1.58 / 1;
+    padding: 14px 16px;
+  }
+  .cardPreviewNumber {
+    font-size: 14px;
+    letter-spacing: 1.5px;
+  }
+  .methodTabBtn {
+    padding: 8px 4px;
+  }
+  .methodTabLabel {
+    font-size: 10px;
+  }
+  .receiptCard {
+    padding: 24px 14px;
+  }
+}

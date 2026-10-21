@@ -1,0 +1,261 @@
+.page {
+  background: var(--bg-page, #0c0d0e);
+  min-height: 100vh;
+  color: var(--text-main, #ffffff);
+  display: flex;
+  flex-direction: column;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.main {
+  flex: 1;
+  max-width: 1240px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 48px 24px 80px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1.3fr;
+  gap: 36px;
+  align-items: start;
+}
+
+/* Contact Info Column */
+.infoCol {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.infoCard {
+  background: var(--bg-card, #14161b);
+  border: 1.5px solid var(--border-card, #282c35);
+  border-radius: 18px;
+  padding: 32px 28px;
+  box-shadow: 0 4px 16px var(--card-shadow, rgba(0, 0, 0, 0.4));
+}
+
+.infoCard h3 {
+  font-size: 20px;
+  font-weight: 850;
+  color: var(--text-main, #ffffff);
+  margin: 0 0 12px;
+}
+
+.infoCard p {
+  font-size: 13.5px;
+  color: var(--text-muted, #9ca3af);
+  line-height: 1.6;
+  margin: 0 0 24px;
+}
+
+.contactList {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.contactItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+}
+
+.itemIcon {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: var(--yellow-light, rgba(244, 196, 1, 0.12));
+  color: #f4c401;
+  display: grid;
+  place-items: center;
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
+.itemText strong {
+  display: block;
+  font-size: 14px;
+  color: var(--text-main, #ffffff);
+  margin-bottom: 2px;
+}
+
+.itemText span {
+  font-size: 13px;
+  color: var(--text-muted, #9ca3af);
+  line-height: 1.4;
+}
+
+/* Form Column */
+.formCard {
+  background: var(--bg-card, #14161b);
+  border: 1.5px solid var(--border-card, #282c35);
+  border-radius: 18px;
+  padding: 36px 32px;
+  box-shadow: 0 4px 16px var(--card-shadow, rgba(0, 0, 0, 0.4));
+}
+
+.formHeader {
+  margin-bottom: 24px;
+}
+
+.formHeader h2 {
+  font-size: 22px;
+  font-weight: 850;
+  color: var(--text-main, #ffffff);
+  margin: 0 0 8px;
+}
+
+.formHeader p {
+  font-size: 13px;
+  color: var(--text-muted, #9ca3af);
+  margin: 0;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.formRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.formGroup label {
+  font-size: 12px;
+  font-weight: 750;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-muted, #d1d5db);
+}
+
+.input,
+.textarea,
+.select {
+  width: 100%;
+  background: var(--bg-input, #0c0d0e);
+  border: 1.5px solid var(--border-card, #282c35);
+  border-radius: 10px;
+  padding: 12px 14px;
+  font-size: 13.5px;
+  color: var(--text-main, #ffffff);
+  outline: none;
+  transition: border-color 0.15s ease;
+}
+
+.input:focus,
+.textarea:focus,
+.select:focus {
+  border-color: #f4c401;
+}
+
+.textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+.submitBtn {
+  background: #f4c401;
+  color: #0c0d0e;
+  font-size: 14px;
+  font-weight: 850;
+  padding: 13px 24px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(244, 196, 1, 0.3);
+  transition: all 0.15s ease;
+  margin-top: 6px;
+}
+
+.submitBtn:hover {
+  background: #dfb200;
+  transform: translateY(-1px);
+}
+
+/* Fallback Notice Box */
+.honestNotice {
+  background: var(--bg-card-alt, #1a1e27);
+  border: 1.5px solid var(--border-card, #3b4252);
+  border-radius: 14px;
+  padding: 20px;
+  margin-top: 20px;
+}
+
+.honestNotice h4 {
+  font-size: 15px;
+  font-weight: 800;
+  color: #f4c401;
+  margin: 0 0 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.honestNotice p {
+  font-size: 13px;
+  color: var(--text-muted, #cbd5e1);
+  line-height: 1.6;
+  margin: 0 0 16px;
+}
+
+.mailtoBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--text-main, #ffffff);
+  color: var(--bg-page, #0c0d0e);
+  font-size: 12.5px;
+  font-weight: 750;
+  padding: 9px 18px;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: all 0.15s ease;
+}
+
+.mailtoBtn:hover {
+  background: var(--border-hover, #e5e7eb);
+}
+
+@media (max-width: 900px) {
+  .main {
+    padding: 32px 16px 60px;
+  }
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+  .formRow {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .main {
+    padding: 20px 12px 50px;
+  }
+  .infoCard,
+  .formCard {
+    padding: 22px 16px;
+    border-radius: 16px;
+  }
+  .formHeader h2 {
+    font-size: 20px;
+  }
+  .submitBtn {
+    width: 100%;
+    justify-content: center;
+  }
+}

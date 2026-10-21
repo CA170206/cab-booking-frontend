@@ -1,0 +1,601 @@
+.page {
+  background: var(--bg-page, #0c0d0e);
+  min-height: 100vh;
+  color: var(--text-main, #ffffff);
+  display: flex;
+  flex-direction: column;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.main {
+  flex: 1;
+  max-width: 980px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 36px 20px 80px;
+}
+
+/* Main Profile Card */
+.profileCard {
+  background: var(--bg-card, #14161b);
+  border: 1.5px solid var(--border-card, #282c35);
+  border-radius: 24px;
+  padding: 32px 36px;
+  box-shadow: 0 12px 36px var(--card-shadow, rgba(0, 0, 0, 0.4));
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+/* Profile Top Header */
+.cardTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--border-subtle, #20232a);
+  flex-wrap: wrap;
+}
+
+.cardTopLeft {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.avatar {
+  width: 64px;
+  height: 64px;
+  border-radius: 18px;
+  background: linear-gradient(135deg, #f4c401, #dfb200);
+  color: #0c0d0e;
+  display: grid;
+  place-items: center;
+  font-size: 26px;
+  font-weight: 900;
+  box-shadow: 0 6px 16px rgba(244, 196, 1, 0.3);
+  flex-shrink: 0;
+}
+
+.idInfo h3 {
+  font-size: 22px;
+  font-weight: 850;
+  margin: 0 0 6px;
+  color: var(--text-main, #ffffff);
+}
+
+.roleBadgeRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.roleTag {
+  display: inline-flex;
+  align-items: center;
+  background: rgba(244, 196, 1, 0.15);
+  border: 1px solid rgba(244, 196, 1, 0.4);
+  color: #f4c401;
+  font-size: 11px;
+  font-weight: 850;
+  padding: 3px 10px;
+  border-radius: 999px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.verifiedTag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: rgba(16, 185, 129, 0.15);
+  border: 1px solid rgba(16, 185, 129, 0.35);
+  color: #34d399;
+  font-size: 11px;
+  font-weight: 800;
+  padding: 3px 10px;
+  border-radius: 999px;
+}
+
+.cardTopRight {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* REAL ACTION BUTTONS */
+.editBtn {
+  background: rgba(244, 196, 1, 0.12);
+  border: 1.5px solid #f4c401;
+  color: #f4c401;
+  font-size: 13px;
+  font-weight: 850;
+  padding: 9px 20px;
+  border-radius: 999px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.editBtn:hover {
+  background: #f4c401;
+  color: #0c0d0e;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(244, 196, 1, 0.35);
+}
+
+.cancelBtn {
+  background: transparent;
+  border: 1.5px solid var(--border-hover, #64748b);
+  color: var(--text-muted, #9ca3af);
+  font-size: 13px;
+  font-weight: 750;
+  padding: 9px 18px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.cancelBtn:hover {
+  background: rgba(239, 68, 68, 0.12);
+  border-color: #ef4444;
+  color: #ef4444;
+}
+
+/* Stats Ribbon */
+.statsRibbon {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+}
+
+.statBox {
+  background: var(--bg-input, #0f1115);
+  border: 1px solid var(--border-card, #22262f);
+  padding: 16px 18px;
+  border-radius: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  transition: all 0.2s ease;
+}
+
+.statBox label {
+  font-size: 11px;
+  font-weight: 800;
+  color: var(--text-muted, #9ca3af);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.statBox strong {
+  font-size: 20px;
+  font-weight: 850;
+  color: #f4c401;
+}
+
+.statBox span {
+  font-size: 11px;
+  color: var(--text-dim, #6b7280);
+}
+
+/* Form Sections */
+.sectionTitle {
+  font-size: 14px;
+  font-weight: 850;
+  color: #f4c401;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.formGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.fullWidthField {
+  grid-column: 1 / -1;
+}
+
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.inputGroup label {
+  font-size: 11.5px;
+  font-weight: 800;
+  color: var(--text-muted, #9ca3af);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.inputField {
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 10px;
+  background: var(--bg-input, #0c0d0e);
+  border: 1.5px solid var(--border-card, #282c35);
+  color: var(--text-main, #ffffff);
+  font-size: 13.5px;
+  outline: none;
+  transition: all 0.15s ease;
+}
+
+.inputField:focus {
+  border-color: #f4c401;
+  box-shadow: 0 0 0 3px rgba(244, 196, 1, 0.15);
+}
+
+.inputField:disabled {
+  opacity: 0.8;
+  cursor: not-allowed;
+  background: rgba(0, 0, 0, 0.15);
+}
+
+.fieldNote {
+  font-size: 11.5px;
+  color: var(--text-dim, #6b7280);
+}
+
+/* Driver UPI Info Callout */
+.driverUpiCallout {
+  background: rgba(244, 196, 1, 0.08);
+  border: 1px dashed rgba(244, 196, 1, 0.35);
+  border-radius: 14px;
+  padding: 16px 18px;
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+}
+
+.upiCalloutIcon {
+  font-size: 24px;
+}
+
+.upiCalloutText strong {
+  display: block;
+  font-size: 13.5px;
+  color: #f4c401;
+  font-weight: 800;
+  margin-bottom: 2px;
+}
+
+.upiCalloutText p {
+  margin: 0;
+  font-size: 12px;
+  color: var(--text-muted, #9ca3af);
+  line-height: 1.45;
+}
+
+/* Actions & Footer Controls */
+.editToggleBtn {
+  background: transparent;
+  border: 1.5px solid var(--border-hover, #64748b);
+  color: var(--text-muted, #9ca3af);
+  font-size: 13px;
+  font-weight: 750;
+  padding: 9px 20px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.editToggleBtn:hover {
+  border-color: #ef4444;
+  color: #ef4444;
+}
+
+.saveBtn {
+  background: #10b981;
+  color: #ffffff;
+  border: none;
+  font-size: 13.5px;
+  font-weight: 850;
+  padding: 11px 26px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  box-shadow: 0 4px 14px rgba(16, 185, 129, 0.3);
+}
+
+.saveBtn:hover:not(:disabled) {
+  background: #059669;
+  transform: translateY(-1px);
+}
+
+.saveBtn:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+.footerActionRow {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding-top: 24px;
+  border-top: 1px solid var(--border-subtle, #20232a);
+  flex-wrap: wrap;
+}
+
+.dashboardLink {
+  background: #f4c401;
+  color: #0c0d0e;
+  font-size: 13.5px;
+  font-weight: 850;
+  padding: 11px 24px;
+  border-radius: 999px;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  box-shadow: 0 4px 14px rgba(244, 196, 1, 0.25);
+  transition: all 0.15s ease;
+}
+
+.dashboardLink:hover {
+  background: #dfb200;
+  transform: translateY(-1px);
+}
+
+.secondaryActionBtn {
+  background: var(--bg-card-alt, #1c1f26);
+  border: 1.5px solid var(--border-card, #282c35);
+  color: var(--text-main, #ffffff);
+  font-size: 13px;
+  font-weight: 800;
+  padding: 11px 22px;
+  border-radius: 999px;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  transition: all 0.15s ease;
+}
+
+.secondaryActionBtn:hover {
+  border-color: #f4c401;
+  color: #f4c401;
+}
+
+.signoutBtn {
+  background: transparent;
+  border: 1.5px solid #ef4444;
+  color: #ef4444;
+  font-size: 13px;
+  font-weight: 800;
+  padding: 10px 22px;
+  border-radius: 999px;
+  cursor: pointer;
+  margin-left: auto;
+  transition: all 0.15s ease;
+}
+
+.signoutBtn:hover {
+  background: rgba(239, 68, 68, 0.12);
+}
+
+/* Feedback banners */
+.feedbackBanner {
+  padding: 12px 18px;
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.feedbackSuccess {
+  background: rgba(16, 185, 129, 0.12);
+  border: 1px solid #10b981;
+  color: #10b981;
+}
+
+.feedbackError {
+  background: rgba(239, 68, 68, 0.12);
+  border: 1px solid #ef4444;
+  color: #ef4444;
+}
+
+/* ============================================================== */
+/* LIGHT MODE THEME OVERRIDES (BLACK/DARK TEXT ON WHITE/LIGHT BG) */
+/* ============================================================== */
+:global([data-theme="light"]) .profileCard {
+  background: #ffffff;
+  border-color: #e2e8f0;
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
+}
+
+:global([data-theme="light"]) .cardTop {
+  border-bottom-color: #e2e8f0;
+}
+
+:global([data-theme="light"]) .idInfo h3 {
+  color: #0f172a;
+}
+
+:global([data-theme="light"]) .roleTag {
+  background: #fef08a;
+  border-color: #eab308;
+  color: #854d0e;
+}
+
+:global([data-theme="light"]) .verifiedTag {
+  background: #d1fae5;
+  border-color: #10b981;
+  color: #065f46;
+}
+
+:global([data-theme="light"]) .editBtn {
+  background: #fef08a;
+  border-color: #eab308;
+  color: #854d0e;
+}
+
+:global([data-theme="light"]) .editBtn:hover {
+  background: #facc15;
+  color: #000000;
+}
+
+:global([data-theme="light"]) .cancelBtn {
+  border-color: #cbd5e1;
+  color: #475569;
+}
+
+:global([data-theme="light"]) .statBox {
+  background: #f8fafc;
+  border-color: #e2e8f0;
+}
+
+:global([data-theme="light"]) .statBox label {
+  color: #475569;
+}
+
+:global([data-theme="light"]) .statBox strong {
+  color: #0f172a;
+}
+
+:global([data-theme="light"]) .statBox span {
+  color: #64748b;
+}
+
+:global([data-theme="light"]) .sectionTitle {
+  color: #b45309;
+}
+
+:global([data-theme="light"]) .inputGroup label {
+  color: #1e293b;
+}
+
+:global([data-theme="light"]) .inputField {
+  background: #ffffff;
+  border-color: #cbd5e1;
+  color: #0f172a;
+}
+
+:global([data-theme="light"]) .inputField:disabled {
+  background: #f1f5f9;
+  border-color: #e2e8f0;
+  color: #334155;
+}
+
+:global([data-theme="light"]) .fieldNote {
+  color: #64748b;
+}
+
+:global([data-theme="light"]) .driverUpiCallout {
+  background: #fefce8;
+  border-color: #fde047;
+}
+
+:global([data-theme="light"]) .upiCalloutText strong {
+  color: #854d0e;
+}
+
+:global([data-theme="light"]) .upiCalloutText p {
+  color: #713f12;
+}
+
+:global([data-theme="light"]) .footerActionRow {
+  border-top-color: #e2e8f0;
+}
+
+:global([data-theme="light"]) .secondaryActionBtn {
+  background: #ffffff;
+  border-color: #cbd5e1;
+  color: #0f172a;
+}
+
+:global([data-theme="light"]) .secondaryActionBtn:hover {
+  border-color: #eab308;
+  color: #ca8a04;
+}
+
+:global([data-theme="light"]) .editToggleBtn {
+  border-color: #cbd5e1;
+  color: #475569;
+}
+
+@media (max-width: 768px) {
+  .main {
+    padding: 24px 14px 60px;
+  }
+  .profileCard {
+    padding: 24px 20px;
+    border-radius: 18px;
+    gap: 20px;
+  }
+  .statsRibbon {
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  .formGrid {
+    grid-template-columns: 1fr;
+  }
+  .cardTop {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+  .cardTopRight {
+    width: 100%;
+  }
+  .editBtn,
+  .cancelBtn {
+    flex: 1;
+    justify-content: center;
+  }
+  .footerActionRow {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+  .signoutBtn {
+    margin-left: 0;
+    text-align: center;
+  }
+  .dashboardLink,
+  .secondaryActionBtn {
+    text-align: center;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .main {
+    padding: 16px 10px 50px;
+  }
+  .profileCard {
+    padding: 16px 12px;
+  }
+  .avatar {
+    width: 48px;
+    height: 48px;
+    font-size: 19px;
+    border-radius: 12px;
+  }
+  .idInfo h3 {
+    font-size: 18px;
+  }
+  .statsRibbon {
+    gap: 8px;
+  }
+  .statBox {
+    padding: 10px 8px;
+  }
+  .statBox strong {
+    font-size: 17px;
+  }
+  .inputField {
+    padding: 10px 12px;
+    font-size: 13px;
+  }
+}

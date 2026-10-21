@@ -1,0 +1,303 @@
+.page {
+  background: var(--bg-page, #0c0d0e);
+  min-height: 100vh;
+  color: var(--text-main, #ffffff);
+  display: flex;
+  flex-direction: column;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.main {
+  flex: 1;
+  max-width: 1240px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 40px 24px 80px;
+}
+
+/* Welcome Hero Card */
+.welcomeCard {
+  background: var(--bg-card, #14161b);
+  border: 1.5px solid var(--border-card, #282c35);
+  border-radius: 20px;
+  padding: 36px 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 36px;
+  box-shadow: 0 8px 24px var(--card-shadow, rgba(0, 0, 0, 0.4));
+}
+
+.welcomeText h1 {
+  font-size: 28px;
+  font-weight: 850;
+  margin: 0 0 8px;
+  color: var(--text-main, #ffffff);
+}
+
+.welcomeText p {
+  color: var(--text-muted, #9ca3af);
+  font-size: 14px;
+  margin: 0 0 16px;
+}
+
+.userMeta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 12.5px;
+  color: var(--text-muted, #cbd5e1);
+  flex-wrap: wrap;
+}
+
+.metaPill {
+  background: var(--bg-card-alt, #111317);
+  border: 1px solid var(--border-card, #282c35);
+  padding: 4px 10px;
+  border-radius: 6px;
+}
+
+.bookCtaBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #f4c401;
+  color: #0c0d0e;
+  font-size: 14px;
+  font-weight: 850;
+  padding: 13px 28px;
+  border-radius: 999px;
+  text-decoration: none;
+  white-space: nowrap;
+  box-shadow: 0 4px 16px rgba(244, 196, 1, 0.3);
+  transition: all 0.15s ease;
+}
+
+.bookCtaBtn:hover {
+  background: #dfb200;
+  transform: translateY(-2px);
+}
+
+/* Stats Row */
+.statsRow {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  margin-bottom: 36px;
+}
+
+.statCard {
+  background: var(--bg-card, #14161b);
+  border: 1.5px solid var(--border-card, #282c35);
+  border-radius: 16px;
+  padding: 22px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  box-shadow: 0 4px 16px var(--card-shadow, rgba(0, 0, 0, 0.2));
+}
+
+.statIcon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: var(--yellow-light, rgba(244, 196, 1, 0.12));
+  color: #f4c401;
+  display: grid;
+  place-items: center;
+  font-size: 20px;
+  flex-shrink: 0;
+}
+
+.statVal {
+  font-size: 22px;
+  font-weight: 850;
+  color: var(--text-main, #ffffff);
+  display: block;
+}
+
+.statLabel {
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--text-muted, #9ca3af);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Recent Rides Section */
+.sectionHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.sectionHeader h2 {
+  font-size: 20px;
+  font-weight: 850;
+  color: var(--text-main, #ffffff);
+  margin: 0;
+}
+
+.viewAllLink {
+  color: #f4c401;
+  font-size: 13px;
+  font-weight: 750;
+  text-decoration: none;
+}
+
+.viewAllLink:hover {
+  text-decoration: underline;
+}
+
+.ridesGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.rideCard {
+  background: var(--bg-card, #14161b);
+  border: 1.5px solid var(--border-card, #282c35);
+  border-radius: 16px;
+  padding: 20px 24px;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 20px;
+  align-items: center;
+  transition: border-color 0.15s ease;
+  box-shadow: 0 4px 16px var(--card-shadow, rgba(0, 0, 0, 0.2));
+}
+
+.rideCard:hover {
+  border-color: #f4c401;
+}
+
+.routeTimeline {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.pointRow {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.pickupDot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #10b981;
+  margin-top: 4px;
+  flex-shrink: 0;
+}
+
+.dropoffDot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #ef4444;
+  margin-top: 4px;
+  flex-shrink: 0;
+}
+
+.addressText strong {
+  display: block;
+  font-size: 10px;
+  font-weight: 750;
+  color: var(--text-muted, #9ca3af);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.addressText span {
+  font-size: 13.5px;
+  color: var(--text-main, #ffffff);
+  font-weight: 600;
+}
+
+.rideRightCol {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 10px;
+}
+
+.fareVal {
+  font-size: 20px;
+  font-weight: 850;
+  color: #f4c401;
+}
+
+.dateText {
+  font-size: 11px;
+  color: var(--text-dim, #6b7280);
+}
+
+.payActionBtn {
+  background: #f4c401;
+  color: #0c0d0e;
+  font-size: 12px;
+  font-weight: 800;
+  padding: 7px 16px;
+  border-radius: 999px;
+  text-decoration: none;
+  transition: all 0.15s ease;
+}
+
+.payActionBtn:hover {
+  background: #dfb200;
+}
+
+@media (max-width: 800px) {
+  .main {
+    padding: 24px 14px 60px;
+  }
+  .welcomeCard {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 24px 20px;
+    gap: 16px;
+  }
+  .bookCtaBtn {
+    width: 100%;
+    justify-content: center;
+  }
+  .statsRow {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  .rideCard {
+    grid-template-columns: 1fr;
+    padding: 18px 16px;
+  }
+  .rideRightCol {
+    align-items: center;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    border-top: 1px solid var(--border-subtle, #20232a);
+    padding-top: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .main {
+    padding: 16px 10px 50px;
+  }
+  .welcomeCard {
+    padding: 16px 14px;
+  }
+  .welcomeText h1 {
+    font-size: 22px;
+  }
+  .statCard {
+    padding: 16px 14px;
+  }
+  .rideCard {
+    padding: 14px 12px;
+  }
+}
