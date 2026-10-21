@@ -1702,5 +1702,209 @@
   }
 }
 
+/* Denied state for driver GPS banner */
+.gpsPromptBannerDenied {
+  border-color: rgba(239, 68, 68, 0.45) !important;
+  background: rgba(239, 68, 68, 0.08) !important;
+}
+
+.gpsPromptIconDenied {
+  background: rgba(239, 68, 68, 0.2) !important;
+  color: #ef4444 !important;
+}
+
+.allowGpsBtnDenied {
+  background: #ef4444 !important;
+  color: #ffffff !important;
+}
+
+.allowGpsBtnDenied:hover {
+  background: #dc2626 !important;
+}
+
+/* Driver GPS Permission Guide Modal */
+.driverGuideBackdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(6px);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  animation: fadeIn 0.2s ease-out;
+}
+
+.driverGuideCard {
+  background: #14161b;
+  border: 1.5px solid #282c35;
+  border-radius: 20px;
+  max-width: 500px;
+  width: 100%;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+  color: #f1f5f9;
+  overflow: hidden;
+  animation: slideUp 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.driverGuideHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 22px 24px 16px;
+  border-bottom: 1px solid #282c35;
+}
+
+.driverGuideTitleGroup {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.driverGuideIcon {
+  font-size: 26px;
+  background: rgba(244, 196, 1, 0.18);
+  color: #f4c401;
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.driverGuideTitleGroup h3 {
+  margin: 0 0 4px;
+  font-size: 18px;
+  font-weight: 850;
+  color: #ffffff;
+}
+
+.driverGuideTitleGroup p {
+  margin: 0;
+  font-size: 12.5px;
+  color: #9ca3af;
+  line-height: 1.4;
+}
+
+.driverGuideCloseBtn {
+  background: none;
+  border: none;
+  font-size: 18px;
+  color: #94a3b8;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 8px;
+  line-height: 1;
+}
+
+.driverGuideCloseBtn:hover {
+  color: #ffffff;
+}
+
+.driverGuideBody {
+  padding: 20px 24px 24px;
+}
+
+.driverStepsBox {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.driverStep {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  background: #1a1e27;
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1px solid #2b3240;
+}
+
+.driverStepNum {
+  width: 24px;
+  height: 24px;
+  background: #f4c401;
+  color: #0c0d0e;
+  border-radius: 50%;
+  font-size: 12px;
+  font-weight: 900;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.driverStepContent {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.driverStepContent strong {
+  font-size: 13px;
+  color: #ffffff;
+}
+
+.driverStepContent span {
+  font-size: 11.5px;
+  color: #9ca3af;
+  line-height: 1.4;
+}
+
+.driverGuideActions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.driverGuidePrimaryBtn {
+  background: #f4c401;
+  color: #0c0d0e;
+  border: none;
+  border-radius: 12px;
+  padding: 13px 20px;
+  font-size: 14px;
+  font-weight: 850;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.15s ease;
+  box-shadow: 0 4px 12px rgba(244, 196, 1, 0.25);
+}
+
+.driverGuidePrimaryBtn:hover {
+  background: #dfb200;
+  transform: translateY(-1px);
+}
+
+.driverGuideSecondaryBtn {
+  background: transparent;
+  color: #9ca3af;
+  border: 1px solid #374151;
+  border-radius: 12px;
+  padding: 11px 20px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.15s ease;
+}
+
+.driverGuideSecondaryBtn:hover {
+  color: #ffffff;
+  border-color: #f4c401;
+}
+
 
 

@@ -93,49 +93,113 @@ export default function BookingPage() {
 
   // Browser Geolocation permission state
   const [locationPermission, setLocationPermission] = useState("prompt"); // "prompt" | "prompting" | "granted" | "denied"
+  const [showLocationGuide, setShowLocationGuide] = useState(false);
 
-  // Prompt rider for browser GPS location
-  const requestRiderLocation = useCallback(() => {
+  // Apply resolved pickup coordinates & reverse-geocode to human-readable address
+  const applyPickupCoords = useCallback(async (coords) => {
+    setLocations((prev) => ({ ...prev, pickup: coords }));
+    setLocationPermission("granted");
+    setShowLocationGuide(false);
+    try {
+      const res = await fetch(
+        `https://nominatim.openstreetmap.org/reverse?lat=${coords.lat}&lon=${coords.lng}&format=json`,
+        { headers: { "Accept-Language": "en" } }
+      );
+      if (res.ok) {
+        const data = await res.json();
+        if (data?.display_name) {
+          const clean = data.display_name.split(", ").slice(0, 3).join(", ");
+          setPickupAddress(clean);
+          return;
+        }
+      }
+    } catch {
+      // Ignore geocoding failure, keep coords
+    }
+    setPickupAddress(`Current GPS Pickup (${coords.lat.toFixed(4)}, ${coords.lng.toFixed(4)})`);
+  }, []);
+
+  // Prompt rider for browser GPS location with high->standard accuracy fallback
+  const requestRiderLocation = useCallback((userInitiated = false) => {
     if (typeof window === "undefined" || !navigator.geolocation) {
       setLocationPermission("denied");
+      if (userInitiated) setShowLocationGuide(true);
       return;
     }
     setLocationPermission("prompting");
-    navigator.geolocation.getCurrentPosition(
-      async (pos) => {
-        const coords = {
-          lat: Number(pos.coords.latitude.toFixed(6)),
-          lng: Number(pos.coords.longitude.toFixed(6)),
-        };
-        setLocations((prev) => ({ ...prev, pickup: coords }));
-        setLocationPermission("granted");
-        try {
-          const res = await fetch(
-            `https://nominatim.openstreetmap.org/reverse?lat=${coords.lat}&lon=${coords.lng}&format=json`,
-            { headers: { "Accept-Language": "en" } }
-          );
-          if (res.ok) {
-            const data = await res.json();
-            if (data?.display_name) {
-              const clean = data.display_name.split(", ").slice(0, 3).join(", ");
-              setPickupAddress(clean);
-            }
-          }
-        } catch {
-          setPickupAddress(`Current GPS Pickup (${coords.lat.toFixed(4)}, ${coords.lng.toFixed(4)})`);
-        }
-      },
-      (err) => {
-        console.warn("Rider location permission:", err.message);
+
+    const onGeoSuccess = (pos) => {
+      const coords = {
+        lat: Number(pos.coords.latitude.toFixed(6)),
+        lng: Number(pos.coords.longitude.toFixed(6)),
+      };
+      applyPickupCoords(coords);
+    };
+
+    const onGeoError = (err) => {
+      console.warn("Rider location error:", err?.code, err?.message);
+      // If code 1 (PERMISSION_DENIED), user blocked in browser
+      if (err?.code === 1) {
         setLocationPermission("denied");
-      },
-      { timeout: 8000, enableHighAccuracy: true }
+        if (userInitiated) {
+          setShowLocationGuide(true);
+        }
+      } else {
+        // Code 2 (POSITION_UNAVAILABLE) or Code 3 (TIMEOUT) -> Retry with low accuracy (Wi-Fi/Cellular/IP)
+        navigator.geolocation.getCurrentPosition(
+          onGeoSuccess,
+          (secondErr) => {
+            console.warn("Secondary rider location attempt failed:", secondErr?.message);
+            setLocationPermission("denied");
+            if (userInitiated) {
+              setShowLocationGuide(true);
+            }
+          },
+          { enableHighAccuracy: false, timeout: 12000, maximumAge: 60000 }
+        );
+      }
+    };
+
+    // Attempt 1: High accuracy GPS
+    navigator.geolocation.getCurrentPosition(
+      onGeoSuccess,
+      onGeoError,
+      { timeout: 5000, enableHighAccuracy: true, maximumAge: 10000 }
     );
-  }, []);
+  }, [applyPickupCoords]);
 
   // Automatically prompt rider for GPS location on mount
   useEffect(() => {
-    requestRiderLocation();
+    requestRiderLocation(false);
+  }, [requestRiderLocation]);
+
+  // Listen for browser permission changes (e.g. user toggles Allow in site settings)
+  useEffect(() => {
+    if (typeof navigator !== "undefined" && navigator.permissions?.query) {
+      navigator.permissions.query({ name: "geolocation" }).then((status) => {
+        const checkStatus = () => {
+          if (status.state === "granted") {
+            requestRiderLocation(false);
+          } else if (status.state === "denied") {
+            setLocationPermission("denied");
+          }
+        };
+        status.onchange = checkStatus;
+      }).catch(() => {});
+    }
+
+    // When returning from browser settings tab/app
+    const handleFocus = () => {
+      if (typeof navigator !== "undefined" && navigator.permissions?.query) {
+        navigator.permissions.query({ name: "geolocation" }).then((status) => {
+          if (status.state === "granted") {
+            requestRiderLocation(false);
+          }
+        }).catch(() => {});
+      }
+    };
+    window.addEventListener("focus", handleFocus);
+    return () => window.removeEventListener("focus", handleFocus);
   }, [requestRiderLocation]);
 
   // Authentication state
@@ -671,27 +735,41 @@ export default function BookingPage() {
 
       {/* Location Permission Prompt Banner */}
       <div
-        className={`${styles.locationPromptBanner} ${locationPermission === "granted" ? styles.locationPromptBannerGranted : ""
-          }`}
+        className={`${styles.locationPromptBanner} ${
+          locationPermission === "granted"
+            ? styles.locationPromptBannerGranted
+            : locationPermission === "denied"
+            ? styles.locationPromptBannerDenied
+            : ""
+        }`}
       >
         <div className={styles.locationPromptLeft}>
           <div
-            className={`${styles.locationPromptIcon} ${locationPermission === "granted" ? styles.locationPromptIconSuccess : ""
-              }`}
+            className={`${styles.locationPromptIcon} ${
+              locationPermission === "granted"
+                ? styles.locationPromptIconSuccess
+                : locationPermission === "denied"
+                ? styles.locationPromptIconDenied
+                : ""
+            }`}
           >
-            {locationPermission === "granted" ? "✓" : "📍"}
+            {locationPermission === "granted" ? "✓" : locationPermission === "denied" ? "⚠️" : "📍"}
           </div>
           <div className={styles.locationPromptText}>
             <strong>
               {locationPermission === "granted"
                 ? "Your Pickup Location is Active"
                 : locationPermission === "prompting"
-                  ? "Detecting device GPS location..."
-                  : "Allow Location Access for Optimum Cab Dispatch"}
+                ? "Detecting device GPS location..."
+                : locationPermission === "denied"
+                ? "Location Access Blocked or Denied"
+                : "Allow Location Access for Optimum Cab Dispatch"}
             </strong>
             <p>
               {locationPermission === "granted"
                 ? "Live GPS coordinates are locked in. Nearby drivers within a 1–2 km radius can now pinpoint you directly."
+                : locationPermission === "denied"
+                ? "Browser blocked location access. Click 'Allow Location' to unblock it in browser settings, or choose your city center directly."
                 : "Enable GPS so we can automatically set your pickup spot and broadcast ride requests to drivers closest to you."}
             </p>
           </div>
@@ -704,15 +782,100 @@ export default function BookingPage() {
           ) : (
             <button
               type="button"
-              onClick={requestRiderLocation}
-              className={styles.allowLocationBtn}
+              onClick={() => {
+                if (locationPermission === "denied") {
+                  setShowLocationGuide(true);
+                }
+                requestRiderLocation(true);
+              }}
+              className={`${styles.allowLocationBtn} ${
+                locationPermission === "denied" ? styles.allowLocationBtnDenied : ""
+              }`}
               disabled={locationPermission === "prompting"}
             >
-              {locationPermission === "prompting" ? "Detecting..." : "📍 Allow Location"}
+              {locationPermission === "prompting"
+                ? "Detecting..."
+                : locationPermission === "denied"
+                ? "📍 Fix & Allow Location"
+                : "📍 Allow Location"}
             </button>
           )}
         </div>
       </div>
+
+      {/* Location Access Help Modal */}
+      {showLocationGuide && (
+        <div className={styles.guideModalBackdrop} onClick={() => setShowLocationGuide(false)}>
+          <div className={styles.guideModalCard} onClick={(e) => e.stopPropagation()}>
+            <div className={styles.guideModalHeader}>
+              <div className={styles.guideModalTitleGroup}>
+                <span className={styles.guideModalIcon}>📍</span>
+                <div>
+                  <h3>Allow Location Access</h3>
+                  <p>Location was blocked or rejected. Enable it to get matched with nearby cabs.</p>
+                </div>
+              </div>
+              <button
+                type="button"
+                className={styles.guideModalCloseBtn}
+                onClick={() => setShowLocationGuide(false)}
+                aria-label="Close"
+              >
+                ✕
+              </button>
+            </div>
+
+            <div className={styles.guideModalBody}>
+              <div className={styles.guideStepsBox}>
+                <div className={styles.guideStep}>
+                  <div className={styles.stepNum}>1</div>
+                  <div className={styles.stepContent}>
+                    <strong>Tap the 🔒 or Settings icon in your browser URL bar</strong>
+                    <span>Look at the address bar at the very top of your screen (next to the website URL).</span>
+                  </div>
+                </div>
+
+                <div className={styles.guideStep}>
+                  <div className={styles.stepNum}>2</div>
+                  <div className={styles.stepContent}>
+                    <strong>Open "Permissions" or "Site Settings"</strong>
+                    <span>Find the <strong>Location</strong> permission toggle.</span>
+                  </div>
+                </div>
+
+                <div className={styles.guideStep}>
+                  <div className={styles.stepNum}>3</div>
+                  <div className={styles.stepContent}>
+                    <strong>Switch Location to "Allow"</strong>
+                    <span>Select "Allow" or turn the switch ON, then return here.</span>
+                  </div>
+                </div>
+              </div>
+
+              <div className={styles.guideModalActions}>
+                <button
+                  type="button"
+                  className={styles.guidePrimaryBtn}
+                  onClick={() => requestRiderLocation(true)}
+                >
+                  🔄 Check & Activate Location
+                </button>
+
+                <button
+                  type="button"
+                  className={styles.guideSecondaryBtn}
+                  onClick={() => {
+                    applyPickupCoords({ lat: 20.005, lng: 73.785 });
+                    setPickupAddress("Nashik City Center, Maharashtra");
+                  }}
+                >
+                  📌 Use City Center (Nashik)
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Main Booking Two-Column Grid */}
       <div className={styles.bookingLayout}>

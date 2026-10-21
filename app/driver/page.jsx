@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import dynamic from "next/dynamic";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
@@ -227,6 +227,7 @@ export default function DriverDashboardPage() {
     lng: 73.785,
   });
   const [gpsStatus, setGpsStatus] = useState("prompt"); // "prompt" | "requesting" | "active" | "denied"
+  const [showDriverLocationGuide, setShowDriverLocationGuide] = useState(false);
 
   // Initialize Leaflet icons for driver map
   useEffect(() => {
@@ -284,6 +285,66 @@ export default function DriverDashboardPage() {
     });
   }, []);
 
+  // Apply resolved driver coordinates & sync with dispatch
+  const applyDriverCoords = useCallback(async (lat, lng) => {
+    setDriverLocation({ lat, lng });
+    setGpsStatus("active");
+    setShowDriverLocationGuide(false);
+    try {
+      const res = await driverApi.updateLocation(lat, lng, activeRideRef.current?.id);
+      if (res?.eta_minutes !== undefined && activeRideRef.current) {
+        setActiveRide((prev) =>
+          prev ? { ...prev, driver_lat: lat, driver_lng: lng, driver_eta_minutes: res.eta_minutes } : null
+        );
+      }
+    } catch (e) {}
+  }, []);
+
+  // Request driver GPS with fallback to standard accuracy
+  const requestDriverGps = useCallback((userInitiated = false) => {
+    if (typeof window === "undefined" || !navigator.geolocation) {
+      setGpsStatus("denied");
+      if (userInitiated) setShowDriverLocationGuide(true);
+      return;
+    }
+    setGpsStatus("requesting");
+
+    const onGeoSuccess = (pos) => {
+      const lat = Number(pos.coords.latitude.toFixed(6));
+      const lng = Number(pos.coords.longitude.toFixed(6));
+      applyDriverCoords(lat, lng);
+    };
+
+    const onGeoError = (err) => {
+      console.warn("Driver location error:", err?.code, err?.message);
+      if (err?.code === 1) {
+        setGpsStatus("denied");
+        if (userInitiated) {
+          setShowDriverLocationGuide(true);
+        }
+      } else {
+        // Fallback to lower accuracy / Wi-Fi triangulation
+        navigator.geolocation.getCurrentPosition(
+          onGeoSuccess,
+          (secondErr) => {
+            console.warn("Second driver GPS attempt failed:", secondErr?.message);
+            setGpsStatus("denied");
+            if (userInitiated) {
+              setShowDriverLocationGuide(true);
+            }
+          },
+          { enableHighAccuracy: false, timeout: 12000, maximumAge: 60000 }
+        );
+      }
+    };
+
+    navigator.geolocation.getCurrentPosition(
+      onGeoSuccess,
+      onGeoError,
+      { timeout: 5000, enableHighAccuracy: true, maximumAge: 10000 }
+    );
+  }, [applyDriverCoords]);
+
   // Continuous live GPS watchPosition to broadcast driver location to passengers
   useEffect(() => {
     if (typeof window === "undefined" || !navigator.geolocation) return;
@@ -305,39 +366,44 @@ export default function DriverDashboardPage() {
         } catch (e) {}
       },
       (err) => {
-        console.warn("Driver GPS watch:", err.message);
-        setGpsStatus("prompt");
+        console.warn("Driver GPS watch error:", err?.code, err?.message);
+        if (err?.code === 1) {
+          setGpsStatus("denied");
+        }
       },
-      { timeout: 10000, enableHighAccuracy: true, maximumAge: 3000 }
+      { timeout: 12000, enableHighAccuracy: false, maximumAge: 5000 }
     );
 
     return () => navigator.geolocation.clearWatch(watchId);
   }, []);
 
-  // Prompt driver manually if needed
-  const requestDriverGps = () => {
-    if (typeof window === "undefined" || !navigator.geolocation) {
-      setGpsStatus("denied");
-      return;
+  // Listen for permission changes & window focus (e.g. user toggles Allow in browser settings)
+  useEffect(() => {
+    if (typeof navigator !== "undefined" && navigator.permissions?.query) {
+      navigator.permissions.query({ name: "geolocation" }).then((status) => {
+        const checkStatus = () => {
+          if (status.state === "granted") {
+            requestDriverGps(false);
+          } else if (status.state === "denied") {
+            setGpsStatus("denied");
+          }
+        };
+        status.onchange = checkStatus;
+      }).catch(() => {});
     }
-    setGpsStatus("requesting");
-    navigator.geolocation.getCurrentPosition(
-      async (pos) => {
-        const lat = Number(pos.coords.latitude.toFixed(6));
-        const lng = Number(pos.coords.longitude.toFixed(6));
-        setDriverLocation({ lat, lng });
-        setGpsStatus("active");
-        try {
-          await driverApi.updateLocation(lat, lng, activeRideRef.current?.id);
-        } catch (e) {}
-      },
-      (err) => {
-        console.warn("Driver location permission:", err.message);
-        setGpsStatus("denied");
-      },
-      { timeout: 8000, enableHighAccuracy: true }
-    );
-  };
+
+    const handleFocus = () => {
+      if (typeof navigator !== "undefined" && navigator.permissions?.query) {
+        navigator.permissions.query({ name: "geolocation" }).then((status) => {
+          if (status.state === "granted") {
+            requestDriverGps(false);
+          }
+        }).catch(() => {});
+      }
+    };
+    window.addEventListener("focus", handleFocus);
+    return () => window.removeEventListener("focus", handleFocus);
+  }, [requestDriverGps]);
 
   // Simulation test step: moves driver 25% closer to target to test real-time map tracking
   const handleSimulateMoveCloser = async () => {
@@ -884,16 +950,24 @@ export default function DriverDashboardPage() {
           {/* Driver GPS Permission Banner */}
           <div
             className={`${styles.gpsPromptBanner} ${
-              gpsStatus === "active" ? styles.gpsPromptBannerActive : ""
+              gpsStatus === "active"
+                ? styles.gpsPromptBannerActive
+                : gpsStatus === "denied"
+                ? styles.gpsPromptBannerDenied
+                : ""
             }`}
           >
             <div className={styles.gpsPromptLeft}>
               <div
                 className={`${styles.gpsPromptIcon} ${
-                  gpsStatus === "active" ? styles.gpsPromptIconActive : ""
+                  gpsStatus === "active"
+                    ? styles.gpsPromptIconActive
+                    : gpsStatus === "denied"
+                    ? styles.gpsPromptIconDenied
+                    : ""
                 }`}
               >
-                {gpsStatus === "active" ? "📍" : "🛰️"}
+                {gpsStatus === "active" ? "📍" : gpsStatus === "denied" ? "⚠️" : "🛰️"}
               </div>
               <div className={styles.gpsPromptText}>
                 <strong>
@@ -901,11 +975,15 @@ export default function DriverDashboardPage() {
                     ? "Live Driver Radar Active (1–2 km Dispatch Radius)"
                     : gpsStatus === "requesting"
                     ? "Locking your device GPS location..."
+                    : gpsStatus === "denied"
+                    ? "Driver Location Blocked or Denied"
                     : "Allow Driver Location for Optimum Dispatch Matching"}
                 </strong>
                 <p>
                   {gpsStatus === "active"
                     ? `Matching trips within a 2.0 km radius of your location. Your vehicle coordinates are synced with dispatch.`
+                    : gpsStatus === "denied"
+                    ? "Browser blocked location. Click 'Fix & Allow Location' to unblock it in browser settings or activate city center."
                     : "RideGo strictly allocates ride requests within a 1–2 km radius. Enable device location so nearby passengers can match with your cab."}
                 </p>
                 {gpsStatus === "active" && (
@@ -924,15 +1002,97 @@ export default function DriverDashboardPage() {
               ) : (
                 <button
                   type="button"
-                  onClick={requestDriverGps}
-                  className={styles.allowGpsBtn}
+                  onClick={() => {
+                    if (gpsStatus === "denied") {
+                      setShowDriverLocationGuide(true);
+                    }
+                    requestDriverGps(true);
+                  }}
+                  className={`${styles.allowGpsBtn} ${gpsStatus === "denied" ? styles.allowGpsBtnDenied : ""}`}
                   disabled={gpsStatus === "requesting"}
                 >
-                  {gpsStatus === "requesting" ? "Locking GPS..." : "📍 Allow Location"}
+                  {gpsStatus === "requesting"
+                    ? "Locking GPS..."
+                    : gpsStatus === "denied"
+                    ? "📍 Fix & Allow Location"
+                    : "📍 Allow Location"}
                 </button>
               )}
             </div>
           </div>
+
+          {/* Driver Location Access Help Modal */}
+          {showDriverLocationGuide && (
+            <div className={styles.driverGuideBackdrop} onClick={() => setShowDriverLocationGuide(false)}>
+              <div className={styles.driverGuideCard} onClick={(e) => e.stopPropagation()}>
+                <div className={styles.driverGuideHeader}>
+                  <div className={styles.driverGuideTitleGroup}>
+                    <span className={styles.driverGuideIcon}>📍</span>
+                    <div>
+                      <h3>Enable Driver GPS Location</h3>
+                      <p>Location was blocked or rejected. Enable it so dispatch can allocate nearby rides.</p>
+                    </div>
+                  </div>
+                  <button
+                    type="button"
+                    className={styles.driverGuideCloseBtn}
+                    onClick={() => setShowDriverLocationGuide(false)}
+                    aria-label="Close"
+                  >
+                    ✕
+                  </button>
+                </div>
+
+                <div className={styles.driverGuideBody}>
+                  <div className={styles.driverStepsBox}>
+                    <div className={styles.driverStep}>
+                      <div className={styles.driverStepNum}>1</div>
+                      <div className={styles.driverStepContent}>
+                        <strong>Tap the 🔒 or Settings icon in your browser URL bar</strong>
+                        <span>Look at the address bar at the very top of your screen (next to the website URL).</span>
+                      </div>
+                    </div>
+
+                    <div className={styles.driverStep}>
+                      <div className={styles.driverStepNum}>2</div>
+                      <div className={styles.driverStepContent}>
+                        <strong>Open "Permissions" or "Site Settings"</strong>
+                        <span>Find the <strong>Location</strong> permission toggle.</span>
+                      </div>
+                    </div>
+
+                    <div className={styles.driverStep}>
+                      <div className={styles.driverStepNum}>3</div>
+                      <div className={styles.driverStepContent}>
+                        <strong>Switch Location to "Allow"</strong>
+                        <span>Select "Allow" or turn the switch ON, then return here.</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className={styles.driverGuideActions}>
+                    <button
+                      type="button"
+                      className={styles.driverGuidePrimaryBtn}
+                      onClick={() => requestDriverGps(true)}
+                    >
+                      🔄 Check & Activate GPS
+                    </button>
+
+                    <button
+                      type="button"
+                      className={styles.driverGuideSecondaryBtn}
+                      onClick={() => {
+                        applyDriverCoords(20.005, 73.785);
+                      }}
+                    >
+                      📍 Use Default Location (Nashik Center)
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
 
           <ErrorMessage message={error} />
           <SuccessMessage message={success} />
