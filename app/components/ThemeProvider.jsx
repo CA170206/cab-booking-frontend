@@ -13,7 +13,7 @@ export function ThemeProvider({ children }) {
 
   useEffect(() => {
     // 1. Check local storage
-    const stored = localStorage.getItem("cabgo_theme");
+    const stored = localStorage.getItem("ridego_theme") || localStorage.getItem("cabgo_theme");
     if (stored === "light" || stored === "dark") {
       setTheme(stored);
       document.documentElement.setAttribute("data-theme", stored);
@@ -27,7 +27,7 @@ export function ThemeProvider({ children }) {
   const toggleTheme = () => {
     const nextTheme = theme === "dark" ? "light" : "dark";
     setTheme(nextTheme);
-    localStorage.setItem("cabgo_theme", nextTheme);
+    localStorage.setItem("ridego_theme", nextTheme);
     document.documentElement.setAttribute("data-theme", nextTheme);
   };
 

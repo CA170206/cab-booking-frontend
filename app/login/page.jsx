@@ -19,6 +19,7 @@ function LoginForm() {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [guestLoading, setGuestLoading] = useState(false);
   const [error, setError] = useState("");
 
   const handleLogin = async (e) => {
@@ -54,17 +55,29 @@ function LoginForm() {
     }
   };
 
-  const handleQuickDemo = (demoEmail) => {
-    setEmail(demoEmail);
-    setPassword("password123");
+  const handleTryAsGuest = async () => {
     setError("");
+    setGuestLoading(true);
+    try {
+      const data = await authApi.guestLogin();
+      if (data?.token && data?.user) {
+        saveSession(data.token, data.user);
+        router.push(returnUrl || "/booking");
+      } else {
+        throw new Error("Unable to start guest session.");
+      }
+    } catch (err) {
+      setError(err.message || "Failed to start guest session.");
+    } finally {
+      setGuestLoading(false);
+    }
   };
 
   return (
     <div className={styles.card}>
       <div className={styles.cardHeader}>
         <span className={styles.brandPill}>AUTHENTICATION</span>
-        <h1>Sign In to CabGo</h1>
+        <h1>Sign In to RideGo</h1>
         <p>Access your rides, real-time map tracking, and receipts.</p>
       </div>
 
@@ -109,30 +122,49 @@ function LoginForm() {
           </div>
         </div>
 
-        <button type="submit" className={styles.submitBtn} disabled={loading}>
+        <button type="submit" className={styles.submitBtn} disabled={loading || guestLoading}>
           {loading ? "Authenticating..." : "Sign In →"}
         </button>
       </form>
 
-      {/* Quick 1-Click Evaluation Demos */}
+      {/* Guest Mode Exclusively for Passengers */}
       <div className={styles.demoBox}>
-        <span className={styles.demoBoxTitle}>⚡ Quick 1-Click Demo Logins</span>
-        <div className={styles.demoBtns}>
-          <button
-            type="button"
-            onClick={() => handleQuickDemo("rider.demo@cabgo.com")}
-            className={styles.demoBtn}
-          >
-            👤 Demo Passenger
-          </button>
-          <button
-            type="button"
-            onClick={() => handleQuickDemo("driver.demo@cabgo.com")}
-            className={styles.demoBtn}
-          >
-            🚗 Demo Driver
-          </button>
-        </div>
+        <span className={styles.demoBoxTitle}>✨ Quick Exploration</span>
+        <button
+          type="button"
+          onClick={handleTryAsGuest}
+          disabled={loading || guestLoading}
+          className={styles.guestBtn}
+          style={{
+            width: "100%",
+            background: "linear-gradient(135deg, #f4c401 0%, #eab308 100%)",
+            color: "#0c0d0e",
+            border: "none",
+            padding: "12px 18px",
+            borderRadius: 10,
+            fontSize: 13.5,
+            fontWeight: 800,
+            cursor: "pointer",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            gap: 8,
+            boxShadow: "0 4px 14px rgba(244, 196, 1, 0.25)",
+            transition: "transform 0.15s ease, box-shadow 0.15s ease",
+          }}
+        >
+          {guestLoading ? "Connecting as Guest..." : "⚡ Try as Guest (Passenger)"}
+        </button>
+        <p
+          style={{
+            fontSize: 11.5,
+            color: "var(--text-muted, #9ca3af)",
+            margin: "10px 0 0",
+            lineHeight: 1.45,
+          }}
+        >
+          🛡️ Drivers must sign up or log in with verified account credentials. Guest mode is exclusively for passengers.
+        </p>
       </div>
 
       <div className={styles.cardFooter}>

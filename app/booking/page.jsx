@@ -12,7 +12,7 @@ const BookingMap = dynamic(() => import("../components/BookingMap"), {
   loading: () => (
     <div className={styles.mapLoading}>
       <span className={styles.spinner} />
-      <span>Loading interactive CabGo map...</span>
+      <span>Loading interactive RideGo map...</span>
     </div>
   ),
 });
@@ -41,7 +41,7 @@ const calculateFare = (distKm, multiplier = 1.0) => {
 const RIDE_TYPES = [
   {
     id: "go",
-    name: "CabGo Go",
+    name: "RideGo Go",
     desc: "Swift / WagonR",
     capacity: "4 seats",
     multiplier: 1.0,
@@ -51,7 +51,7 @@ const RIDE_TYPES = [
   },
   {
     id: "sedan",
-    name: "CabGo Sedan",
+    name: "RideGo Sedan",
     desc: "Dzire / Etios",
     capacity: "4 seats",
     multiplier: 1.25,
@@ -61,7 +61,7 @@ const RIDE_TYPES = [
   },
   {
     id: "xl",
-    name: "CabGo XL",
+    name: "RideGo XL",
     desc: "Innova Crysta",
     capacity: "6 seats",
     multiplier: 1.6,
@@ -71,7 +71,7 @@ const RIDE_TYPES = [
   },
   {
     id: "auto",
-    name: "CabGo Auto",
+    name: "RideGo Auto",
     desc: "Bajaj Auto",
     capacity: "3 seats",
     multiplier: 0.8,
@@ -149,6 +149,12 @@ export default function BookingPage() {
   const [authLoading, setAuthLoading] = useState(false);
   const [authError, setAuthError] = useState("");
 
+  // Guest passenger contact details modal state
+  const [showGuestContactModal, setShowGuestContactModal] = useState(false);
+  const [passengerName, setPassengerName] = useState("");
+  const [passengerPhone, setPassengerPhone] = useState("");
+  const [guestContactError, setGuestContactError] = useState("");
+
   // Ride booking state
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
@@ -184,13 +190,30 @@ export default function BookingPage() {
   // Load persisted authentication on mount
   useEffect(() => {
     try {
-      const storedToken = localStorage.getItem("cabgo_token");
-      const storedUser = localStorage.getItem("cabgo_user");
+      const storedToken =
+        localStorage.getItem("ridego_token") ||
+        localStorage.getItem("cabgo_token");
+      const storedUser =
+        localStorage.getItem("ridego_user") ||
+        localStorage.getItem("cabgo_user");
       if (storedToken) {
         setToken(storedToken);
       }
       if (storedUser) {
-        setCurrentUser(JSON.parse(storedUser));
+        const u = JSON.parse(storedUser);
+        setCurrentUser(u);
+        if (u.full_name && !u.full_name.includes("Guest")) {
+          setPassengerName(u.full_name);
+        }
+        if (u.phone && !u.phone.includes("98765 43210")) {
+          setPassengerPhone(u.phone);
+        }
+      }
+      const rawContact = localStorage.getItem("ridego_guest_contact");
+      if (rawContact) {
+        const c = JSON.parse(rawContact);
+        if (c.name) setPassengerName(c.name);
+        if (c.phone) setPassengerPhone(c.phone);
       }
     } catch (e) {
       console.warn("Could not read auth from localStorage", e);
@@ -204,6 +227,7 @@ export default function BookingPage() {
     const interval = setInterval(fetchMyRides, 3000);
     return () => clearInterval(interval);
   }, [token]);
+
 
   // Synchronize address when resolved from map clicks / reverse geocoding
   const handleAddressResolved = useCallback((type, address, point) => {
@@ -316,29 +340,31 @@ export default function BookingPage() {
     }
   };
 
-  // 1-Click Demo Rider Login
-  const handleDemoLogin = async () => {
+  // 1-Click Guest Passenger Login
+  const handleGuestLogin = async () => {
     setAuthLoading(true);
     setAuthError("");
     try {
-      const res = await fetch("https://cab-booking-backend-f4sj.onrender.com/api/auth/login", {
+      const res = await fetch("https://cab-booking-backend-f4sj.onrender.com/api/auth/guest", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          email: "rider.demo@cabgo.com",
-          password: "password123",
+          name: passengerName.trim() || undefined,
+          phone: passengerPhone.trim() || undefined,
         }),
       });
       const data = await res.json();
       if (!res.ok) {
-        throw new Error(data.message || "Demo login failed");
+        throw new Error(data.message || "Guest session initialization failed");
       }
       setToken(data.token);
       setCurrentUser(data.user);
+      localStorage.setItem("ridego_token", data.token);
+      localStorage.setItem("ridego_user", JSON.stringify(data.user));
       localStorage.setItem("cabgo_token", data.token);
       localStorage.setItem("cabgo_user", JSON.stringify(data.user));
       setShowAuthModal(false);
-      setMessage("Signed in as Demo Passenger.");
+      setMessage("Signed in as Guest Passenger.");
       setMessageType("success");
     } catch (err) {
       setAuthError(err.message);
@@ -350,6 +376,8 @@ export default function BookingPage() {
   const handleLogout = () => {
     setToken("");
     setCurrentUser(null);
+    localStorage.removeItem("ridego_token");
+    localStorage.removeItem("ridego_user");
     localStorage.removeItem("cabgo_token");
     localStorage.removeItem("cabgo_user");
     setMessage("Signed out.");
@@ -380,7 +408,53 @@ export default function BookingPage() {
     fetchMyRides();
   };
 
-  // Submit ride request
+  // Execute the booking API call with full passenger name & phone
+  const executeBooking = async (finalName, finalPhone) => {
+    setLoading(true);
+    try {
+      const pName = (finalName || passengerName || currentUser?.full_name || "Guest Passenger").trim();
+      const pPhone = (finalPhone || passengerPhone || currentUser?.phone || "+91 98765 43210").trim();
+
+      const response = await fetch("https://cab-booking-backend-f4sj.onrender.com/api/rides", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token.trim()}`,
+        },
+        body: JSON.stringify({
+          pickup_address: pickupAddress.trim(),
+          dropoff_address: dropoffAddress.trim(),
+          pickup_lat: locations.pickup.lat,
+          pickup_lng: locations.pickup.lng,
+          dropoff_lat: locations.dropoff.lat,
+          dropoff_lng: locations.dropoff.lng,
+          passenger_name: pName,
+          passenger_phone: pPhone,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || "Unable to book your ride.");
+      }
+
+      setRide(data);
+      if (data?.ride) {
+        setSelectedLiveRide(data.ride);
+        fetchMyRides();
+      }
+      setMessage("Your ride request has been confirmed! Connecting you to nearby drivers.");
+      setMessageType("success");
+    } catch (error) {
+      setMessage(error.message || "Could not connect to the RideGo server.");
+      setMessageType("error");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Submit ride request (verifies authentication and passenger contact for guests)
   const requestRide = async (event) => {
     event.preventDefault();
     setMessage("");
@@ -399,7 +473,7 @@ export default function BookingPage() {
     }
 
     if (!token.trim()) {
-      setMessage("Please sign in or use 1-Click Demo Passenger Login to book.");
+      setMessage("Please sign in or use ⚡ Try as Guest to book your ride.");
       setMessageType("error");
       setShowAuthModal(true);
       return;
@@ -414,45 +488,21 @@ export default function BookingPage() {
       return;
     }
 
-    setLoading(true);
+    // If user is guest or has default/placeholder contact info, prompt for their Name & Phone
+    const isGuestSession = Boolean(
+      currentUser?.isGuest ||
+      currentUser?.email?.includes("guest.passenger") ||
+      currentUser?.email?.includes("rider.demo")
+    );
 
-    try {
-      const response = await fetch("https://cab-booking-backend-f4sj.onrender.com/api/rides", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token.trim()}`,
-        },
-        body: JSON.stringify({
-          pickup_address: pickupAddress.trim(),
-          dropoff_address: dropoffAddress.trim(),
-          pickup_lat: locations.pickup.lat,
-          pickup_lng: locations.pickup.lng,
-          dropoff_lat: locations.dropoff.lat,
-          dropoff_lng: locations.dropoff.lng,
-        }),
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.message || "Unable to book your ride.");
-      }
-
-      setRide(data);
-      if (data?.ride) {
-        setSelectedLiveRide(data.ride);
-        fetchMyRides();
-      }
-      setMessage("Your ride request has been confirmed! Connecting you to nearby drivers.");
-      setMessageType("success");
-    } catch (error) {
-      setMessage(error.message || "Could not connect to the CabGo server.");
-      setMessageType("error");
-    } finally {
-      setLoading(false);
+    if (isGuestSession && (!passengerName.trim() || !passengerPhone.trim() || passengerName.includes("Guest") || passengerPhone.includes("98765 43210"))) {
+      setShowGuestContactModal(true);
+      return;
     }
+
+    await executeBooking(passengerName, passengerPhone);
   };
+
 
   return (
     <main className={styles.app}>
@@ -499,11 +549,11 @@ export default function BookingPage() {
             <div className={styles.authActions}>
               <button
                 type="button"
-                onClick={handleDemoLogin}
+                onClick={handleGuestLogin}
                 className={styles.quickDemoBtn}
                 disabled={authLoading}
               >
-                ⚡ 1-Click Demo Login
+                ⚡ Try as Guest
               </button>
               <button
                 type="button"
@@ -848,14 +898,14 @@ export default function BookingPage() {
                 <div className={styles.noticeIcon}>🔐</div>
                 <div className={styles.noticeCopy}>
                   <strong>Passenger Login Required</strong>
-                  <p>Sign in or use 1-click demo to book with the backend.</p>
+                  <p>Sign in or use guest mode to book with RideGo.</p>
                 </div>
                 <button
                   type="button"
-                  onClick={handleDemoLogin}
+                  onClick={handleGuestLogin}
                   className={styles.noticeDemoBtn}
                 >
-                  Quick Login
+                  ⚡ Try as Guest
                 </button>
               </div>
             )}
@@ -1055,11 +1105,11 @@ export default function BookingPage() {
 
                 <button
                   type="button"
-                  onClick={handleDemoLogin}
+                  onClick={handleGuestLogin}
                   disabled={authLoading}
                   className={styles.modalDemoBtn}
                 >
-                  ⚡ Fill &amp; Login with Demo Passenger
+                  ⚡ Continue as Guest (Passenger)
                 </button>
               </div>
 
@@ -1227,6 +1277,106 @@ export default function BookingPage() {
         </div>
       )}
 
+      {/* Passenger Contact Details Modal for Guest Booking */}
+      {showGuestContactModal && (
+        <div className={styles.modalOverlay} onClick={() => setShowGuestContactModal(false)}>
+          <div
+            className={styles.modalCard}
+            style={{ maxWidth: 440 }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className={styles.modalHeader}>
+              <div>
+                <span className={styles.modalPill}>PASSENGER DETAILS</span>
+                <h3>Enter Your Contact Info</h3>
+              </div>
+              <button
+                type="button"
+                onClick={() => setShowGuestContactModal(false)}
+                className={styles.modalCloseBtn}
+              >
+                ✕
+              </button>
+            </div>
+
+            <p style={{ fontSize: 13, color: "var(--text-secondary, #9ca3af)", margin: "0 0 16px", lineHeight: 1.5 }}>
+              Since you are booking as a guest, please enter your name and phone number so the assigned driver partner can contact you upon arrival.
+            </p>
+
+            {guestContactError && (
+              <div className={styles.modalError} style={{ marginBottom: 12 }}>
+                {guestContactError}
+              </div>
+            )}
+
+            <form
+              onSubmit={async (e) => {
+                e.preventDefault();
+                if (!passengerName.trim()) {
+                  setGuestContactError("Please enter your full name.");
+                  return;
+                }
+                const cleanedPhone = passengerPhone.trim().replace(/\s+/g, "");
+                if (!cleanedPhone || cleanedPhone.length < 8) {
+                  setGuestContactError("Please enter a valid mobile number.");
+                  return;
+                }
+                setGuestContactError("");
+                localStorage.setItem(
+                  "ridego_guest_contact",
+                  JSON.stringify({ name: passengerName.trim(), phone: passengerPhone.trim() })
+                );
+                setShowGuestContactModal(false);
+                await executeBooking(passengerName.trim(), passengerPhone.trim());
+              }}
+            >
+              <label className={styles.modalField}>
+                <span>Passenger Full Name *</span>
+                <input
+                  type="text"
+                  required
+                  value={passengerName}
+                  onChange={(e) => setPassengerName(e.target.value)}
+                  placeholder="e.g. Rahul Sharma"
+                  autoFocus
+                />
+              </label>
+
+              <label className={styles.modalField} style={{ marginTop: 12 }}>
+                <span>Mobile Phone Number *</span>
+                <input
+                  type="tel"
+                  required
+                  value={passengerPhone}
+                  onChange={(e) => setPassengerPhone(e.target.value)}
+                  placeholder="e.g. +91 98765 43210"
+                />
+              </label>
+
+              <div className={styles.modalButtons} style={{ marginTop: 20 }}>
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className={styles.modalSubmitBtn}
+                  style={{
+                    background: "#f4c401",
+                    color: "#0c0d0e",
+                    fontWeight: 800,
+                    padding: "12px 20px",
+                    borderRadius: 999,
+                    border: "none",
+                    cursor: "pointer",
+                    width: "100%",
+                  }}
+                >
+                  {loading ? "Confirming Booking..." : "Confirm & Request Ride →"}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
       {/* Live Ride Tracking & Details Modal */}
       {selectedLiveRide && (
         <LiveRideModal
@@ -1239,11 +1389,12 @@ export default function BookingPage() {
       {/* Footer */}
       <footer className={styles.footer}>
         <a href="/" className={styles.footerBrand}>
-          DriveGo
+          RideGo
         </a>
         <span>Safe, reliable, and affordable city rides.</span>
-        <span>© DriveGo · All rights reserved 2025</span>
+        <span>© RideGo · All rights reserved 2026</span>
       </footer>
     </main>
   );
 }
+

@@ -57,23 +57,47 @@ export default function AuthGuard({ children, requiredRole = null }) {
             margin: "0 0 24px",
           }}
         >
-          You must be logged into CabGo to view this page. Please sign in or register an account.
+          You must be logged into RideGo to view this page. Please sign in or continue as a guest.
         </p>
-        <Link
-          href={`/login?returnUrl=${encodeURIComponent(pathname)}`}
-          style={{
-            display: "inline-block",
-            background: "#f4c401",
-            color: "#0c0d0e",
-            fontWeight: 800,
-            fontSize: 13.5,
-            padding: "11px 24px",
-            borderRadius: 999,
-            textDecoration: "none",
-          }}
-        >
-          Sign In to CabGo →
-        </Link>
+        <div style={{ display: "flex", flexDirection: "column", gap: 10, alignItems: "center" }}>
+          <Link
+            href={`/login?returnUrl=${encodeURIComponent(pathname)}`}
+            style={{
+              display: "inline-block",
+              background: "#f4c401",
+              color: "#0c0d0e",
+              fontWeight: 800,
+              fontSize: 13.5,
+              padding: "11px 24px",
+              borderRadius: 999,
+              textDecoration: "none",
+              width: "100%",
+              maxWidth: 240,
+            }}
+          >
+            Sign In to RideGo →
+          </Link>
+          {requiredRole !== "driver" && (
+            <Link
+              href="/booking"
+              style={{
+                display: "inline-block",
+                background: "rgba(255, 255, 255, 0.08)",
+                border: "1px solid rgba(255, 255, 255, 0.2)",
+                color: "#e5e7eb",
+                fontWeight: 700,
+                fontSize: 13,
+                padding: "9px 20px",
+                borderRadius: 999,
+                textDecoration: "none",
+                width: "100%",
+                maxWidth: 240,
+              }}
+            >
+              ⚡ Continue as Guest
+            </Link>
+          )}
+        </div>
       </div>
     );
   }

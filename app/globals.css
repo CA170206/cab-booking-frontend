@@ -1,6 +1,6 @@
 @import "tailwindcss";
 
-/* CabGo Design System — Universal Dark & Light Mode Theme */
+/* RideGo Design System — Universal Dark & Light Mode Theme */
 :root,
 [data-theme="dark"] {
   color-scheme: dark;

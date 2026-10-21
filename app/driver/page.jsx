@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import dynamic from "next/dynamic";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import AuthGuard from "../components/AuthGuard";
@@ -10,7 +11,29 @@ import { driverApi, ridesApi, profileApi, paymentApi } from "../lib/api";
 import { getStoredUser } from "../lib/auth";
 import styles from "./driver.module.css";
 
-const ACTIVE_TRIP_KEY = "cabgo_driver_active_trip";
+// Dynamically import Leaflet components for client-side live tracking
+const MapContainer = dynamic(
+  () => import("react-leaflet").then((mod) => mod.MapContainer),
+  { ssr: false }
+);
+const TileLayer = dynamic(
+  () => import("react-leaflet").then((mod) => mod.TileLayer),
+  { ssr: false }
+);
+const Marker = dynamic(
+  () => import("react-leaflet").then((mod) => mod.Marker),
+  { ssr: false }
+);
+const Polyline = dynamic(
+  () => import("react-leaflet").then((mod) => mod.Polyline),
+  { ssr: false }
+);
+const Tooltip = dynamic(
+  () => import("react-leaflet").then((mod) => mod.Tooltip),
+  { ssr: false }
+);
+
+const ACTIVE_TRIP_KEY = "ridego_driver_active_trip";
 
 export default function DriverDashboardPage() {
   const [user, setUser] = useState(null);
@@ -23,6 +46,14 @@ export default function DriverDashboardPage() {
 
   const [showOtpModal, setShowOtpModal] = useState(false);
   const [inputOtp, setInputOtp] = useState("");
+
+  // Leaflet custom marker icons
+  const [leafletIcons, setLeafletIcons] = useState({
+    driver: null,
+    pickup: null,
+    dropoff: null,
+  });
+
   const [otpError, setOtpError] = useState("");
 
   // Destination reached settlement and payment confirmation state
@@ -60,7 +91,7 @@ export default function DriverDashboardPage() {
 
   useEffect(() => {
     try {
-      const stored = localStorage.getItem("cabgo_voice_enabled");
+      const stored = localStorage.getItem("ridego_voice_enabled") || localStorage.getItem("cabgo_voice_enabled");
       if (stored !== null) {
         setVoiceEnabled(stored === "true");
       }
@@ -71,7 +102,7 @@ export default function DriverDashboardPage() {
     setVoiceEnabled((prev) => {
       const next = !prev;
       try {
-        localStorage.setItem("cabgo_voice_enabled", String(next));
+        localStorage.setItem("ridego_voice_enabled", String(next));
         if (!next && typeof window !== "undefined" && "speechSynthesis" in window) {
           window.speechSynthesis.cancel();
         }
@@ -96,7 +127,7 @@ export default function DriverDashboardPage() {
     } catch (e) {}
   };
 
-  // Soundbox style voice announcement: "Payment received! One hundred eighty-seven rupees received on CabGo UPI."
+  // Soundbox style voice announcement: "Payment received! One hundred eighty-seven rupees received on RideGo UPI."
   const speakPaymentReceived = (fareAmount, method = "UPI") => {
     if (!voiceEnabled) return;
     try {
@@ -190,14 +221,100 @@ export default function DriverDashboardPage() {
     } catch (e) {}
   };
 
-  // Driver current active location for 1-2 km radius dispatch matching
+  // Driver current active location for live tracking & radius dispatch matching
   const [driverLocation, setDriverLocation] = useState({
     lat: 20.005,
     lng: 73.785,
   });
   const [gpsStatus, setGpsStatus] = useState("prompt"); // "prompt" | "requesting" | "active" | "denied"
 
-  // Prompt driver for browser GPS location
+  // Initialize Leaflet icons for driver map
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    import("leaflet").then((L) => {
+      const driverIcon = new L.DivIcon({
+        className: "driver-custom-div-icon",
+        html: `
+          <div style="position:relative; width:44px; height:44px; display:flex; align-items:center; justify-content:center;">
+            <div style="position:absolute; width:40px; height:40px; border-radius:50%; background:rgba(244,196,1,0.28); animation:cabgoPulse 2s infinite ease-out;"></div>
+            <div style="width:34px; height:34px; border-radius:50%; background:#0f172a; border:2.5px solid #f4c401; display:flex; align-items:center; justify-content:center; box-shadow:0 4px 12px rgba(0,0,0,0.5); font-size:18px;">
+              🚖
+            </div>
+          </div>
+        `,
+        iconSize: [44, 44],
+        iconAnchor: [22, 22],
+      });
+
+      const pickupIcon = new L.DivIcon({
+        className: "pickup-custom-div-icon",
+        html: `
+          <div style="position:relative; width:34px; height:44px; display:flex; align-items:center; justify-content:center;">
+            <svg width="34" height="44" viewBox="0 0 34 44" fill="none">
+              <path d="M17 44 C 13.5 34 3.5 24 3.5 15.5 A 13.5 13.5 0 1 1 30.5 15.5 C 30.5 24 20.5 34 17 44 Z" fill="#16a34a" stroke="#fff" stroke-width="2"/>
+              <circle cx="17" cy="15.5" r="5.5" fill="#fff"/>
+              <circle cx="17" cy="15.5" r="3" fill="#16a34a"/>
+            </svg>
+          </div>
+        `,
+        iconSize: [34, 44],
+        iconAnchor: [17, 44],
+      });
+
+      const dropoffIcon = new L.DivIcon({
+        className: "dropoff-custom-div-icon",
+        html: `
+          <div style="position:relative; width:34px; height:44px; display:flex; align-items:center; justify-content:center;">
+            <svg width="34" height="44" viewBox="0 0 34 44" fill="none">
+              <path d="M17 44 C 13.5 34 3.5 24 3.5 15.5 A 13.5 13.5 0 1 1 30.5 15.5 C 30.5 24 20.5 34 17 44 Z" fill="#dc2626" stroke="#fff" stroke-width="2"/>
+              <circle cx="17" cy="15.5" r="7" fill="#fff"/>
+              <path d="M14 19.5V11.5h1.2v1h4.6l-.8 2 0.8 2H15.2v3H14z" fill="#dc2626"/>
+            </svg>
+          </div>
+        `,
+        iconSize: [34, 44],
+        iconAnchor: [17, 44],
+      });
+
+      setLeafletIcons({
+        driver: driverIcon,
+        pickup: pickupIcon,
+        dropoff: dropoffIcon,
+      });
+    });
+  }, []);
+
+  // Continuous live GPS watchPosition to broadcast driver location to passengers
+  useEffect(() => {
+    if (typeof window === "undefined" || !navigator.geolocation) return;
+
+    setGpsStatus("requesting");
+    const watchId = navigator.geolocation.watchPosition(
+      async (pos) => {
+        const lat = Number(pos.coords.latitude.toFixed(6));
+        const lng = Number(pos.coords.longitude.toFixed(6));
+        setDriverLocation({ lat, lng });
+        setGpsStatus("active");
+        try {
+          const res = await driverApi.updateLocation(lat, lng, activeRideRef.current?.id);
+          if (res?.eta_minutes !== undefined && activeRideRef.current) {
+            setActiveRide((prev) =>
+              prev ? { ...prev, driver_lat: lat, driver_lng: lng, driver_eta_minutes: res.eta_minutes } : null
+            );
+          }
+        } catch (e) {}
+      },
+      (err) => {
+        console.warn("Driver GPS watch:", err.message);
+        setGpsStatus("prompt");
+      },
+      { timeout: 10000, enableHighAccuracy: true, maximumAge: 3000 }
+    );
+
+    return () => navigator.geolocation.clearWatch(watchId);
+  }, []);
+
+  // Prompt driver manually if needed
   const requestDriverGps = () => {
     if (typeof window === "undefined" || !navigator.geolocation) {
       setGpsStatus("denied");
@@ -211,7 +328,7 @@ export default function DriverDashboardPage() {
         setDriverLocation({ lat, lng });
         setGpsStatus("active");
         try {
-          await driverApi.updateLocation(lat, lng);
+          await driverApi.updateLocation(lat, lng, activeRideRef.current?.id);
         } catch (e) {}
       },
       (err) => {
@@ -221,6 +338,34 @@ export default function DriverDashboardPage() {
       { timeout: 8000, enableHighAccuracy: true }
     );
   };
+
+  // Simulation test step: moves driver 25% closer to target to test real-time map tracking
+  const handleSimulateMoveCloser = async () => {
+    if (!activeRide) return;
+    const targetLat =
+      activeRide.status === "in_progress"
+        ? Number(activeRide.dropoff_lat)
+        : Number(activeRide.pickup_lat);
+    const targetLng =
+      activeRide.status === "in_progress"
+        ? Number(activeRide.dropoff_lng)
+        : Number(activeRide.pickup_lng);
+    if (!targetLat || !targetLng) return;
+
+    const newLat = Number((driverLocation.lat + (targetLat - driverLocation.lat) * 0.25).toFixed(6));
+    const newLng = Number((driverLocation.lng + (targetLng - driverLocation.lng) * 0.25).toFixed(6));
+    setDriverLocation({ lat: newLat, lng: newLng });
+
+    try {
+      const res = await driverApi.updateLocation(newLat, newLng, activeRide.id);
+      if (res?.eta_minutes !== undefined) {
+        setActiveRide((prev) =>
+          prev ? { ...prev, driver_lat: newLat, driver_lng: newLng, driver_eta_minutes: res.eta_minutes } : null
+        );
+      }
+    } catch (e) {}
+  };
+
 
   const loadData = async () => {
     try {
@@ -761,7 +906,7 @@ export default function DriverDashboardPage() {
                 <p>
                   {gpsStatus === "active"
                     ? `Matching trips within a 2.0 km radius of your location. Your vehicle coordinates are synced with dispatch.`
-                    : "CabGo strictly allocates ride requests within a 1–2 km radius. Enable device location so nearby passengers can match with your cab."}
+                    : "RideGo strictly allocates ride requests within a 1–2 km radius. Enable device location so nearby passengers can match with your cab."}
                 </p>
                 {gpsStatus === "active" && (
                   <span className={styles.gpsCoordBadge}>
@@ -1008,13 +1153,13 @@ export default function DriverDashboardPage() {
                     <img
                       src={`https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(
                         `upi://pay?pa=${encodeURIComponent(
-                          user?.upi_id || "cabgo.driver@okhdfcbank"
+                          user?.upi_id || "ridego.driver@okhdfcbank"
                         )}&pn=${encodeURIComponent(
-                          user?.full_name || "CabGo Driver"
+                          user?.full_name || "RideGo Driver"
                         )}&am=${Number(activeRide.estimated_fare).toFixed(
                           2
                         )}&cu=INR&tn=${encodeURIComponent(
-                          `CabGo Fare #${activeRide.id ? activeRide.id.slice(0, 8) : "TRIP"}`
+                          `RideGo Fare #${activeRide.id ? activeRide.id.slice(0, 8) : "TRIP"}`
                         )}`
                       )}&margin=8`}
                       alt="Driver Partner UPI QR Code"
@@ -1024,13 +1169,13 @@ export default function DriverDashboardPage() {
 
                   <div className={styles.driverUpiInfoBox}>
                     <span>
-                      UPI: <strong>{user?.upi_id || "cabgo.driver@okhdfcbank"}</strong>
+                      UPI: <strong>{user?.upi_id || "ridego.driver@okhdfcbank"}</strong>
                     </span>
                     <button
                       type="button"
                       onClick={() => {
                         if (typeof navigator !== "undefined" && navigator.clipboard) {
-                          navigator.clipboard.writeText(user?.upi_id || "cabgo.driver@okhdfcbank");
+                          navigator.clipboard.writeText(user?.upi_id || "ridego.driver@okhdfcbank");
                           setCopyUpiSuccess(true);
                           setTimeout(() => setCopyUpiSuccess(false), 2000);
                         }
@@ -1093,6 +1238,174 @@ export default function DriverDashboardPage() {
                 </div>
 
                 <div className={styles.progressionGrid}>
+                  {/* Passenger Contact Details Row */}
+                  <div style={{
+                    padding: "10px 14px",
+                    background: "rgba(244, 196, 1, 0.08)",
+                    border: "1px solid rgba(244, 196, 1, 0.25)",
+                    borderRadius: 10,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    flexWrap: "wrap",
+                    gap: 8,
+                    marginBottom: 6,
+                  }}>
+                    <div>
+                      <span style={{ fontSize: 11, color: "#9ca3af", textTransform: "uppercase", display: "block", fontWeight: 700 }}>
+                        Passenger Information
+                      </span>
+                      <strong style={{ fontSize: 14.5, color: "#ffffff" }}>
+                        👤 {activeRide.passenger_name || "Guest Passenger"}
+                      </strong>
+                    </div>
+                    {activeRide.passenger_phone && (
+                      <a
+                        href={`tel:${activeRide.passenger_phone}`}
+                        style={{
+                          background: "#10b981",
+                          color: "#ffffff",
+                          padding: "7px 15px",
+                          borderRadius: 999,
+                          fontWeight: 800,
+                          fontSize: 12.5,
+                          textDecoration: "none",
+                          display: "inline-flex",
+                          alignItems: "center",
+                          gap: 6,
+                          boxShadow: "0 2px 8px rgba(16, 185, 129, 0.3)"
+                        }}
+                      >
+                        📞 Call {activeRide.passenger_phone}
+                      </a>
+                    )}
+                  </div>
+
+                  {/* Live Interactive Driver Route Map */}
+                  <div style={{
+                    marginBottom: 14,
+                    borderRadius: 14,
+                    overflow: "hidden",
+                    border: "1.5px solid var(--border-card, #2e333d)",
+                    position: "relative",
+                    height: 280,
+                    background: "#0c0d0e"
+                  }}>
+                    {typeof window !== "undefined" && (
+                      <MapContainer
+                        center={[driverLocation.lat, driverLocation.lng]}
+                        zoom={14}
+                        zoomControl={false}
+                        attributionControl={false}
+                        style={{ width: "100%", height: "100%" }}
+                      >
+                        <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+
+                        {/* Driver Live Marker */}
+                        {leafletIcons.driver && (
+                          <Marker position={[driverLocation.lat, driverLocation.lng]} icon={leafletIcons.driver}>
+                            <Tooltip permanent direction="top" offset={[0, -20]}>
+                              🚖 You (Live GPS)
+                            </Tooltip>
+                          </Marker>
+                        )}
+
+                        {/* Pickup Marker */}
+                        {leafletIcons.pickup && activeRide.pickup_lat && activeRide.pickup_lng && (
+                          <Marker
+                            position={[Number(activeRide.pickup_lat), Number(activeRide.pickup_lng)]}
+                            icon={leafletIcons.pickup}
+                          >
+                            <Tooltip permanent direction="top" offset={[0, -36]}>
+                              📍 Pickup Point
+                            </Tooltip>
+                          </Marker>
+                        )}
+
+                        {/* Dropoff Marker (if in progress) */}
+                        {leafletIcons.dropoff && activeRide.dropoff_lat && activeRide.dropoff_lng && activeRide.status === "in_progress" && (
+                          <Marker
+                            position={[Number(activeRide.dropoff_lat), Number(activeRide.dropoff_lng)]}
+                            icon={leafletIcons.dropoff}
+                          >
+                            <Tooltip permanent direction="top" offset={[0, -36]}>
+                              🏁 Destination
+                            </Tooltip>
+                          </Marker>
+                        )}
+
+                        {/* Route Polyline */}
+                        {activeRide.pickup_lat && activeRide.pickup_lng && (
+                          <Polyline
+                            positions={
+                              activeRide.status === "in_progress"
+                                ? [
+                                    [driverLocation.lat, driverLocation.lng],
+                                    [Number(activeRide.dropoff_lat), Number(activeRide.dropoff_lng)],
+                                  ]
+                                : [
+                                    [driverLocation.lat, driverLocation.lng],
+                                    [Number(activeRide.pickup_lat), Number(activeRide.pickup_lng)],
+                                  ]
+                            }
+                            pathOptions={{ color: "#f4c401", weight: 4, dashArray: "6, 6", opacity: 0.9 }}
+                          />
+                        )}
+                      </MapContainer>
+                    )}
+
+                    {/* HUD Live ETA Banner */}
+                    <div style={{
+                      position: "absolute",
+                      bottom: 12,
+                      left: 12,
+                      right: 12,
+                      background: "rgba(12, 13, 14, 0.9)",
+                      backdropFilter: "blur(8px)",
+                      border: "1px solid rgba(244, 196, 1, 0.4)",
+                      borderRadius: 10,
+                      padding: "8px 14px",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                      zIndex: 1000,
+                      fontSize: 12.5,
+                      color: "#ffffff"
+                    }}>
+                      <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                        <span style={{ fontSize: 18 }}>⏱️</span>
+                        <div>
+                          <strong>
+                            {activeRide.status === "in_progress"
+                              ? "Heading to Destination"
+                              : "En Route to Pickup Point"}
+                          </strong>
+                          <span style={{ display: "block", color: "#f4c401", fontSize: 11.5, fontWeight: 800 }}>
+                            Estimated time to reach: ~{activeRide.driver_eta_minutes || 4} mins
+                          </span>
+                        </div>
+                      </div>
+
+                      <button
+                        type="button"
+                        onClick={handleSimulateMoveCloser}
+                        style={{
+                          background: "rgba(244, 196, 1, 0.15)",
+                          border: "1px solid #f4c401",
+                          color: "#f4c401",
+                          borderRadius: 6,
+                          padding: "5px 11px",
+                          fontSize: 11,
+                          fontWeight: 750,
+                          cursor: "pointer"
+                        }}
+                        title="Simulate driver vehicle moving closer to target for testing"
+                      >
+                        🚗 Test Move Closer
+                      </button>
+                    </div>
+                  </div>
+
                   <div className={styles.routeBox}>
                     <div className={styles.routeBoxItem}>
                       <strong>Pickup Address</strong>
@@ -1106,7 +1419,7 @@ export default function DriverDashboardPage() {
 
                   {activeRide.status === "in_progress" && (
                     <div className={styles.driverPaymentCollectionNotice}>
-                      <span>💳 Payment Note: Passenger will pay via Cash or UPI QR ({user?.upi_id || "cabgo.driver@upi"}) for ₹{Number(activeRide.estimated_fare).toFixed(2)} upon arrival.</span>
+                      <span>💳 Payment Note: Passenger will pay via Cash or UPI QR ({user?.upi_id || "ridego.driver@okhdfcbank"}) for ₹{Number(activeRide.estimated_fare).toFixed(2)} upon arrival.</span>
                     </div>
                   )}
 
@@ -1374,6 +1687,31 @@ export default function DriverDashboardPage() {
                               minute: "2-digit",
                             })
                           : "Recently"}
+                      </div>
+
+                      {/* Passenger Contact Information */}
+                      <div style={{
+                        marginTop: 8,
+                        padding: "7px 11px",
+                        background: "rgba(244, 196, 1, 0.08)",
+                        border: "1px solid rgba(244, 196, 1, 0.22)",
+                        borderRadius: 8,
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "space-between",
+                        fontSize: 12,
+                        color: "var(--text-main, #e5e7eb)",
+                        flexWrap: "wrap",
+                        gap: 6
+                      }}>
+                        <span>
+                          👤 Passenger: <strong>{ride.passenger_name || "Guest Passenger"}</strong>
+                        </span>
+                        {ride.passenger_phone && (
+                          <span style={{ color: "#f4c401", fontWeight: 750 }}>
+                            📞 {ride.passenger_phone}
+                          </span>
+                        )}
                       </div>
                     </div>
 

@@ -11,8 +11,8 @@ const poppins = Poppins({
 });
 
 export const metadata = {
-  title: "CabGo Cab Services | Safe, Affordable & Reliable Rides",
-  description: "Book your ride in just a few clicks with CabGo. Safe, reliable, and transparent cab services across India.",
+  title: "RideGo Cab Services | Safe, Affordable & Reliable Rides",
+  description: "Book your ride in just a few clicks with RideGo. Safe, reliable, and transparent cab services across India.",
 };
 
 export default function RootLayout({ children }) {
@@ -25,7 +25,7 @@ export default function RootLayout({ children }) {
             __html: `
               (function() {
                 try {
-                  var saved = localStorage.getItem('cabgo_theme');
+                  var saved = localStorage.getItem('ridego_theme') || localStorage.getItem('cabgo_theme');
                   if (saved === 'light') {
                     document.documentElement.setAttribute('data-theme', 'light');
                   } else {

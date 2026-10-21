@@ -46,8 +46,8 @@ export default function ContactPage() {
   };
 
   const mailtoHref = validatedData
-    ? `mailto:support@cabgo-mobility.in?subject=${encodeURIComponent(
-        `[CabGo Inquiry] ${validatedData.subject} - ${validatedData.name}`
+    ? `mailto:support@ridego-red.vercel.app?subject=${encodeURIComponent(
+        `[RideGo Inquiry] ${validatedData.subject} - ${validatedData.name}`
       )}&body=${encodeURIComponent(
         `Name: ${validatedData.name}\nEmail: ${validatedData.email}\nInquiry Type: ${validatedData.subject}\n\nMessage:\n${validatedData.message}`
       )}`
@@ -87,7 +87,7 @@ export default function ContactPage() {
                   <div className={styles.itemIcon}>📞</div>
                   <div className={styles.itemText}>
                     <strong>24x7 Customer Helpline</strong>
-                    <span>+91 (0253) 250-CABGO / +91 98230 00000</span>
+                    <span>+91 (0253) 250-RIDEGO / +91 98230 00000</span>
                   </div>
                 </div>
 
@@ -95,7 +95,7 @@ export default function ContactPage() {
                   <div className={styles.itemIcon}>✉️</div>
                   <div className={styles.itemText}>
                     <strong>Email Support</strong>
-                    <span>support@cabgo-mobility.in</span>
+                    <span>support@ridego-red.vercel.app</span>
                   </div>
                 </div>
 
@@ -103,7 +103,7 @@ export default function ContactPage() {
                   <div className={styles.itemIcon}>💼</div>
                   <div className={styles.itemText}>
                     <strong>Driver Partner Onboarding</strong>
-                    <span>partners@cabgo-mobility.in</span>
+                    <span>partners@ridego-red.vercel.app</span>
                   </div>
                 </div>
               </div>
@@ -199,7 +199,7 @@ export default function ContactPage() {
                   Your message has passed client-side validation. Because our direct web ticketing endpoint is currently transitioning, please dispatch your inquiry directly to our priority support inbox:
                 </p>
                 <a href={mailtoHref} className={styles.mailtoBtn}>
-                  ✉️ Open in Email Client (Direct to support@cabgo-mobility.in)
+                  ✉️ Open in Email Client (Direct to support@ridego-red.vercel.app)
                 </a>
               </div>
             )}

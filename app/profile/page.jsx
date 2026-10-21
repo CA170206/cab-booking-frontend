@@ -24,7 +24,7 @@ export default function ProfilePage() {
   const [emergencyPhone, setEmergencyPhone] = useState("");
   const [homeAddress, setHomeAddress] = useState("");
   const [workAddress, setWorkAddress] = useState("");
-  const [prefRideType, setPrefRideType] = useState("CabGo Go (Swift / WagonR)");
+  const [prefRideType, setPrefRideType] = useState("RideGo Go (Swift / WagonR)");
   const [prefPayment, setPrefPayment] = useState("Direct Driver UPI (Instant QR)");
 
   // Driver state fields (empty by default, loaded from user input in DB)
@@ -589,10 +589,10 @@ export default function ProfilePage() {
                           onChange={(e) => setPrefRideType(e.target.value)}
                           className={styles.inputField}
                         >
-                          <option>CabGo Go (Swift / WagonR)</option>
-                          <option>CabGo Sedan (Dzire / Etios)</option>
-                          <option>CabGo XL (Innova Crysta)</option>
-                          <option>CabGo Auto (Bajaj Auto)</option>
+                          <option>RideGo Go (Swift / WagonR)</option>
+                          <option>RideGo Sedan (Dzire / Etios)</option>
+                          <option>RideGo XL (Innova Crysta)</option>
+                          <option>RideGo Auto (Bajaj Auto)</option>
                         </select>
                       </div>
 

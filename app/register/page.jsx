@@ -81,7 +81,7 @@ export default function RegisterPage() {
       <main className={styles.main}>
         <div className={styles.card}>
           <div className={styles.cardHeader}>
-            <span className={styles.brandPill}>JOIN CABGO</span>
+            <span className={styles.brandPill}>JOIN RIDEGO</span>
             <h1>Create Your Account</h1>
             <p>Select your account type and start riding or driving.</p>
           </div>
@@ -195,7 +195,7 @@ export default function RegisterPage() {
           </form>
 
           <div className={styles.cardFooter}>
-            Already registered on CabGo?{" "}
+            Already registered on RideGo?{" "}
             <Link href="/login">Sign in here</Link>
           </div>
         </div>

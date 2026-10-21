@@ -89,7 +89,7 @@ export default function LiveRideModal({ ride, onClose, onRideUpdated }) {
 
   useEffect(() => {
     try {
-      const stored = localStorage.getItem("cabgo_voice_enabled");
+      const stored = localStorage.getItem("ridego_voice_enabled") || localStorage.getItem("cabgo_voice_enabled");
       if (stored !== null) {
         setVoiceEnabled(stored === "true");
       }
@@ -100,7 +100,7 @@ export default function LiveRideModal({ ride, onClose, onRideUpdated }) {
     setVoiceEnabled((prev) => {
       const next = !prev;
       try {
-        localStorage.setItem("cabgo_voice_enabled", String(next));
+        localStorage.setItem("ridego_voice_enabled", String(next));
         if (!next && typeof window !== "undefined" && "speechSynthesis" in window) {
           window.speechSynthesis.cancel();
         }
@@ -321,14 +321,14 @@ export default function LiveRideModal({ ride, onClose, onRideUpdated }) {
   // Driver details (Only populated from DB when driver has actually accepted!)
   const driverName = isDriverAssigned ? (rideData?.driver_name || "Assigned Driver Partner") : "";
   const driverPhone = isDriverAssigned ? (rideData?.driver_phone || "+91 98230 12345") : "";
-  const driverVehicle = isDriverAssigned ? (rideData?.driver_vehicle_model || "CabGo Verified Vehicle") : "";
+  const driverVehicle = isDriverAssigned ? (rideData?.driver_vehicle_model || "RideGo Verified Vehicle") : "";
   const driverNumber = isDriverAssigned ? (rideData?.driver_vehicle_number || "MH 15 AB 1234") : "";
-  const driverUpiId = isDriverAssigned ? (rideData?.driver_upi_id || "cabgo.driver@okhdfcbank") : "cabgo.driver@okhdfcbank";
+  const driverUpiId = isDriverAssigned ? (rideData?.driver_upi_id || "ridego.driver@okhdfcbank") : "ridego.driver@okhdfcbank";
   const driverRatingVal = isDriverAssigned ? Number(rideData?.driver_rating || 4.9).toFixed(1) : "5.0";
 
   // Dynamic UPI Payment Link & QR
   const fareAmount = Number(rideData?.estimated_fare || 120).toFixed(2);
-  const upiPayUri = `upi://pay?pa=${encodeURIComponent(driverUpiId)}&pn=${encodeURIComponent(driverName || "CabGo Driver")}&am=${fareAmount}&cu=INR&tn=${encodeURIComponent(`CabGo Ride Fare #${rideData?.id ? rideData.id.slice(0, 8) : "TRIP"}`)}`;
+  const upiPayUri = `upi://pay?pa=${encodeURIComponent(driverUpiId)}&pn=${encodeURIComponent(driverName || "RideGo Driver")}&am=${fareAmount}&cu=INR&tn=${encodeURIComponent(`RideGo Ride Fare #${rideData?.id ? rideData.id.slice(0, 8) : "TRIP"}`)}`;
   const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=${encodeURIComponent(upiPayUri)}&margin=8`;
 
   // Itemized Fare Breakdown

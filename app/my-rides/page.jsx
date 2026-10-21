@@ -1,7 +1,8 @@
 "use client";
 
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, Suspense } from "react";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import PageHeader from "../components/PageHeader";
@@ -12,16 +13,20 @@ import LiveRideModal from "../components/LiveRideModal";
 import { ridesApi } from "../lib/api";
 import styles from "./my-rides.module.css";
 
-export default function MyRidesPage() {
+function MyRidesContent() {
+  const searchParams = useSearchParams();
+  const urlRideId = searchParams.get("rideId");
+
   const [rides, setRides] = useState([]);
   const [filter, setFilter] = useState("all"); // 'all', 'active', 'completed'
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [selectedLiveRide, setSelectedLiveRide] = useState(null);
 
-  const fetchRides = async () => {
+  // Silent polling to prevent UI glitching/flashing
+  const fetchRides = async (showLoading = false) => {
     try {
-      setLoading(true);
+      if (showLoading) setLoading(true);
       setError("");
       const res = await ridesApi.getMyRides();
       if (res?.success && Array.isArray(res.rides)) {
@@ -30,17 +35,36 @@ export default function MyRidesPage() {
         setRides([]);
       }
     } catch (err) {
-      setError(err.message || "Failed to load ride history.");
+      if (showLoading) setError(err.message || "Failed to load ride history.");
     } finally {
-      setLoading(false);
+      if (showLoading) setLoading(false);
     }
   };
 
   useEffect(() => {
-    fetchRides();
-    const interval = setInterval(fetchRides, 5000);
+    fetchRides(true);
+    const interval = setInterval(() => fetchRides(false), 4000);
     return () => clearInterval(interval);
   }, []);
+
+  // Auto-open requested ride modal when navigating with ?rideId=...
+  useEffect(() => {
+    if (!urlRideId) return;
+
+    const matched = rides.find((r) => r.id === urlRideId);
+    if (matched) {
+      setSelectedLiveRide(matched);
+    } else {
+      ridesApi
+        .getRideDetails(urlRideId)
+        .then((res) => {
+          if (res?.success && res.ride) {
+            setSelectedLiveRide(res.ride);
+          }
+        })
+        .catch(() => {});
+    }
+  }, [urlRideId, rides]);
 
   // Most recent active ride
   const activeRide = useMemo(() => {
@@ -48,7 +72,6 @@ export default function MyRidesPage() {
       ["requested", "accepted", "arriving", "in_progress"].includes(r.status)
     );
   }, [rides]);
-
 
   const filteredRides = rides.filter((r) => {
     if (filter === "active") {
@@ -65,7 +88,7 @@ export default function MyRidesPage() {
       <Navbar />
 
       <PageHeader
-        eyebrow="RIDE ARCHIVE"
+        eyebrow="RIDEGO ARCHIVE"
         title="My Travel"
         titleAccent="History"
         subtitle="View all past and ongoing ride requests, track live trip progress, and make online payments."
@@ -119,14 +142,14 @@ export default function MyRidesPage() {
             <div style={{ display: "flex", gap: 10 }}>
               <button
                 type="button"
-                onClick={fetchRides}
+                onClick={() => fetchRides(true)}
                 className={styles.bookBtn}
                 title="Refresh rides"
               >
                 🔄 Refresh
               </button>
               <Link href="/booking" className={styles.bookBtn}>
-                + Book Another Cab
+                + Book Another Ride
               </Link>
             </div>
           </div>
@@ -139,6 +162,7 @@ export default function MyRidesPage() {
               className={styles.activeHeroCard}
               onClick={() => setSelectedLiveRide(activeRide)}
               title="Click to view live driver location & OTP"
+              style={{ cursor: "pointer" }}
             >
               <div className={styles.activeHeroLeft}>
                 <div className={styles.activeHeroIcon}>⚡</div>
@@ -243,14 +267,17 @@ export default function MyRidesPage() {
                     </div>
                   </div>
 
-                  <div className={styles.rightCol} onClick={(e) => e.stopPropagation()}>
+                  <div className={styles.rightCol}>
                     <StatusBadge status={ride.status} />
                     <div className={styles.fareVal}>
                       ₹{Number(ride.estimated_fare).toFixed(2)}
                     </div>
                     <button
                       type="button"
-                      onClick={() => setSelectedLiveRide(ride)}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setSelectedLiveRide(ride);
+                      }}
                       className={styles.payBtn}
                     >
                       {ride.status === "completed" ? "🧾 View Bill & QR" : "📍 Track Ride"}
@@ -268,11 +295,19 @@ export default function MyRidesPage() {
         <LiveRideModal
           ride={selectedLiveRide}
           onClose={() => setSelectedLiveRide(null)}
-          onRideUpdated={fetchRides}
+          onRideUpdated={() => fetchRides(false)}
         />
       )}
 
       <Footer />
     </div>
+  );
+}
+
+export default function MyRidesPage() {
+  return (
+    <Suspense fallback={<LoadingSpinner message="Loading your journey history..." />}>
+      <MyRidesContent />
+    </Suspense>
   );
 }

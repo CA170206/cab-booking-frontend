@@ -5,8 +5,8 @@ import PageHeader from "../components/PageHeader";
 import styles from "./services.module.css";
 
 export const metadata = {
-  title: "Cab Services & Operational Fleet | CabGo India",
-  description: "Explore supported CabGo services: point-to-point city cabs, vehicle tiers, live GPS mapping, and driver console.",
+  title: "Cab Services & Operational Fleet | RideGo India",
+  description: "Explore supported RideGo services: point-to-point city cabs, vehicle tiers, live GPS mapping, and driver console.",
 };
 
 export default function ServicesPage() {
@@ -77,7 +77,7 @@ export default function ServicesPage() {
       desc: "JWT-based session authentication with bcrypt password hashing and dedicated passenger and driver profiles.",
       features: [
         "Separate Passenger & Driver accounts",
-        "Session persistence with fast 1-click demos",
+        "Instant passenger guest booking & secure driver accounts",
         "Rate-limited security guards",
       ],
       link: "/login",

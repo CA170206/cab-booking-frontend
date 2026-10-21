@@ -15,7 +15,7 @@ export default function Footer() {
                 </svg>
               </span>
               <div className={styles.brandText}>
-                <div className={styles.brandName}>CabGo</div>
+                <div className={styles.brandName}>RideGo</div>
                 <div className={styles.brandSub}>Cab Services</div>
               </div>
             </Link>
@@ -74,15 +74,15 @@ export default function Footer() {
             <div className={styles.contactInfo}>
               <div className={styles.contactItem}>
                 <span>📍</span>
-                <span>CabGo Mobility Hub, College Road, Nashik, MH - 422005</span>
+                <span>RideGo Mobility Hub, College Road, Nashik, MH - 422005</span>
               </div>
               <div className={styles.contactItem}>
                 <span>📞</span>
-                <span>+91 (0253) 250-CABGO</span>
+                <span>+91 (0253) 250-RIDEGO</span>
               </div>
               <div className={styles.contactItem}>
                 <span>✉️</span>
-                <span>support@cabgo-mobility.in</span>
+                <span>support@ridego-red.vercel.app</span>
               </div>
               <div className={styles.contactItem}>
                 <span>⏰</span>
@@ -95,7 +95,7 @@ export default function Footer() {
         {/* Bottom Bar */}
         <div className={styles.bottomBar}>
           <div>
-            &copy; {new Date().getFullYear()} CabGo Technologies Inc. All rights reserved.
+            &copy; {new Date().getFullYear()} RideGo Technologies Inc. All rights reserved.
           </div>
           <div>
             Designed for seamless urban transit across India.

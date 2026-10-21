@@ -117,7 +117,7 @@ function PaymentContent() {
 
   useEffect(() => {
     try {
-      const stored = localStorage.getItem("cabgo_voice_enabled");
+      const stored = localStorage.getItem("ridego_voice_enabled") || localStorage.getItem("cabgo_voice_enabled");
       if (stored !== null) {
         setVoiceEnabled(stored === "true");
       }
@@ -128,7 +128,7 @@ function PaymentContent() {
     setVoiceEnabled((prev) => {
       const next = !prev;
       try {
-        localStorage.setItem("cabgo_voice_enabled", String(next));
+        localStorage.setItem("ridego_voice_enabled", String(next));
         if (!next && typeof window !== "undefined" && "speechSynthesis" in window) {
           window.speechSynthesis.cancel();
         }
@@ -243,7 +243,7 @@ function PaymentContent() {
 
   // Copy Driver UPI ID
   const handleCopyUpi = () => {
-    const upi = ride?.driver_upi_id || "cabgo.driver@okhdfcbank";
+    const upi = ride?.driver_upi_id || "ridego.driver@okhdfcbank";
     if (navigator.clipboard) {
       navigator.clipboard.writeText(upi);
       setCopySuccess(true);
@@ -530,12 +530,12 @@ function PaymentContent() {
   const distanceFare = Math.max(0, fareNumber - baseFare);
 
   const driverName = ride?.driver_name || "Assigned Driver Partner";
-  const driverUpiId = ride?.driver_upi_id || "cabgo.driver@okhdfcbank";
-  const driverVehicle = ride?.driver_vehicle_model || "CabGo Verified Vehicle";
+  const driverUpiId = ride?.driver_upi_id || "ridego.driver@okhdfcbank";
+  const driverVehicle = ride?.driver_vehicle_model || "RideGo Verified Vehicle";
   const driverPlate = ride?.driver_vehicle_number || "MH 15 AB 1234";
 
   // Dynamic Driver UPI URI & QR Code
-  const upiPayUri = `upi://pay?pa=${encodeURIComponent(driverUpiId)}&pn=${encodeURIComponent(driverName)}&am=${fareNumber.toFixed(2)}&cu=INR&tn=${encodeURIComponent(`CabGo Ride #${rideId.slice(0, 8)}`)}`;
+  const upiPayUri = `upi://pay?pa=${encodeURIComponent(driverUpiId)}&pn=${encodeURIComponent(driverName)}&am=${fareNumber.toFixed(2)}&cu=INR&tn=${encodeURIComponent(`RideGo Ride #${rideId.slice(0, 8)}`)}`;
   const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=${encodeURIComponent(upiPayUri)}&margin=8`;
 
   return (

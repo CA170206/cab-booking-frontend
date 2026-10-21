@@ -5,8 +5,8 @@ import PageHeader from "../components/PageHeader";
 import styles from "./about.module.css";
 
 export const metadata = {
-  title: "About CabGo | Reliable Urban Transit & Transparent Fares",
-  description: "Learn how CabGo brings honest, predictable per-kilometer cab services across Indian cities.",
+  title: "About RideGo | Reliable Urban Transit & Transparent Fares",
+  description: "Learn how RideGo brings honest, predictable per-kilometer cab services across Indian cities.",
 };
 
 export default function AboutPage() {
@@ -15,10 +15,10 @@ export default function AboutPage() {
       <Navbar />
 
       <PageHeader
-        eyebrow="ABOUT CABGO"
+        eyebrow="ABOUT RIDEGO"
         title="Making Urban Travel"
         titleAccent="Honest & Simple"
-        subtitle="CabGo is designed to connect passengers and verified drivers directly, eliminating surprise surge pricing with clear per-kilometer rates."
+        subtitle="RideGo is designed to connect passengers and verified drivers directly, eliminating surprise surge pricing with clear per-kilometer rates."
       />
 
       <main className={styles.main}>
@@ -69,7 +69,7 @@ export default function AboutPage() {
         {/* Core Pillars */}
         <section className={styles.section}>
           <div className={styles.sectionHeader}>
-            <h2>The Three Pillars of CabGo</h2>
+            <h2>The Three Pillars of RideGo</h2>
             <p>Built for reliability from the ground up.</p>
           </div>
 

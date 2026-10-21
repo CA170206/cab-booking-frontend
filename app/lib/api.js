@@ -1,4 +1,4 @@
-// Centralized API client for CabGo frontend
+// Centralized API client for RideGo frontend
 const API_BASE_URL =
   process.env.NEXT_PUBLIC_API_URL || "https://cab-booking-backend-f4sj.onrender.com";
 
@@ -15,7 +15,9 @@ export async function apiRequest(endpoint, options = {}) {
 
   // Automatically attach auth token if available in browser
   if (typeof window !== "undefined") {
-    const token = localStorage.getItem("cabgo_token");
+    const token =
+      localStorage.getItem("ridego_token") ||
+      localStorage.getItem("cabgo_token");
     if (token && !headers["Authorization"]) {
       headers["Authorization"] = `Bearer ${token}`;
     }
@@ -48,7 +50,7 @@ export async function apiRequest(endpoint, options = {}) {
     return data;
   } catch (err) {
     if (err.name === "TypeError" && err.message.includes("fetch")) {
-      const netError = new Error("Unable to connect to CabGo backend server. Please check if backend is running on https://cab-booking-backend-f4sj.onrender.com.");
+      const netError = new Error("Unable to connect to RideGo backend server. Please check your internet connection.");
       netError.status = 0;
       throw netError;
     }
@@ -68,7 +70,13 @@ export const authApi = {
       method: "POST",
       body: JSON.stringify(payload),
     }),
+  guestLogin: (payload = {}) =>
+    apiRequest("/api/auth/guest", {
+      method: "POST",
+      body: JSON.stringify(payload),
+    }),
 };
+
 
 // Rides API endpoints
 export const ridesApi = {
