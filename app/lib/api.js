@@ -1,13 +1,13 @@
 // Centralized API client for CabGo frontend
 const API_BASE_URL =
-  process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+  process.env.NEXT_PUBLIC_API_URL || "https://cab-booking-backend-f4sj.onrender.com";
 
 /**
  * Universal fetch wrapper with authorization header and consistent error parsing
  */
 export async function apiRequest(endpoint, options = {}) {
   const url = `${API_BASE_URL}${endpoint.startsWith("/") ? endpoint : `/${endpoint}`}`;
-  
+
   const headers = {
     "Content-Type": "application/json",
     ...(options.headers || {}),
@@ -29,7 +29,7 @@ export async function apiRequest(endpoint, options = {}) {
   try {
     const res = await fetch(url, config);
     let data = null;
-    
+
     const contentType = res.headers.get("content-type");
     if (contentType && contentType.includes("application/json")) {
       data = await res.json();
@@ -48,7 +48,7 @@ export async function apiRequest(endpoint, options = {}) {
     return data;
   } catch (err) {
     if (err.name === "TypeError" && err.message.includes("fetch")) {
-      const netError = new Error("Unable to connect to CabGo backend server. Please check if backend is running on http://localhost:5000.");
+      const netError = new Error("Unable to connect to CabGo backend server. Please check if backend is running on https://cab-booking-backend-f4sj.onrender.com.");
       netError.status = 0;
       throw netError;
     }

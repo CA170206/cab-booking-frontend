@@ -257,8 +257,8 @@ export default function BookingPage() {
     const isLogin = authMode === "login";
 
     const endpoint = isLogin
-      ? `${process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000"}/api/auth/login`
-      : `${process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000"}/api/auth/register`;
+      ? `${process.env.NEXT_PUBLIC_API_URL || "https://cab-booking-backend-f4sj.onrender.com"}/api/auth/login`
+      : `${process.env.NEXT_PUBLIC_API_URL || "https://cab-booking-backend-f4sj.onrender.com"}/api/auth/register`;
 
 
     const payload = isLogin
@@ -295,7 +295,7 @@ export default function BookingPage() {
         setMessage("Account created! Logging you in...");
         setMessageType("success");
         // Log in immediately
-        const loginRes = await fetch("http://localhost:5000/api/auth/login", {
+        const loginRes = await fetch("https://cab-booking-backend-f4sj.onrender.com/api/auth/login", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ email: authEmail.trim(), password: authPassword }),
@@ -321,7 +321,7 @@ export default function BookingPage() {
     setAuthLoading(true);
     setAuthError("");
     try {
-      const res = await fetch("http://localhost:5000/api/auth/login", {
+      const res = await fetch("https://cab-booking-backend-f4sj.onrender.com/api/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -361,7 +361,7 @@ export default function BookingPage() {
     if (!token) return;
     setLoadingRides(true);
     try {
-      const res = await fetch("http://localhost:5000/api/rides/my-rides", {
+      const res = await fetch("https://cab-booking-backend-f4sj.onrender.com/api/rides/my-rides", {
         headers: { Authorization: `Bearer ${token}` },
       });
       const data = await res.json();
@@ -417,7 +417,7 @@ export default function BookingPage() {
     setLoading(true);
 
     try {
-      const response = await fetch("http://localhost:5000/api/rides", {
+      const response = await fetch("https://cab-booking-backend-f4sj.onrender.com/api/rides", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

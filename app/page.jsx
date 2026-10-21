@@ -16,7 +16,7 @@ export default function Home() {
   });
 
   useEffect(() => {
-    fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000"}/api/rides/public/reviews`)
+    fetch(`${process.env.NEXT_PUBLIC_API_URL || "https://cab-booking-backend-f4sj.onrender.com"}/api/rides/public/reviews`)
 
       .then((res) => res.json())
       .then((data) => {
