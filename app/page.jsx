@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import ThemeToggle from "./components/ThemeToggle";
+import { API_BASE_URL } from "./lib/api";
 import styles from "./page.module.css";
 
 export default function Home() {
@@ -16,7 +17,7 @@ export default function Home() {
   });
 
   useEffect(() => {
-    fetch(`${process.env.NEXT_PUBLIC_API_URL || "https://cab-booking-backend-f4sj.onrender.com"}/api/rides/public/reviews`)
+    fetch(`${API_BASE_URL}/api/rides/public/reviews`)
 
       .then((res) => res.json())
       .then((data) => {

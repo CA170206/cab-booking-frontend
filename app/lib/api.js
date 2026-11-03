@@ -1,12 +1,14 @@
 // Centralized API client for RideGo frontend
-const API_BASE_URL =
-  process.env.NEXT_PUBLIC_API_URL || "https://cab-booking-backend-f4sj.onrender.com";
+export const API_BASE_URL = (
+  process.env.NEXT_PUBLIC_API_URL || "https://cab-booking-backend-f4sj.onrender.com"
+).replace(/\/+$/, "");
 
 /**
  * Universal fetch wrapper with authorization header and consistent error parsing
  */
 export async function apiRequest(endpoint, options = {}) {
-  const url = `${API_BASE_URL}${endpoint.startsWith("/") ? endpoint : `/${endpoint}`}`;
+  const cleanEndpoint = endpoint.startsWith("/") ? endpoint : `/${endpoint}`;
+  const url = `${API_BASE_URL}${cleanEndpoint}`;
 
   const headers = {
     "Content-Type": "application/json",
@@ -28,34 +30,59 @@ export async function apiRequest(endpoint, options = {}) {
     headers,
   };
 
+  let res;
   try {
-    const res = await fetch(url, config);
-    let data = null;
+    res = await fetch(url, config);
+  } catch (netErr) {
+    const error = new Error("Unable to connect to RideGo backend server. Please check your internet connection.");
+    error.status = 0;
+    error.cause = netErr;
+    throw error;
+  }
 
-    const contentType = res.headers.get("content-type");
-    if (contentType && contentType.includes("application/json")) {
+  let data = null;
+  const contentType = res.headers.get("content-type");
+  if (contentType && contentType.includes("application/json")) {
+    try {
       data = await res.json();
-    } else {
+    } catch {
+      data = { message: "Invalid JSON response from server." };
+    }
+  } else {
+    try {
       const text = await res.text();
       data = { message: text };
+    } catch {
+      data = { message: "Empty response from server." };
     }
-
-    if (!res.ok) {
-      const error = new Error(data?.message || `Request failed with status ${res.status}`);
-      error.status = res.status;
-      error.data = data;
-      throw error;
-    }
-
-    return data;
-  } catch (err) {
-    if (err.name === "TypeError" && err.message.includes("fetch")) {
-      const netError = new Error("Unable to connect to RideGo backend server. Please check your internet connection.");
-      netError.status = 0;
-      throw netError;
-    }
-    throw err;
   }
+
+  if (!res.ok) {
+    let errorMsg = data?.message;
+    if (!errorMsg) {
+      if (res.status === 401) {
+        errorMsg = "Invalid email or password.";
+      } else if (res.status === 409) {
+        errorMsg = "An account with this email already exists.";
+      } else if (res.status === 400) {
+        errorMsg = "Invalid request. Please check your input.";
+      } else if (res.status === 403) {
+        errorMsg = "You do not have permission to perform this action.";
+      } else if (res.status === 404) {
+        errorMsg = "Requested resource not found.";
+      } else if (res.status >= 500) {
+        errorMsg = "Backend server error. Please try again shortly.";
+      } else {
+        errorMsg = `Request failed with status ${res.status}`;
+      }
+    }
+    const error = new Error(errorMsg);
+    error.status = res.status;
+    error.data = data;
+    throw error;
+  }
+
+  return data;
 }
 
 // Authentication API endpoints
@@ -76,7 +103,6 @@ export const authApi = {
       body: JSON.stringify(payload),
     }),
 };
-
 
 // Rides API endpoints
 export const ridesApi = {
@@ -145,10 +171,10 @@ export const paymentApi = {
       method: "POST",
       body: JSON.stringify(payload),
     }),
-  confirmQrPayment: (rideId, amount = null) =>
+  confirmQrPayment: (rideId, amount = null, utr = null) =>
     apiRequest("/api/payments/confirm-qr", {
       method: "POST",
-      body: JSON.stringify({ ride_id: rideId, amount }),
+      body: JSON.stringify({ ride_id: rideId, amount, utr }),
     }),
   getStatus: (identifier) => apiRequest(`/api/payments/status/${identifier}`),
 };

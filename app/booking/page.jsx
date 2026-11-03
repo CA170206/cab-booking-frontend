@@ -4,6 +4,8 @@ import dynamic from "next/dynamic";
 import { useState, useEffect, useMemo, useCallback } from "react";
 import ThemeToggle from "../components/ThemeToggle";
 import LiveRideModal from "../components/LiveRideModal";
+import { authApi, ridesApi } from "../lib/api";
+import { saveSession, clearSession } from "../lib/auth";
 import styles from "./booking.module.css";
 
 // Dynamically import BookingMap with no SSR to protect Leaflet
@@ -341,64 +343,55 @@ export default function BookingPage() {
     setAuthError("");
     setAuthLoading(true);
 
-
     const isLogin = authMode === "login";
 
-    const endpoint = isLogin
-      ? `${process.env.NEXT_PUBLIC_API_URL || "https://cab-booking-backend-f4sj.onrender.com"}/api/auth/login`
-      : `${process.env.NEXT_PUBLIC_API_URL || "https://cab-booking-backend-f4sj.onrender.com"}/api/auth/register`;
-
-
-    const payload = isLogin
-      ? { email: authEmail.trim(), password: authPassword }
-      : {
-        full_name: authName.trim(),
-        email: authEmail.trim(),
-        password: authPassword,
-        role: "rider",
-      };
-
     try {
-      const res = await fetch(endpoint, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
-      const data = await res.json();
-      if (!res.ok) {
-        throw new Error(data.message || "Authentication failed.");
-      }
-
       if (isLogin) {
-        setToken(data.token);
-        setCurrentUser(data.user);
-        localStorage.setItem("cabgo_token", data.token);
-        localStorage.setItem("cabgo_user", JSON.stringify(data.user));
-        setShowAuthModal(false);
-        setMessage("Signed in successfully as passenger.");
-        setMessageType("success");
+        const data = await authApi.login({
+          email: authEmail.trim().toLowerCase(),
+          password: authPassword,
+        });
+
+        if (data?.token && data?.user) {
+          setToken(data.token);
+          setCurrentUser(data.user);
+          saveSession(data.token, data.user);
+          setShowAuthModal(false);
+          setMessage("Signed in successfully as passenger.");
+          setMessageType("success");
+        } else {
+          throw new Error(data?.message || "Invalid credentials.");
+        }
       } else {
-        // Automatically switch to login after registering
+        const regData = await authApi.register({
+          full_name: authName.trim(),
+          email: authEmail.trim().toLowerCase(),
+          password: authPassword,
+          role: "rider",
+        });
+
+        if (!regData?.success) {
+          throw new Error(regData?.message || "Registration failed.");
+        }
+
         setAuthMode("login");
         setMessage("Account created! Logging you in...");
         setMessageType("success");
-        // Log in immediately
-        const loginRes = await fetch("https://cab-booking-backend-f4sj.onrender.com/api/auth/login", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ email: authEmail.trim(), password: authPassword }),
+
+        const loginData = await authApi.login({
+          email: authEmail.trim().toLowerCase(),
+          password: authPassword,
         });
-        const loginData = await loginRes.json();
-        if (loginRes.ok) {
+
+        if (loginData?.token && loginData?.user) {
           setToken(loginData.token);
           setCurrentUser(loginData.user);
-          localStorage.setItem("cabgo_token", loginData.token);
-          localStorage.setItem("cabgo_user", JSON.stringify(loginData.user));
+          saveSession(loginData.token, loginData.user);
           setShowAuthModal(false);
         }
       }
     } catch (err) {
-      setAuthError(err.message);
+      setAuthError(err.message || "Authentication failed. Please try again.");
     } finally {
       setAuthLoading(false);
     }
@@ -409,29 +402,23 @@ export default function BookingPage() {
     setAuthLoading(true);
     setAuthError("");
     try {
-      const res = await fetch("https://cab-booking-backend-f4sj.onrender.com/api/auth/guest", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name: passengerName.trim() || undefined,
-          phone: passengerPhone.trim() || undefined,
-        }),
+      const data = await authApi.guestLogin({
+        name: passengerName.trim() || undefined,
+        phone: passengerPhone.trim() || undefined,
       });
-      const data = await res.json();
-      if (!res.ok) {
-        throw new Error(data.message || "Guest session initialization failed");
+
+      if (data?.token && data?.user) {
+        setToken(data.token);
+        setCurrentUser(data.user);
+        saveSession(data.token, data.user);
+        setShowAuthModal(false);
+        setMessage("Signed in as Guest Passenger.");
+        setMessageType("success");
+      } else {
+        throw new Error(data?.message || "Guest session initialization failed");
       }
-      setToken(data.token);
-      setCurrentUser(data.user);
-      localStorage.setItem("ridego_token", data.token);
-      localStorage.setItem("ridego_user", JSON.stringify(data.user));
-      localStorage.setItem("cabgo_token", data.token);
-      localStorage.setItem("cabgo_user", JSON.stringify(data.user));
-      setShowAuthModal(false);
-      setMessage("Signed in as Guest Passenger.");
-      setMessageType("success");
     } catch (err) {
-      setAuthError(err.message);
+      setAuthError(err.message || "Failed to start guest session.");
     } finally {
       setAuthLoading(false);
     }
@@ -440,10 +427,7 @@ export default function BookingPage() {
   const handleLogout = () => {
     setToken("");
     setCurrentUser(null);
-    localStorage.removeItem("ridego_token");
-    localStorage.removeItem("ridego_user");
-    localStorage.removeItem("cabgo_token");
-    localStorage.removeItem("cabgo_user");
+    clearSession();
     setMessage("Signed out.");
     setMessageType("success");
   };
@@ -453,11 +437,8 @@ export default function BookingPage() {
     if (!token) return;
     setLoadingRides(true);
     try {
-      const res = await fetch("https://cab-booking-backend-f4sj.onrender.com/api/rides/my-rides", {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      const data = await res.json();
-      if (res.ok && data.rides) {
+      const data = await ridesApi.getMyRides();
+      if (data?.rides) {
         setMyRides(data.rides);
       }
     } catch (err) {
@@ -479,29 +460,16 @@ export default function BookingPage() {
       const pName = (finalName || passengerName || currentUser?.full_name || "Guest Passenger").trim();
       const pPhone = (finalPhone || passengerPhone || currentUser?.phone || "+91 98765 43210").trim();
 
-      const response = await fetch("https://cab-booking-backend-f4sj.onrender.com/api/rides", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token.trim()}`,
-        },
-        body: JSON.stringify({
-          pickup_address: pickupAddress.trim(),
-          dropoff_address: dropoffAddress.trim(),
-          pickup_lat: locations.pickup.lat,
-          pickup_lng: locations.pickup.lng,
-          dropoff_lat: locations.dropoff.lat,
-          dropoff_lng: locations.dropoff.lng,
-          passenger_name: pName,
-          passenger_phone: pPhone,
-        }),
+      const data = await ridesApi.requestRide({
+        pickup_address: pickupAddress.trim(),
+        dropoff_address: dropoffAddress.trim(),
+        pickup_lat: locations.pickup.lat,
+        pickup_lng: locations.pickup.lng,
+        dropoff_lat: locations.dropoff.lat,
+        dropoff_lng: locations.dropoff.lng,
+        passenger_name: pName,
+        passenger_phone: pPhone,
       });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.message || "Unable to book your ride.");
-      }
 
       setRide(data);
       if (data?.ride) {
